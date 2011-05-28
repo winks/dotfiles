@@ -1,0 +1,3 @@
+defflow off
+
+hardstatus alwayslastline "%{.gk} %H: %l %{.rw} %c %{.bw} %n %t %{.wk} %W %{.wk}"

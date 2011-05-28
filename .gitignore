@@ -1,0 +1,7 @@
+vim/bundle/command-t/ruby/command-t/Makefile
+vim/bundle/command-t/ruby/command-t/*.o
+vim/bundle/command-t/ruby/command-t/*.so
+vim/bundle/command-t/ruby/command-t/*.log
+vim/tmp/*.swp
+vim/tmp/yankring*
+vim/.netrwhist
