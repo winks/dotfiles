@@ -53,6 +53,13 @@ if version >= 730
 endif
 
 set directory=~/.vim/tmp
+" Tell vim to remember certain things when we exit
+" '10 : marks will be remembered for up to 10 previously edited files
+" "100 : will save up to 100 lines for each register
+" :20 : up to 20 lines of command-line history will be remembered
+" % : saves and restores the buffer list
+" n... : where to save the viminfo files
+set viminfo='10,"100,:20,%,n~/.vim/.viminfo
 let mapleader =","
 
 nnoremap / /\v
@@ -120,6 +127,12 @@ endif
 "command Wq wq
 
 set title
+
+" Folding
+set foldenable
+set foldmarker={,}
+set foldmethod=marker
+set foldlevel=100
 
 if has("syntax")
     syntax on
