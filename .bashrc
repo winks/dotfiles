@@ -40,6 +40,7 @@ alias rm='rm -i'
 alias ..='cd ..'
 alias die='kill -9'
 alias su='su -'
+alias sudo='sudo -i'
 ack 2> /dev/null | alias ack='ack-grep'
 
 export TERM='xterm'

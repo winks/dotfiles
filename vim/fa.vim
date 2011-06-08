@@ -103,6 +103,7 @@ au FocusLost * : wa
 
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>v V`]
+nnoremap <leader>l :tabnew<CR>
 
 nnoremap <leader>w <C-w>v<C-w>l
 
@@ -147,6 +148,17 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |exe "norma
 " title
 autocmd BufEnter * let &titlestring = hostname() . " [ vim " . expand("%:p:~") . " ]"
 autocmd VimLeavePre * let &titlestring = getcwd()
+
+augroup filetypedetect
+"    au! BufRead,BufNewFile *.pp     setfiletype puppet
+"    au! BufRead,BufNewFile +.inc    setfiletype php
+    au BufRead,BufNewFile *.pp              set filetype=puppet
+augroup END
+
+augroup Programming
+    autocmd!
+    autocmd BufWritePost *.pp !puppet --parseonly <afile>
+augroup END
 
 
 set sessionoptions=blank,buffers,curdir,folds,help
