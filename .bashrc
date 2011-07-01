@@ -174,6 +174,31 @@ function ffg() {
     find . -exec grep $* '{}' \; -print ;
 }
 
+function w500bat {
+    bat="/sys/devices/LNXSYSTM:00/device:00/PNP0A08:00/device:01/PNP0C09:00/PNP0C0A:00/power_supply/BAT0/"
+    full="energy_full"
+    now="energy_now"
+
+    _full=$( cat ${bat}${full} )
+    _now=$( cat ${bat}${now} )
+    fillint=`echo "scale=0; $_now*100/$_full" | bc`
+    fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
+
+if [[ "$1" = '-v' ]]; then
+echo $_full
+echo $_now
+fi
+
+    if [[ "$fillint" -ge 75 ]]; then
+        echo -n -e "${light_green}"
+    elif [[ "$fillint" -ge 25 ]]; then
+        echo -n -e "${yellow}"
+    else
+        echo -n -e "${light_red}"
+    fi
+
+    echo -e "Battery: $fillint % remaining ${nocolor}"
+}
 
 # get current host related info
 function ii() {

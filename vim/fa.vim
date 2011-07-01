@@ -5,7 +5,6 @@
 " http://blog.danielfischer.com/2010/11/19/a-starting-guide-to-vim-from-textmate/
 
 colorscheme elflord
-set paste
 
 filetype off
 call pathogen#runtime_append_all_bundles()
@@ -34,6 +33,7 @@ set visualbell
 set ttyfast
 set ruler
 set backspace=indent,eol,start
+set paste
 
 if has("statusline")
     set laststatus=2
