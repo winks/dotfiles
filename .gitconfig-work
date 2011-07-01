@@ -1,0 +1,14 @@
+[user]
+    name = Florian Anderiasch
+    email = florian.anderiasch@mayflower.de
+
+[color]
+    diff = auto
+
+[alias]
+    st = status
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff
+    lg = log -p
