@@ -163,3 +163,5 @@ augroup END
 
 set sessionoptions=blank,buffers,curdir,folds,help
 ",resize,tabpages,winsize
+
+"let MRU_File ="~/.vim/.vim_mru_files"
