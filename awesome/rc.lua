@@ -12,6 +12,8 @@ require("vicious")
 -- Load Debian menu entries
 require("debian.menu")
 
+require("vicious")
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/florian/.config/awesome/theme.lua")
@@ -87,11 +89,6 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
-memwidget = widget({type = "textbox"})
-vicious.cache(vicious.widgets.mem)
-vicious.register(mymem, vicious.widgets.mem, "$1% ($2MB/$3MB)", 13)
-cpuwidget = widget({ type = "textbox" })
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 batwidget = awful.widget.progressbar()
 batwidget:set_width(8)
 batwidget:set_height(10)
@@ -101,6 +98,22 @@ batwidget:set_border_color(nil)
 batwidget:set_color("#AECF96")
 batwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
 vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
+
+txtwidget = widget({ type = "textbox" })
+txtwidget.text = ""
+
+memwidget = widget({ type = "textbox" })
+vicious.register(memwidget, vicious.widgets.mem, "[$2M] ", 13)
+
+cpuwidget = widget({ type = "textbox" })
+vicious.register(cpuwidget, vicious.widgets.cpu, " [$1%]")
+
+cpuwidgetg = awful.widget.graph()
+cpuwidgetg:set_width(50)
+cpuwidgetg:set_background_color("#494B4F")
+cpuwidgetg:set_color("#FF5656")
+cpuwidgetg:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+vicious.register(cpuwidgetg, vicious.widgets.cpu, "$1")
 
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -183,10 +196,10 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
+        mytextclock,
+        batwidget,
         memwidget,
         cpuwidget,
-        batwidget,
-        mytextclock,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
