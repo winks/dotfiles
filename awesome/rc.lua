@@ -6,6 +6,8 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
+-- widgets
+require("vicious")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -47,18 +49,8 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
-tag_names = { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" }
-tag_layouts = {
-    layouts[2],
-    layouts[4],
-    layouts[0],
-    layouts[2],
-    layouts[2],
-    layouts[2],
-    layouts[2],
-    layouts[2],
-    layouts[2],
-}
+-- tag_names = { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" }
+-- tag_layouts = { layouts[2], layouts[4], layouts[0], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2],}
 
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -95,6 +87,21 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
+memwidget = widget({type = "textbox"})
+vicious.cache(vicious.widgets.mem)
+vicious.register(mymem, vicious.widgets.mem, "$1% ($2MB/$3MB)", 13)
+cpuwidget = widget({ type = "textbox" })
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
+batwidget = awful.widget.progressbar()
+batwidget:set_width(8)
+batwidget:set_height(10)
+batwidget:set_vertical(true)
+batwidget:set_background_color("#494B4F")
+batwidget:set_border_color(nil)
+batwidget:set_color("#AECF96")
+batwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
@@ -117,11 +124,17 @@ mytaglist.buttons = awful.util.table.join(
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
-                                              if not c:isvisible() then
-                                                  awful.tag.viewonly(c:tags()[1])
+                                              if c == client.focus then
+                                                  c.minimized = true
+                                              else
+                                                  if not c:isvisible() then
+                                                      awful.tag.viewonly(c:tags()[1])
+                                                  end
+                                                  -- This will also un-minimize
+                                                  -- the client, if needed
+                                                  client.focus = c
+                                                  c:raise()
                                               end
-                                              client.focus = c
-                                              c:raise()
                                           end),
                      awful.button({ }, 3, function ()
                                               if instance then
@@ -170,6 +183,9 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
+        memwidget,
+        cpuwidget,
+        batwidget,
         mytextclock,
         s == 1 and mysystray or nil,
         mytasklist[s],
@@ -232,6 +248,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
+    awful.key({ modkey, "Control" }, "n", awful.client.restore),
+
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
@@ -254,7 +272,12 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",      function (c) c.minimized = not c.minimized    end),
+    awful.key({ modkey,           }, "n",
+        function (c)
+            -- The client currently has the input focus, so it cannot be
+            -- minimized, since minimized clients can't have the focus.
+            c.minimized = true
+        end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
