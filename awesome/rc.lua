@@ -10,6 +10,8 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
+require("vicious")
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/florian/.config/awesome/theme.lua")
@@ -95,6 +97,22 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
+txtwidget = widget({ type = "textbox" })
+txtwidget.text = ""
+
+memwidget = widget({ type = "textbox" })
+vicious.register(memwidget, vicious.widgets.mem, "[$2M] ", 13)
+
+cpuwidget = widget({ type = "textbox" })
+vicious.register(cpuwidget, vicious.widgets.cpu, " [$1%]")
+
+cpuwidgetg = awful.widget.graph()
+cpuwidgetg:set_width(50)
+cpuwidgetg:set_background_color("#494B4F")
+cpuwidgetg:set_color("#FF5656")
+cpuwidgetg:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+vicious.register(cpuwidgetg, vicious.widgets.cpu, "$1")
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
@@ -171,6 +189,8 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
+        memwidget,
+        cpuwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
