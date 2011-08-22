@@ -12,8 +12,6 @@ require("vicious")
 -- Load Debian menu entries
 require("debian.menu")
 
-require("vicious")
-
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/florian/.config/awesome/theme.lua")
@@ -36,36 +34,41 @@ layouts =
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
+    awful.layout.suit.tile.right,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+--    awful.layout.suit.fair,
+--    awful.layout.suit.fair.horizontal,
+--    awful.layout.suit.spiral,
+--    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+--    awful.layout.suit.max.fullscreen,
+--    awful.layout.suit.magnifier
 }
 -- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
--- tag_names = { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" }
--- tag_layouts = { layouts[2], layouts[4], layouts[0], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2],}
+mytags = {
+    names = { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" },
+    layout = { layouts[2], layouts[5], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2] }
+    }
 
 for s = 1, screen.count() do
+    tags[s] = awful.tag(mytags.names, s, mytags.layout)
+
     -- Each screen has its own tag table.
 --    tags[s] = {}
 --    for tagnum = 1,9 do
 --        tags[s][tagnum] = tag({name = tag_names[tagnum], layout = tag_layouts[tagnum] })
 --    end
 --    tags[s][1].selected = true
-    tags[s] = awful.tag(
-        { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" },
-        s,
-        layouts[2]
-    )
+----    tags[s] = awful.tag(
+----        { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" },
+----        s,
+----        layouts[2]
+----    )
 end
 -- }}}
 
@@ -114,6 +117,16 @@ cpuwidgetg:set_background_color("#494B4F")
 cpuwidgetg:set_color("#FF5656")
 cpuwidgetg:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
 vicious.register(cpuwidgetg, vicious.widgets.cpu, "$1")
+
+cpuicon = widget( { type = "imagebox" } )
+cpuicon.image = image(beautiful.widget_cpu)
+cpugraph = awful.widget.graph()
+cpugraph:set_width(40):set_height(14)
+cpugraph:set_background_color(beautiful.fg_off_widget)
+cpugraph:set_gradient_angle(0):set_gradient_colors({
+   beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget
+})
+vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -197,9 +210,10 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
-        batwidget,
+--        batwidget,
         memwidget,
-        cpuwidget,
+--        cpugraph.widget,cpuicon,
+--        cpuwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -361,11 +375,84 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    { rule = { class = "Pidgin", role = "buddy_list" },
+      properties = { floating = true, tag = tags[2][4] },
+      callback = function( c )
+--        naughty.notify({title = "x", text = "" .. c.screen})
+--        local foo = ""
+--        for _,v in pairs(client.get(1)) do
+--            foo = foo .. "1: " .. v.class .. "____" .. v.role .. "\n"
+--            naughty.notify({title = "x", text = "1: " .. v.class .. "____" .. v.role})
+--        end
+--        for _,v in pairs(client.get(2)) do
+--            foo = foo .. "2: " .. v.class .. "____" .. v.role .. "\n"
+--            naughty.notify({title = "x", text = "2: " .. v.class .. "____" .. v.role})
+--        end
+--        naughty.notify({title = "x", text = "" .. foo})
+--
+        local w_area = screen[ c.screen ].workarea
+        local strutwidth = 200
+        local strutheight = 500
+        local struts = c:struts()
+        local geom = c:geometry()
+
+        if struts.bottom ~= 0 then struts.bottom = strutheight end
+        struts.right = strutwidth
+
+--        local s = dump(c:tags())
+--        naughty.notify( { title = "tags", text = s } )
+
+        c:struts( struts )
+        c:geometry( {
+            x = w_area.width - strutwidth,
+            y = w_area.y,
+            width = strutwidth,
+            height = strutheight} )
+      end },
+    { rule = { class = "Skype", role = "MainWindow" },
+      properties = { floating = true, tag = tags[2][4] },
+      callback = function( c)
+        local w_area = screen[ c.screen ].workarea
+        local strutwidth = 180
+        local strutheight = 500 -- w_area.height
+        local struts = c:struts()
+        local geom = c:geometry()
+
+        if struts.bottom ~= 0 then struts.bottom = strutheight end
+        struts.right = strutwidth
+
+        c:struts( struts )
+        c:geometry( {
+            x = w_area.width - strutwidth,
+            y = w_area.y + strutheight,
+            width = strutwidth,
+            height = strutheight} )
+      end },
+    { rule = { class = "Firefox" },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "firefox-bin" },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "Iceweasel" },
+      properties = { tag = tags[1][3] } },
 }
+
+function dump(o)
+if type(o) == 'table' then
+local s = '{ '
+for k,v in pairs(o) do
+if type(k) ~= 'number' then k = '"'..k..'"' end
+s = s .. '['..k..'] = ' .. dump(v) .. ','
+end
+return s .. '} '
+else
+return tostring(o)
+end
+end
+
 -- }}}
+
+-- awful.tag.viewonly(tags[2][4])
+-- awful.tag.incmwfact(0.15, tags[2][4])
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
@@ -394,7 +481,8 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
-browser = "iceweasel"
+browser = "firefox"
+awful.util.spawn_with_shell("/home/florian/my-awesome-startup")
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
