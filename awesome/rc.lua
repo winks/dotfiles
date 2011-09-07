@@ -2,6 +2,7 @@
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
+require("awful.remote")
 -- Theme handling library
 require("beautiful")
 -- Notification library
@@ -368,17 +369,8 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-    { rule = { class = "Pidgin", role = "buddy_list" },
-      properties = { floating = true, tag = tags[2][4] },
-      callback = function( c )
---        naughty.notify({title = "x", text = "" .. c.screen})
+                     buttons = clientbuttons },
+      callback = function( c ) 
 --        local foo = ""
 --        for _,v in pairs(client.get(1)) do
 --            foo = foo .. "1: " .. v.class .. "____" .. v.role .. "\n"
@@ -389,18 +381,24 @@ awful.rules.rules = {
 --            naughty.notify({title = "x", text = "2: " .. v.class .. "____" .. v.role})
 --        end
 --        naughty.notify({title = "x", text = "" .. foo})
---
+      end,},
+    { rule = { class = "MPlayer" },
+      properties = { floating = true } },
+    { rule = { class = "pinentry" },
+      properties = { floating = true } },
+    { rule = { class = "gimp" },
+      properties = { floating = true } },
+    { rule = { class = "Pidgin", role = "buddy_list" },
+      properties = { floating = true, tag = tags[2][4] },
+      callback = function( c )
         local w_area = screen[ c.screen ].workarea
         local strutwidth = 200
-        local strutheight = 500
+        local strutheight = 350
         local struts = c:struts()
         local geom = c:geometry()
 
         if struts.bottom ~= 0 then struts.bottom = strutheight end
         struts.right = strutwidth
-
---        local s = dump(c:tags())
---        naughty.notify( { title = "tags", text = s } )
 
         c:struts( struts )
         c:geometry( {
@@ -414,7 +412,7 @@ awful.rules.rules = {
       callback = function( c)
         local w_area = screen[ c.screen ].workarea
         local strutwidth = 180
-        local strutheight = 500 -- w_area.height
+        local strutheight = 350 -- w_area.height
         local struts = c:struts()
         local geom = c:geometry()
 
@@ -425,6 +423,25 @@ awful.rules.rules = {
         c:geometry( {
             x = w_area.width - strutwidth,
             y = w_area.y + strutheight,
+            width = strutwidth,
+            height = strutheight} )
+      end },
+    { rule = { class = "Empathy", role = "contact_list" },
+      properties = { floating = true, tag = tags[2][4] },
+      callback = function( c)
+        local w_area = screen[ c.screen ].workarea
+        local strutwidth = 180
+        local strutheight = 350 -- w_area.height
+        local struts = c:struts()
+        local geom = c:geometry()
+
+        if struts.bottom ~= 0 then struts.bottom = strutheight end
+        struts.right = strutwidth
+
+        c:struts( struts )
+        c:geometry( {
+            x = w_area.width - strutwidth,
+            y = w_area.y,
             width = strutwidth,
             height = strutheight} )
       end },
