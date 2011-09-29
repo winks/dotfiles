@@ -52,7 +52,7 @@ if version >= 730
     set colorcolumn=85
 endif
 
-set directory=~/.vim/tmp
+set directory=~/.vim/tmp,$HOME/vimfiles/tmp
 " Tell vim to remember certain things when we exit
 " '10 : marks will be remembered for up to 10 previously edited files
 " "100 : will save up to 100 lines for each register
