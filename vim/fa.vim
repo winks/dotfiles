@@ -99,9 +99,9 @@ vnoremap <F1> <ESC>
 
 nnoremap ; :
 
-au FocusLost * : wa
-
+" strip all trailing whitespace in the current file
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+" reselect the text that was just pasted
 nnoremap <leader>v V`]
 nnoremap <leader>l :tabnew<CR>
 
@@ -111,6 +111,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+nnoremap <leader>r :so ~/.vimrc
 
 " nerd tree shortcut
 map <leader>n :NERDTreeToggle<CR>
@@ -143,6 +145,10 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 "                      trail | space+tab | tabs not at start of line
 match ExtraWhitespace /\s\+$\| \+\ze\t\|[^\t]\ts\t\+/
 
+"au FocusLost * : wa
+au FocusGained * :call Highlight_cursor()
+au FocusLost * :call Autosave()
+
 " When editing a file, always jump to the last cursor position¬
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |exe "normal g`\"" |endif
 " title
@@ -157,11 +163,23 @@ augroup END
 
 augroup Programming
     autocmd!
-    autocmd BufWritePost *.pp !puppet --parseonly <afile>
+    autocmd BufWritePost *.pp !puppet parser validate <afile>
 augroup END
 
+function! Highlight_cursor ()
+    set cursorline
+    redraw
+    sleep 1
+    set nocursorline
+endfunction
+function! Autosave ()
+    if &modified && bufname('%') != ""
+        write
+        echo "Autosaved file while you were absent"
+    endif
+endfunction
 
 set sessionoptions=blank,buffers,curdir,folds,help
 ",resize,tabpages,winsize
 
-"let MRU_File ="~/.vim/.vim_mru_files"
+"let MRU_File = '~/.vim/.vim_mru_files'

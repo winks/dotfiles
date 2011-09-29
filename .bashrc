@@ -5,8 +5,8 @@
 ##    .bashrc by fa[at]art-core.org     ##
 ##                                      ##
 ##########################################
-##      2011-05-29
-my_version='0.90'
+##      2011-08-09
+my_version='0.91'
 ##########################################
 ##                                      ##
 ##    many ideas by Moshe Jacobsen      ##
@@ -41,6 +41,8 @@ alias ..='cd ..'
 alias die='kill -9'
 alias su='su -'
 alias sudo='sudo -i'
+alias gp='git pull'
+alias gpp='git pull && git push'
 ack 2> /dev/null | alias ack='ack-grep'
 
 export TERM='xterm'
