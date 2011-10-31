@@ -289,7 +289,7 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
      -- own
-     awful.key({ modkey }, "F12",   function () awful.util.spawn("/usr/bin/gnome-screensaver-command --lock") end)
+     awful.key({ modkey }, "F12",   function () awful.util.spawn("/usr/bin/xscreensaver-command -lock") end)
 )
 
 clientkeys = awful.util.table.join(
