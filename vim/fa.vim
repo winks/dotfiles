@@ -52,7 +52,6 @@ if version >= 730
     set colorcolumn=85
 endif
 
-set directory=~/.vim/tmp
 " Tell vim to remember certain things when we exit
 " '10 : marks will be remembered for up to 10 previously edited files
 " "100 : will save up to 100 lines for each register
@@ -60,6 +59,12 @@ set directory=~/.vim/tmp
 " % : saves and restores the buffer list
 " n... : where to save the viminfo files
 set viminfo='10,"100,:20,%,n~/.vim/.viminfo
+set directory=~/.vim/tmp
+if has('win32')
+    set viminfo='10,"100,:20,%,n$HOME/vimfiles/_viminfo
+    set directory=$HOME/vimfiles/tmp
+endif
+
 let mapleader =","
 
 nnoremap / /\v
