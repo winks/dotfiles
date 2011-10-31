@@ -116,6 +116,10 @@ nnoremap <leader>r :so ~/.vimrc
 
 " nerd tree shortcut
 map <leader>n :NERDTreeToggle<CR>
+" FuzzyFinder
+nmap ,f :FufFileWithCurrentBufferDir<CR>
+nmap ,b :FufBuffer<CR>
+
 
 if has("gui_running")
     au GUIEnter * set lines=52 columns=90
@@ -145,7 +149,6 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 "                      trail | space+tab | tabs not at start of line
 match ExtraWhitespace /\s\+$\| \+\ze\t\|[^\t]\ts\t\+/
 
-"au FocusLost * : wa
 au FocusGained * :call Highlight_cursor()
 au FocusLost * :call Autosave()
 
@@ -164,14 +167,17 @@ augroup END
 augroup Programming
     autocmd!
     autocmd BufWritePost *.pp !puppet parser validate <afile>
+    autocmd BufWritePost *.php !php -l <afile>
 augroup END
 
+" Highlight the cursorline
 function! Highlight_cursor ()
     set cursorline
     redraw
     sleep 1
     set nocursorline
 endfunction
+" Autosaving
 function! Autosave ()
     if &modified && bufname('%') != ""
         write
