@@ -1,0 +1,174 @@
+########################################
+##  .zshrc.local to complement
+##    grml's .zshrc
+##    by fa[at]art-core.org
+## ported from .bashrc 0.91, 2011-08-09
+########################################
+## 2011-10-30
+my_version='0.91'
+########################################
+
+########################################
+## aliases
+##
+alias cp='cp -i -r'
+alias df='df -h'
+alias du='du -h'
+alias dum='du --max-depth=1'
+alias gp='git pull'
+alias gpp='git pull && git push'
+alias ll='ls -lh'
+alias px='ps aux | grep -v "ps aux" | grep -v "grep --color" | grep'
+alias rm='rm -i'
+ack 2> /dev/null | alias ack='ack-grep'
+
+my_uname=`which uname`
+
+########################################
+## shell settings
+##
+setopt share_history histignorealldups
+# disables the use of Ctrl-D to exit the shell
+set -o ignoreeof
+
+########################################
+### Removed tab completion
+########################################
+### Replaced colors with zsh/grml ones
+
+########################################
+## Removed hostname-specific stuff @TODO
+
+########################################
+### Check shopt commands @TODO
+# Do not attempt completion on an empty line
+#shopt -s no_empty_cmd_completion
+# correct minor spelling errors in a cd command
+#shopt -s cdspell
+# cause multi-line commands to be appended to your bash history as a single line command
+#shopt -s cmdhist
+# history expansion (the !something) allows to edit the expanded line before executing
+#shopt -s histverify
+
+# let screen be resumed with any key @TODO wtf?
+#`which tty` > /dev/null 2>&1 && `which stty` ixany
+
+# settitle @TODO
+
+########################################
+## functions
+##
+function my_vers() {
+    echo -e ".zshrc.local by fa, version ${my_version}"
+}
+
+# battery level information
+function w500bat {
+    # system-specific stuff
+    bat="/sys/devices/LNXSYSTM:00/device:00/PNP0A08:00/device:01/PNP0C09:00/PNP0C0A:00/power_supply/BAT0/"
+    full="energy_full"
+    now="energy_now"
+
+    # calculate level
+    _full=$( cat ${bat}${full} )
+    _now=$( cat ${bat}${now} )
+    fillint=`echo "scale=0; $_now*100/$_full" | bc`
+    fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
+
+    # verbose version
+    if [[ "$1" = '-v' ]]; then
+        echo $_full
+        echo $_now
+    fi
+
+    # colorized output
+    if [[ "$fillint" -ge 75 ]]; then
+        echo -n -e "${fg_bold[green]}"
+    elif [[ "$fillint" -ge 25 ]]; then
+        echo -n -e "${fg_bold[yellow]}"
+    else
+        echo -n -e "${fg_bold[red]}"
+    fi
+
+    echo -e "Battery: $fillint % remaining ${reset_color}"
+}
+
+# some system information
+function ii() {
+    local O_LANG=$LANG
+    local O_LC_ALL=$LC_ALL
+    local FQDN=`hostname -f`
+    MY_II_IF=$(/sbin/ifconfig | `which awk` '/Link / { print $1 " " } ')
+
+    LANG=C
+    LC_ALL=C
+
+    echo -n -e "\n${reset_color}You are logged in to "
+    echo -e "${fg_bold[red]}${HOST} ${fg_bold[yellow]}(${FQDN})${reset_color} - $(date)"
+    echo -e "\n${fg_bold[red]}Kernel version:${reset_color} " ; uname -a
+    echo -e "\n${fg_bold[red]}Users logged on:${reset_color} " ; w -h
+    echo -e "\n${fg_bold[red]}Machine stats :${reset_color} " ; uptime
+    echo -e "\n${fg_bold[red]}Memory stats :${reset_color} " ; free -m
+echo "-----------"
+echo $MY_II_IF;
+echo "-----------"
+    for my_if in $MY_II_IF; do
+        echo -e "\n${fg_bold[red]}Interface $my_if :${reset_color}" ;
+        /sbin/ifconfig $my_if | awk '/inet / { print $2 } ' | cut -d ":" -f 2
+        /sbin/ifconfig $my_if | awk '/inet6 / { print $3 } '
+        /sbin/ifconfig $my_if | awk '/TX b/ { print "TX " $3 $4 " RX " $7 $8 } '
+    done
+    echo
+    LANG=$O_LANG
+    LC_ALL=$O_LC_ALL
+    unset MY_II_IF
+    unset FQDN
+}
+
+########################################
+### Removed PS1/PS_SMILE for now
+
+########################################
+## Removed all the grep/find stuff @TODO
+
+# posted by Cynyr in http://blog.jolexa.net/2010/08/16/linux-my-bash-prompt/
+function _chomp_path() {
+    local path=${1/${HOME}/\~}
+    local last=${path} sedout= count=0 path2=
+
+    #bash is dumb, "${#path//[^'/']/}" fails.
+    #sedout="${path//[^'/']/}"
+    sedout=`echo $path| sed 's,[^/],,g'`
+    count=${#sedout}
+    if ((count > 2)); then
+#   if [ "x${path:0:1}" != 'x~' ]; then
+            last="…"
+        path2=${path%/*}
+        path2=${path2%/*}
+        last+=${path//${path2}}
+    fi
+    echo ${last}
+}
+
+########################################
+## os-specific stuff @TODO check
+##
+if [ "$my_uname" = 'FreeBSD' ]; then
+    export TERM='cons25';
+    alias ls='ls -hFG';
+elif [ "$my_uname" = 'CYGWIN_NT-5.1' ]; then
+    for i in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
+        alias $i:='cd /cygdrive/'$i;
+    done;
+#    bind 'set show-all-if-ambiguous off'             # Tab once for complete
+fi
+
+########################################
+## exports
+##
+export GIT_EDITOR=vim
+export EDITOR=vim
+export CVS_RSH=ssh
+
+export HISTTIMEFORMAT="%F %T"
+export LESS="-eX" # --quit-at-eof --no-init
