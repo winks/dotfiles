@@ -17,9 +17,13 @@ alias du='du -h'
 alias dum='du --max-depth=1'
 alias gp='git pull'
 alias gpp='git pull && git push'
-alias ll='ls -lh'
+unalias ls
+alias ls="ls -b -CF --color=none"
+alias l="ls -lF --color=auto"
+alias ll="ls -lhAF --color=auto"
 alias px='ps aux | grep -v "ps aux" | grep -v "grep --color" | grep'
 alias rm='rm -i'
+alias sudo="sudo -H -i"
 ack 2> /dev/null | alias ack='ack-grep'
 
 my_uname=`which uname`
@@ -98,7 +102,7 @@ function ii() {
     local O_LANG=$LANG
     local O_LC_ALL=$LC_ALL
     local FQDN=`hostname -f`
-    MY_II_IF=$(/sbin/ifconfig | `which awk` '/Link / { print $1 " " } ')
+    local MY_II_IF="$(/sbin/ifconfig | awk '/Link / { print $1 } ')"
 
     LANG=C
     LC_ALL=C
@@ -109,20 +113,17 @@ function ii() {
     echo -e "\n${fg_bold[red]}Users logged on:${reset_color} " ; w -h
     echo -e "\n${fg_bold[red]}Machine stats :${reset_color} " ; uptime
     echo -e "\n${fg_bold[red]}Memory stats :${reset_color} " ; free -m
-echo "-----------"
-echo $MY_II_IF;
-echo "-----------"
-    for my_if in $MY_II_IF; do
+
+    for my_if in ${=MY_II_IF}; do
         echo -e "\n${fg_bold[red]}Interface $my_if :${reset_color}" ;
         /sbin/ifconfig $my_if | awk '/inet / { print $2 } ' | cut -d ":" -f 2
         /sbin/ifconfig $my_if | awk '/inet6 / { print $3 } '
         /sbin/ifconfig $my_if | awk '/TX b/ { print "TX " $3 $4 " RX " $7 $8 } '
     done
+
     echo
     LANG=$O_LANG
     LC_ALL=$O_LC_ALL
-    unset MY_II_IF
-    unset FQDN
 }
 
 ########################################
@@ -171,4 +172,4 @@ export EDITOR=vim
 export CVS_RSH=ssh
 
 export HISTTIMEFORMAT="%F %T"
-export LESS="-eX" # --quit-at-eof --no-init
+export LESS="-erX" # --quit-at-eof --raw-control-chars --no-init
