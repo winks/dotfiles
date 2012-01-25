@@ -173,3 +173,7 @@ export CVS_RSH=ssh
 
 export HISTTIMEFORMAT="%F %T"
 export LESS="-erX" # --quit-at-eof --raw-control-chars --no-init
+
+if [ -f ~/.ssh/.bashrc.hosts ]; then
+    source ~/.ssh/.bashrc.hosts
+fi
