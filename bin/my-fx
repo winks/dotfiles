@@ -1,30 +1,49 @@
 #!/bin/bash
-echo $1;
-# notebook
-xrandr --output LVDS1 --mode 1920x1200
+###############
+# some config
+xrmode=$1;
+echo $xrmode;
+xrmain="LVDS1"
+xrmain_res="1920x1200"
+xr2nd="VGA1"
 
-if [[ "x$1" = "x--single" ]]; then
+###############
+# notebook
+xrandr --output $xrmain --mode $xrmain_res
+
+###############
+# single-display
+if [[ "x${xrmode}" = "x--single" ]]; then
     echo "Switching to single-display mode..."
-    xrandr --output VGA1 --off
+    xrandr --output $xr2nd --off
     exit $?;
 fi
+
 # wtf?
 #xrandr --output VGA1 --mode 2048x1152 --right-of LVDS1
 
+###############
 # small one
-#xrandr --output VGA1 --mode 1680x1050 --right-of LVDS1 --rotate normal
-
-if [[ "x$1" = "x--beamer" ]]; then
-    xrandr --output VGA1 --mode 1440x900 --left-of LVDS1 --rotate normal
+if [[ "x${xrmode}" = "x--small" ]]; then
+    echo "Switching to single-display mode..."
+    xrandr --output $xr2nd --mode 1680x1050 --right-of $xrmain --rotate normal
     exit $?;
 fi
 
-if [[ "x$1" = "x--left" ]]; then
-    xrandr --output VGA1 --mode 1920x1080 --left-of LVDS1 --rotate normal
+###############
+# beamer
+if [[ "x${xrmode}" = "x--beamer" ]]; then
+    xrandr --output $xr2nd --mode 1440x900 --left-of $xrmain --rotate normal
     exit $?;
 fi
+
+if [[ "x${xrmode}" = "x--left" ]]; then
+    xrandr --output $xr2nd --mode 1920x1080 --left-of $xrmain --rotate normal
+    exit $?;
+fi
+###############
 # big dell
-xrandr --output VGA1 --mode 1920x1080 --right-of LVDS1 --rotate normal
+xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain --rotate normal
 
 # digital borked
 #xrandr --output DP1 --mode 1920x1080 --right-of LVDS1 --rotate normal
