@@ -32,9 +32,9 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
     awful.layout.suit.tile.left,
+    awful.layout.suit.tile,
+    awful.layout.suit.floating,
     awful.layout.suit.tile.right,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
@@ -49,11 +49,11 @@ layouts =
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
+-- Define a tag table which holds all screen tags.
 tags = {}
 mytags = {
-    names = { "main", "shell", "www", "comm", "mail", "♫", "☢", "♥", "☎" },
-    layout = { layouts[2], layouts[5], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2] }
+    names = { "main", "shell", "www", "comm", "mail", " ♫ ", " ☢ ", " ♥ ", " ☎ " },
+    layout = { layouts[0], layouts[5], layouts[0], layouts[5], layouts[0], layouts[0], layouts[0], layouts[0], layouts[0] }
     }
 
 for s = 1, screen.count() do
@@ -79,7 +79,8 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "quit", awesome.quit },
+   { "x: " .. screen.count(), awesome.restart }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
@@ -499,7 +500,7 @@ client.add_signal("manage", function (c, startup)
 end)
 
 browser = "firefox"
-awful.util.spawn_with_shell("/home/florian/my-awesome-startup")
+awful.util.spawn_with_shell("/home/florian/bin/my-awesome-startup")
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
