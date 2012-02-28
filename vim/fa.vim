@@ -143,12 +143,15 @@ nmap ,b :FufBuffer<CR>
 
 if has("gui_running")
     au GUIEnter * set lines=52 columns=90
-    set guifont=Monaco
+    set guifont=Monaco\ for\ Powerline
     set colorcolumn=80
 
     set background=dark
-    colorscheme darkspectrum
+    "colorscheme darkspectrum
+    colorscheme solarized
     set cursorline
+
+    let g:Powerline_symbols = 'fancy'
 else
     set t_Co=256
 
@@ -250,3 +253,4 @@ set sessionoptions=blank,buffers,curdir,folds,help
 ",resize,tabpages,winsize
 
 "let MRU_File = '~/.vim/.vim_mru_files'
+
