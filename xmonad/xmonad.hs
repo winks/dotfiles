@@ -23,6 +23,8 @@ import XMonad.Layout.Reflect
 import XMonad.Layout.DwmStyle
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ComboP
+import XMonad.Layout.Column
+import XMonad.Layout.Grid
 
 import XMonad.Prompt
 import XMonad.Prompt.Ssh
@@ -92,8 +94,8 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
        , terminal           = "x-terminal-emulator"
        , workspaces         = ["sh", "code", "www", "im", "@" ]
-                              ++ map show [6 .. 8 :: Int]
-                              ++ ["♫"]
+                              ++ map show [6 .. 7 :: Int]
+                              ++ ["♥","♫"]
        , modMask            = mod4Mask
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
@@ -164,20 +166,28 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       ]
 
     myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
-        [ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)) -- set the window to floating mode and move by dragging
-        , ((modMask, button2), (\w -> focus w >> windows W.shiftMaster)) -- raise the window to the top of the stack
-        , ((modMask, button3), (\w -> focus w >> Flex.mouseResizeWindow w)) -- set the window to floating mode and resize by dragging
-        , ((modMask, button4), (\_ -> prevWS)) -- switch to previous workspace
-        , ((modMask, button5), (\_ -> nextWS)) -- switch to next workspace
+        -- set the window to floating mode and move by dragging
+        [ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
+        -- raise the window to the top of the stack
+        , ((modMask, button2), (\w -> focus w >> windows W.shiftMaster))
+        -- set the window to floating mode and resize by dragging
+        , ((modMask, button3), (\w -> focus w >> Flex.mouseResizeWindow w))
+        -- switch to previous workspace
+        , ((modMask, button4), (\_ -> prevWS))
+        -- switch to next workspace
+        , ((modMask, button5), (\_ -> nextWS))
         ]
 
     myManageHook :: ManageHook
     myManageHook = composeAll (
             [ className   =? "Gajim.py"           --> doShift "im"
             , className   =? "Pidgin"             --> doShift "im"
+            , className   =? "Skype"              --> doShift "im"
             , className   =? "Iceweasel"          --> doShift "www"
             , className   =? "Chromium-browser"   --> doShift "www"
-            , className   =? "Quodlibet"          --> doShift "m"
+            , className   =? "Midori"             --> doShift "www"
+            , className   =? "Quodlibet"          --> doShift "♫"
+            , className   =? "Rhythmbox"          --> doShift "♫"
             , className   =? "Claws-mail"         --> doShift "@"
             , className   =? "Thunderbird"        --> doShift "@"
             ]
@@ -191,30 +201,31 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                         , "Wicd-client.py"
                         ]
 
-    myPP h = defaultPP { ppCurrent         = xmobarColor "#cc0000" ""
-                       , ppVisible         = xmobarColor "#a00000" ""
+    myPP h = defaultPP { ppCurrent         = xmobarColor "#2da5fa" ""
+                       , ppVisible         = xmobarColor "#1f72ac" ""
                        , ppHiddenNoWindows = \wsId ->
                                     if (reads wsId :: [(Int, String)]) == []
                                         then wsId
                                         else xmobarColor "#777" "" wsId
                        , ppSep             = xmobarColor "#666" "" "]["
                        , ppUrgent	   = xmobarColor "#fff" "" . \wsId -> wsId ++ "*"
-                       , ppTitle           = shorten 45 . (\s -> s ++ " ")
-                       , ppWsSep           = xmobarColor "#666" "" "|"
                        , ppLayout          = xmobarColor "#15d" "" . (\x -> case x of
-                                                "Full"                 -> "F"
-                                                "DwmStyle Tall"        -> "DT"
+                                                "Full"                 -> " F "
+                                                "DwmStyle Tall"        -> "DT "
                                                 "DwmStyle Mirror Tall" -> "DMT"
-                                                "Tabbed Bottom Simplest" -> "TB"
-                                                "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")" -> "G"
+                                                "Tabbed Bottom Simplest" -> "TB "
+                                                "ReflectX IM Grid" -> "IM "
+                                                "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")" -> " G "
                                                 _                      -> x)
-                       , ppOrder           = reverse
+                       , ppWsSep           = xmobarColor "#666" "" "|"
+                       , ppTitle           = shorten 45 . (\s -> s ++ " ")
+--                       , ppOrder           = reverse
                        , ppOutput          = hPutStrLn h
                        }
 
     myLayouts = avoidStruts $ smartBorders
 --              $ onWorkspace "im" (IM (1%6) (Role "roster"))
-              $ onWorkspace "im" (reflectHoriz (IM (1%8) (Role "buddy_list")))
+              $ onWorkspace "im" (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
               $ onWorkspace "www" tabbedLayout
               $ onWorkspaces ["@","m"] (Full ||| tabbedLayout)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
