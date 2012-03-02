@@ -2,6 +2,7 @@
  -XTypeSynonymInstances 
  -XMultiParamTypeClasses
  -XFlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 import XMonad
 import XMonad.Operations
 
@@ -59,27 +60,26 @@ import Control.Monad
 import Data.Monoid (All (All))
 
 -- foo
-data AddRoster2 a = AddRoster2 Rational Property Property deriving (Read, Show)
+data AddRoster2 a = AddRoster2 Rational [Property] deriving (Read, Show)
 
 instance LayoutModifier AddRoster2 Window where
-    modifyLayout (AddRoster2 ratio prop1 prop2) = applyIM2 ratio prop1 prop2
+    modifyLayout (AddRoster2 ratio props) = applyIM2 ratio props
     modifierDescription _                   = "IM2"
 
-withIM2 :: LayoutClass l a => Rational -> Property -> Property -> l a -> ModifiedLayout AddRoster2 l a
-withIM2 ratio prop1 prop2 = ModifiedLayout $ AddRoster2 ratio prop1 prop2
+withIM2 :: LayoutClass l a => Rational -> [Property] -> l a -> ModifiedLayout AddRoster2 l a
+withIM2 ratio props  = ModifiedLayout $ AddRoster2 ratio props
 
 applyIM2 :: (LayoutClass l Window) =>
                 Rational
-                -> Property
-                -> Property
+                -> [Property]
                 -> W.Workspace WorkspaceId (l Window) Window
                 -> Rectangle
                 -> X ([(Window, Rectangle)], Maybe (l Window))
-applyIM2 ratio prop1 prop2 wksp rect = do
+applyIM2 ratio props wksp rect = do
     let stack = W.stack wksp
     let ws = W.integrate' $ stack
     let (masterRect, slaveRect) = splitHorizontallyBy ratio rect
-    master <- findM (hasProperty prop1) ws
+    master <- findM (hasProperty (head props)) ws
     case master of
         Just w -> do
             let filteredStack = stack >>= W.filter (w /=)
@@ -267,7 +267,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
     myLayouts = avoidStruts $ smartBorders
 --              $ onWorkspace "im" (IM (1%6) (Role "roster"))
-              $ onWorkspace "im" (reflectHoriz (withIM2 (1%8) (Role "buddy_list") (Role "main_window") Grid))
+              $ onWorkspace "im" (reflectHoriz (withIM2 (1%8) [(Role "MainWindow"),(Role "buddy_list")] Grid))
               $ onWorkspace "www" tabbedLayout
               $ onWorkspaces ["@","m"] (Full ||| tabbedLayout)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
