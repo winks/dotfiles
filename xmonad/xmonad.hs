@@ -267,7 +267,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
     myLayouts = avoidStruts $ smartBorders
 --              $ onWorkspace "im" (IM (1%6) (Role "roster"))
-              $ onWorkspace "im" (reflectHoriz (withIM2 (1%8) [(Role "MainWindow"),(Role "buddy_list")] Grid))
+              $ onWorkspace "im" imLayout2
               $ onWorkspace "www" tabbedLayout
               $ onWorkspaces ["@","m"] (Full ||| tabbedLayout)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
@@ -281,4 +281,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                  dwmLayout = dwmStyle shrinkText myTheme
                  tabbedLayout = tabbedBottomAlways shrinkText myTheme
                  gimpLayout = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
+                 imLayout = (reflectHoriz (withIM (1%8) (Role "buddy_list")))
+                 imLayout2 = (reflectHoriz (withIM2 (1%8) [(Role "MainWindow"),(Role "buddy_list")] Grid))
+                 imLayout3 = combineTwoP (TwoPane 0.04 0.82) (dwmLayout) (Grid) (Or (Role "MainWindow") (Role "buddy_list"))
 
