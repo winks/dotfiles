@@ -1,3 +1,7 @@
+{-# OPTIONS
+ -XTypeSynonymInstances 
+ -XMultiParamTypeClasses
+ -XFlexibleContexts #-}
 import XMonad
 import XMonad.Operations
 
@@ -15,6 +19,8 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Layout
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.IM
+--import XMonad.Layout.IMExtra
+import XMonad.Layout.LayoutModifier
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Tabbed
 import XMonad.Layout.NoBorders
@@ -38,6 +44,7 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Util.Run
 import XMonad.Util.Scratchpad
 import XMonad.Util.Themes
+import XMonad.Util.WindowProperties
 
 import XMonad.Actions.NoBorders
 import XMonad.Actions.DynamicWorkspaces
@@ -50,6 +57,40 @@ import System.IO
 import XMonad.Hooks.ManageHelpers
 import Control.Monad
 import Data.Monoid (All (All))
+
+-- foo
+data AddRoster2 a = AddRoster2 Rational Property Property deriving (Read, Show)
+
+instance LayoutModifier AddRoster2 Window where
+    modifyLayout (AddRoster2 ratio prop1 prop2) = applyIM2 ratio prop1 prop2
+    modifierDescription _                   = "IM2"
+
+withIM2 :: LayoutClass l a => Rational -> Property -> Property -> l a -> ModifiedLayout AddRoster2 l a
+withIM2 ratio prop1 prop2 = ModifiedLayout $ AddRoster2 ratio prop1 prop2
+
+applyIM2 :: (LayoutClass l Window) =>
+                Rational
+                -> Property
+                -> Property
+                -> W.Workspace WorkspaceId (l Window) Window
+                -> Rectangle
+                -> X ([(Window, Rectangle)], Maybe (l Window))
+applyIM2 ratio prop1 prop2 wksp rect = do
+    let stack = W.stack wksp
+    let ws = W.integrate' $ stack
+    let (masterRect, slaveRect) = splitHorizontallyBy ratio rect
+    master <- findM (hasProperty prop1) ws
+    case master of
+        Just w -> do
+            let filteredStack = stack >>= W.filter (w /=)
+            wrs <- runLayout (wksp {W.stack = filteredStack}) slaveRect
+            return ((w, masterRect) : fst wrs, snd wrs)
+        Nothing -> runLayout wksp rect
+
+findM :: Monad m => (a -> m Bool) -> [a] -> m (Maybe a)
+findM _ [] = return Nothing
+findM f (x:xs) = do { b <- f x; if b then return (Just x) else findM f xs }
+-- /foo
 
 -- Helper functions to fullscreen the window
 fullFloat, tileWin :: Window -> X ()
@@ -183,6 +224,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             [ className   =? "Gajim.py"           --> doShift "im"
             , className   =? "Pidgin"             --> doShift "im"
             , className   =? "Skype"              --> doShift "im"
+            , className   =? "Quasselclient"      --> doShift "im"
             , className   =? "Iceweasel"          --> doShift "www"
             , className   =? "Chromium-browser"   --> doShift "www"
             , className   =? "Midori"             --> doShift "www"
@@ -225,7 +267,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
     myLayouts = avoidStruts $ smartBorders
 --              $ onWorkspace "im" (IM (1%6) (Role "roster"))
-              $ onWorkspace "im" (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
+              $ onWorkspace "im" (reflectHoriz (withIM2 (1%8) (Role "buddy_list") (Role "main_window") Grid))
               $ onWorkspace "www" tabbedLayout
               $ onWorkspaces ["@","m"] (Full ||| tabbedLayout)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
