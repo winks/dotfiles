@@ -1,8 +1,4 @@
-{-# OPTIONS
- -XTypeSynonymInstances 
- -XMultiParamTypeClasses
- -XFlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
+-- WTF - Was taete fpletz?
 import XMonad
 import XMonad.Operations
 
@@ -58,39 +54,6 @@ import System.IO
 import XMonad.Hooks.ManageHelpers
 import Control.Monad
 import Data.Monoid (All (All))
-
--- foo
-data AddRoster2 a = AddRoster2 Rational [Property] deriving (Read, Show)
-
-instance LayoutModifier AddRoster2 Window where
-    modifyLayout (AddRoster2 ratio props) = applyIM2 ratio props
-    modifierDescription _                   = "IM2"
-
-withIM2 :: LayoutClass l a => Rational -> [Property] -> l a -> ModifiedLayout AddRoster2 l a
-withIM2 ratio props  = ModifiedLayout $ AddRoster2 ratio props
-
-applyIM2 :: (LayoutClass l Window) =>
-                Rational
-                -> [Property]
-                -> W.Workspace WorkspaceId (l Window) Window
-                -> Rectangle
-                -> X ([(Window, Rectangle)], Maybe (l Window))
-applyIM2 ratio props wksp rect = do
-    let stack = W.stack wksp
-    let ws = W.integrate' $ stack
-    let (masterRect, slaveRect) = splitHorizontallyBy ratio rect
-    master <- findM (hasProperty (head props)) ws
-    case master of
-        Just w -> do
-            let filteredStack = stack >>= W.filter (w /=)
-            wrs <- runLayout (wksp {W.stack = filteredStack}) slaveRect
-            return ((w, masterRect) : fst wrs, snd wrs)
-        Nothing -> runLayout wksp rect
-
-findM :: Monad m => (a -> m Bool) -> [a] -> m (Maybe a)
-findM _ [] = return Nothing
-findM f (x:xs) = do { b <- f x; if b then return (Just x) else findM f xs }
--- /foo
 
 -- Helper functions to fullscreen the window
 fullFloat, tileWin :: Window -> X ()
@@ -148,9 +111,16 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        , manageHook         = manageDocks <+> manageHook defaultConfig <+> myManageHook
        , layoutHook         = myLayouts
        , handleEventHook    = evHook
-       , startupHook        = setWMName "LG3D"
+       , startupHook        = myStartupHook
        }
   where
+    myStartupHook = do
+                    setWMName "LG3D"
+                    spawn("~/bin/run_once_silent trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --widthtype percent --width 10 --transparent true  --tint 0x333333 --height 12 --monitor 1 &")
+                    spawn("~/bin/run_once_silent /usr/bin/xmodmap -e 'keycode 63 = Escape'")
+                    spawn("~/bin/run_once_silent parcellite")
+                    spawn("~/bin/run_once_silent xscreensaver -no-splash")
+
     myKeys (XConfig {modMask = modm}) = M.fromList $
       [
       -- rotate workspaces
@@ -195,7 +165,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
 
       -- alarm
-      , ((0            , 0x1008ff41), spawn "aplay /home/fpletz/augustiner.wav")
+      , ((0            , 0x1008ff41), spawn "aplay /home/florian/Documents/sound/ilikeit.wav")
       , ((modm         , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm1.wav")
       , ((controlMask  , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm2.wav")
       , ((shiftMask    , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm0.wav")
@@ -258,6 +228,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                                                 "Tabbed Bottom Simplest" -> "TB "
                                                 "ReflectX IM Grid" -> "IM "
                                                 "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")" -> " G "
+                                                "ReflectX combining Grid and Grid with TwoPane using Or (Role \"MainWindow\") (Role \"buddy_list\")" -> "IM "
                                                 _                      -> x)
                        , ppWsSep           = xmobarColor "#666" "" "|"
                        , ppTitle           = shorten 45 . (\s -> s ++ " ")
@@ -266,10 +237,10 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        }
 
     myLayouts = avoidStruts $ smartBorders
---              $ onWorkspace "im" (IM (1%6) (Role "roster"))
               $ onWorkspace "im" imLayout2
               $ onWorkspace "www" tabbedLayout
-              $ onWorkspaces ["@","m"] (Full ||| tabbedLayout)
+              $ onWorkspace "code" tabbedLayout
+              $ onWorkspaces ["@","♫"] (Full ||| tabbedLayout)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
             where
                  tiled   = Tall nmaster delta ratio
@@ -281,7 +252,6 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                  dwmLayout = dwmStyle shrinkText myTheme
                  tabbedLayout = tabbedBottomAlways shrinkText myTheme
                  gimpLayout = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
-                 imLayout = (reflectHoriz (withIM (1%8) (Role "buddy_list")))
-                 imLayout2 = (reflectHoriz (withIM2 (1%8) [(Role "MainWindow"),(Role "buddy_list")] Grid))
-                 imLayout3 = combineTwoP (TwoPane 0.04 0.82) (dwmLayout) (Grid) (Or (Role "MainWindow") (Role "buddy_list"))
+                 imLayout1  = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
+                 imLayout2 = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Role "buddy_list"))
 
