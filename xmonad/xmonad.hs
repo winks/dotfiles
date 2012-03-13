@@ -198,10 +198,13 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             , className   =? "Iceweasel"          --> doShift "www"
             , className   =? "Chromium-browser"   --> doShift "www"
             , className   =? "Midori"             --> doShift "www"
+            , className   =? "uzbl-core"          --> doShift "www"
+            , className   =? "uzbl-tabbed"        --> doShift "www"
             , className   =? "Quodlibet"          --> doShift "♫"
             , className   =? "Rhythmbox"          --> doShift "♫"
             , className   =? "Claws-mail"         --> doShift "@"
             , className   =? "Thunderbird"        --> doShift "@"
+            , className   =? "jetbrains-phpstorm" --> doShift "code"
             ]
             ++ [ className =? c --> doFloat | c <- myFloats ])
       where myFloats = [  "Volume"
@@ -220,7 +223,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                                         then wsId
                                         else xmobarColor "#777" "" wsId
                        , ppSep             = xmobarColor "#666" "" "]["
-                       , ppUrgent	   = xmobarColor "#fff" "" . \wsId -> wsId ++ "*"
+                       , ppUrgent	       = xmobarColor "#fff" "" . \wsId -> wsId ++ "*"
                        , ppLayout          = xmobarColor "#15d" "" . (\x -> case x of
                                                 "Full"                 -> " F "
                                                 "DwmStyle Tall"        -> "DT "
