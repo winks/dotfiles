@@ -4,9 +4,17 @@
 ##    by fa[at]art-core.org
 ## ported from .bashrc 0.91, 2011-08-09
 ########################################
-## 2011-10-30
-my_version='0.91'
+## 2012-03-25
+my_version='1.1'
 ########################################
+
+if [ -f ~/code/dotfiles/.zshrc.base ]; then
+    source ~/code/dotfiles/.zshrc.base
+fi
+
+if [ -f ~/.ssh/.profile.host ]; then
+    source ~/.ssh/.profile.host
+fi
 
 ########################################
 ## aliases
@@ -17,8 +25,7 @@ alias du='du -h'
 alias dum='du --max-depth=1'
 alias gp='git pull'
 alias gpp='git pull && git push'
-unalias ls
-alias ls="ls -b -CF --color=none"
+alias ls="/bin/ls -b -CF --color=none"
 alias l="ls -lF --color=auto"
 alias ll="ls -lhAF --color=auto"
 alias px='ps aux | grep -v "ps aux" | grep -v "grep --color" | grep'
@@ -27,47 +34,33 @@ alias sudo="sudo -H -i"
 which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 
-
 my_uname=`which uname`
 
 ########################################
 ## shell settings
-##
-setopt share_history histignorealldups
-setopt no_beep
-setopt interactivecomments
-setopt hist_save_no_dups
+########################################
+setopt extended_history
+setopt hist_find_no_dups
 setopt hist_ignore_all_dups
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt hist_verify
+setopt interactivecomments
+setopt login
+setopt monitor
+setopt notify
+setopt share_history
 # disables the use of Ctrl-D to exit the shell
 set -o ignoreeof
 
 ########################################
-### Removed tab completion
+### key bindings
 ########################################
-### Replaced colors with zsh/grml ones
-
-########################################
-## Removed hostname-specific stuff @TODO
-
-########################################
-### Check shopt commands @TODO
-# Do not attempt completion on an empty line
-#shopt -s no_empty_cmd_completion
-# correct minor spelling errors in a cd command
-#shopt -s cdspell
-# cause multi-line commands to be appended to your bash history as a single line command
-#shopt -s cmdhist
-# history expansion (the !something) allows to edit the expanded line before executing
-#shopt -s histverify
-
-# let screen be resumed with any key @TODO wtf?
-#`which tty` > /dev/null 2>&1 && `which stty` ixany
-
-# settitle @TODO
+bindkey -e
 
 ########################################
 ## functions
-##
+########################################
 function my_vers() {
     echo -e ".zshrc.local by fa, version ${my_version}"
 }
@@ -135,8 +128,38 @@ function ii() {
 ########################################
 ### Removed PS1/PS_SMILE for now
 
+EXITCODE="%(?..%?%1v )"
+PS2='\`%_> '      # secondary prompt, printed when the shell needs more information to complete a command.
+PS3='?# '         # selection prompt used within a select loop.
+PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace). default: '+%N:%i>'
+
+# don't use colors on dumb terminals (like emacs):
+if [[ "$TERM" == dumb ]] ; then
+    PROMPT="${EXITCODE}%n@%m %40<...<%B%~%b%<< "
+else
+    if [[ "x$UC" == "x" ]] ; then
+        UC=$WHITE
+    fi
+    if [[ "x$HC" == "x" ]] ; then
+        HC=$CYAN
+    fi
+    # This assembles the primary prompt string
+    if (( EUID != 0 )); then
+        PROMPT="${RED}${EXITCODE}${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
+    else
+        PROMPT="${BLUE}${EXITCODE}${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
+    fi
+fi
+
+PROMPT="${PROMPT}${BBLUE}$ ${NO_COLOUR}"
+RPROMPT='${vcs_info_msg_0_}'
+
 ########################################
 ## Removed all the grep/find stuff @TODO
+
+_chmp() {
+    
+}
 
 # posted by Cynyr in http://blog.jolexa.net/2010/08/16/linux-my-bash-prompt/
 function _chomp_path() {
@@ -158,12 +181,23 @@ function _chomp_path() {
 }
 
 ########################################
-## os-specific stuff @TODO check
+## os-specific stuff
 ##
-if [ "$my_uname" = 'FreeBSD' ]; then
-    export TERM='cons25';
+
+isfreebsd(){
+    [[ $OSTYPE == freebsd* ]] && return 0
+    return 1
+}
+
+iscygwin(){
+    [[ $OSTYPE == cygwin* ]] && return 0
+    return 1
+}
+
+if [ isfreebsd ]; then
+#    export TERM='cons25';
     alias ls='ls -hFG';
-elif [ "$my_uname" = 'CYGWIN_NT-5.1' ]; then
+elif [ iscygwin ]; then
     for i in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
         alias $i:='cd /cygdrive/'$i;
     done;
@@ -178,24 +212,16 @@ export EDITOR=vim
 export CVS_RSH=ssh
 export RSYNC_RSH=ssh
 
+export ZSH_DIR=$HOME/.zsh
+
+export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=1048576
 export HISTTIMEFORMAT="%F %T"
 export PAGER=less
 export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
 
-if [ -f ~/.ssh/.bashrc.hosts ]; then
-    source ~/.ssh/.bashrc.hosts
-fi
-
-# If I am using vi keys, I want to know what mode I'm currently using.
-# zle-keymap-select is executed every time KEYMAP changes.
-# From http://zshwiki.org/home/examples/zlewidgets
-# From http://pthree.org/2009/03/28/add-vim-editing-mode-to-your-zsh-prompt/
-function zle-keymap-select {
-    VIMODE="${${KEYMAP/vicmd/ M:command}/(main|viins)/}"
-    zle reset-prompt
-}
-
-zle -N zle-keymap-select
-
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
+
+zstyle :compinstall filename '/cygdrive/c/Users/Florian/.zshrc'
+autoload -Uz compinit
+compinit
