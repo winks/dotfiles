@@ -8,10 +8,12 @@
 my_version='1.1'
 ########################################
 
+## grml defaults
 if [ -f ~/code/dotfiles/.zshrc.base ]; then
     source ~/code/dotfiles/.zshrc.base
 fi
 
+## host-specific stuff, purely optional
 if [ -f ~/.ssh/.profile.host ]; then
     source ~/.ssh/.profile.host
 fi
@@ -39,9 +41,15 @@ my_uname=`which uname`
 ########################################
 ## shell settings
 ########################################
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=1048576
+export HISTTIMEFORMAT="%F %T"
+########################################
+setopt append_history
 setopt extended_history
 setopt hist_find_no_dups
 setopt hist_ignore_all_dups
+setopt hist_no_store
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt hist_verify
@@ -52,10 +60,7 @@ setopt notify
 setopt share_history
 # disables the use of Ctrl-D to exit the shell
 set -o ignoreeof
-
-########################################
-### key bindings
-########################################
+# emacs bindings
 bindkey -e
 
 ########################################
@@ -126,7 +131,9 @@ function ii() {
 }
 
 ########################################
-### Removed PS1/PS_SMILE for now
+## the prompt code in grml isn't really
+##  pretty, so copy and adapt
+########################################
 
 EXITCODE="%(?..%?%1v )"
 PS2='\`%_> '      # secondary prompt, printed when the shell needs more information to complete a command.
@@ -145,40 +152,18 @@ else
     fi
     # This assembles the primary prompt string
     if (( EUID != 0 )); then
-        PROMPT="${RED}${EXITCODE}${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
+        PPRE="${RED}${EXITCODE}"
+        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
+        PPOST="${BBLUE}$ ${NO_COLOUR}"
     else
-        PROMPT="${BLUE}${EXITCODE}${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
+        PPRE="${BLUE}${EXITCODE}"
+        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
+        PPOST="${BWHITE}# ${NO_COLOUR}"
     fi
 fi
 
-PROMPT="${PROMPT}${BBLUE}$ ${NO_COLOUR}"
+PROMPT="${PPRE}${PROMPT}${PPOST}"
 RPROMPT='${vcs_info_msg_0_}'
-
-########################################
-## Removed all the grep/find stuff @TODO
-
-_chmp() {
-    
-}
-
-# posted by Cynyr in http://blog.jolexa.net/2010/08/16/linux-my-bash-prompt/
-function _chomp_path() {
-    local path=${1/${HOME}/\~}
-    local last=${path} sedout= count=0 path2=
-
-    #bash is dumb, "${#path//[^'/']/}" fails.
-    #sedout="${path//[^'/']/}"
-    sedout=`echo $path| sed 's,[^/],,g'`
-    count=${#sedout}
-    if ((count > 2)); then
-#   if [ "x${path:0:1}" != 'x~' ]; then
-            last="…"
-        path2=${path%/*}
-        path2=${path2%/*}
-        last+=${path//${path2}}
-    fi
-    echo ${last}
-}
 
 ########################################
 ## os-specific stuff
@@ -212,11 +197,6 @@ export EDITOR=vim
 export CVS_RSH=ssh
 export RSYNC_RSH=ssh
 
-export ZSH_DIR=$HOME/.zsh
-
-export HISTFILE=$HOME/.zsh_history
-export HISTSIZE=1048576
-export HISTTIMEFORMAT="%F %T"
 export PAGER=less
 export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
 
