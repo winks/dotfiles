@@ -1,3 +1,9 @@
 defflow off
+vbell off
+startup_message off
 
 hardstatus alwayslastline "%{.gk} %H: %l %{.rw} %c %{.bw} %n %t %{.wk} %W %{.wk}"
+
+# detach on hangup
+autodetach on
+
