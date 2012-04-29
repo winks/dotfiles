@@ -7,3 +7,5 @@ vim/tmp/*.swo
 vim/tmp/yankring*
 vim/.netrwhist
 vim/.vim_mru_files
+vim/.viminfo
+backup-*
