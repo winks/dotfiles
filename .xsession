@@ -26,6 +26,9 @@ trayer --edge top --align right --SetDockType true --SetPartialStrut true \
 
 #x-terminal-emulator &
 
+setxkbmap -layout 'us(altgr-intl),de(nodeadkeys)' \ -option 'grp:alt_shift_toggle,compose:menu'
+xmodmap /home/florian/code/dotfiles/.us-intl-german.xmodmap
+
 if [ -e /etc/debian_version ] ; then
 	exec xmonad
 else

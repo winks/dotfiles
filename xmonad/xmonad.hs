@@ -197,9 +197,10 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             , className   =? "Quasselclient"      --> doShift "im"
             , className   =? "Iceweasel"          --> doShift "www"
             , className   =? "Chromium-browser"   --> doShift "www"
-            , className   =? "Midori"             --> doShift "www"
             , className   =? "uzbl-core"          --> doShift "www"
             , className   =? "uzbl-tabbed"        --> doShift "www"
+            , className   =? "Midori"             --> doShift ""
+            , className   =? "Virt-Manager"       --> doShift "♫"
             , className   =? "Quodlibet"          --> doShift "♫"
             , className   =? "Rhythmbox"          --> doShift "♫"
             , className   =? "Claws-mail"         --> doShift "@"
@@ -241,9 +242,9 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
     myLayouts = avoidStruts $ smartBorders
               $ onWorkspace "im" imLayout2
-              $ onWorkspace "www" tabbedLayout
-              $ onWorkspace "code" tabbedLayout
-              $ onWorkspaces ["@","♫"] (Full ||| tabbedLayout)
+              $ onWorkspace "www" (tabbedLayout ||| tiled)
+              $ onWorkspace "code" (tabbedLayout ||| tiled)
+              $ onWorkspaces ["@","♫"] (Full ||| tabbedLayout ||| tiled)
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
             where
                  tiled   = Tall nmaster delta ratio
