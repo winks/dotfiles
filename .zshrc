@@ -21,10 +21,9 @@ source $Z/aliases.zsh
 source $Z/options.zsh
 source $Z/functions.zsh
 
-my_uname=`which uname`
 ## host-specific stuff, purely optional
 if [ -f ~/.ssh/.profile.host ]; then
-#    source ~/.ssh/.profile.host
+    source ~/.ssh/.profile.host
 fi
 
 ## prompt

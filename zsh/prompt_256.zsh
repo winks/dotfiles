@@ -36,7 +36,7 @@ local name="%{$FX[reset]$FG[220]%}%n"
 local host="%{$FX[reset]$FG[105]%}%m"
 #local jobs="%1(j.(%{$FX[reset]$FG[197]%}%j job%2(j.s.)${p})-.)"
 #local time="%{$FX[reset]$FG[215]%}%*"
-local dir="%{$FX[reset]$FG[215]%}%~"
+local dir="%{$FX[reset]$FG[215]%}%3~"
 
 local last="%(?..%{$FX[reset]$FG[203]%}%??${p})"
 #local hist="%{$FX[reset]$FG[220]%}%!!"
@@ -54,7 +54,3 @@ local vcsi='${vcs_info_msg_0_}'
 
 setopt prompt_subst
 PROMPT="${last}${p}(${name}${p}@${host}${p} ${dir}${p}${vcsi}${p}) ${sign} %{$FX[reset]%}"
-#(${last}${p}${hist}${p}:${priv}${p})- %{$FX[reset]%}"
-
-#PROMPT="${PPRE}${PROMPT}${PPOST}"
-#RPROMPT='${vcs_info_msg_0_}'
