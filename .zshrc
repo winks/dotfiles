@@ -4,15 +4,20 @@
 ##    by fa[at]art-core.org
 ## ported from .bashrc 0.91, 2011-08-09
 ########################################
-## 2012-03-25
-my_version='1.1'
+## 2012-09-17
+my_version='1.2'
 ########################################
+#set -x
+local dotpath="~/code/dotfiles/zsh"
 
 ## grml defaults
-if [ -f ~/code/dotfiles/.zshrc.base ]; then
-    source ~/code/dotfiles/.zshrc.base
+if [ -f ${dotpath}/zshrc.base ]; then
+    source ${dotpath}/zshrc.base
 fi
-
+## 256 colors ftw
+if [ -f ${dotpath}/spectrum.zsh ]; then
+    source ${dotpath}/spectrum.zsh
+fi
 ## host-specific stuff, purely optional
 if [ -f ~/.ssh/.profile.host ]; then
     source ~/.ssh/.profile.host
@@ -134,41 +139,6 @@ function ii() {
 }
 
 ########################################
-## the prompt code in grml isn't really
-##  pretty, so copy and adapt
-########################################
-
-EXITCODE="%(?..%?%1v )"
-PS2='\`%_> '      # secondary prompt, printed when the shell needs more information to complete a command.
-PS3='?# '         # selection prompt used within a select loop.
-PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace). default: '+%N:%i>'
-
-# don't use colors on dumb terminals (like emacs):
-if [[ "$TERM" == dumb ]] ; then
-    PROMPT="${EXITCODE}%n@%m %40<...<%B%~%b%<< "
-else
-    if [[ "x$UC" == "x" ]] ; then
-        UC=$WHITE
-    fi
-    if [[ "x$HC" == "x" ]] ; then
-        HC=$CYAN
-    fi
-    # This assembles the primary prompt string
-    if (( EUID != 0 )); then
-        PPRE="${RED}${EXITCODE}"
-        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
-        PPOST="${BBLUE}$ ${NO_COLOUR}"
-    else
-        PPRE="${BLUE}${EXITCODE}"
-        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
-        PPOST="${BWHITE}# ${NO_COLOUR}"
-    fi
-fi
-
-PROMPT="${PPRE}${PROMPT}${PPOST}"
-RPROMPT='${vcs_info_msg_0_}'
-
-########################################
 ## os-specific stuff
 ##
 
@@ -189,6 +159,7 @@ elif [ iscygwin ]; then
     for i in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
         alias $i:='cd /cygdrive/'$i;
     done;
+    zstyle :compinstall filename '/cygdrive/c/Users/Florian/.zshrc'
 #    bind 'set show-all-if-ambiguous off'             # Tab once for complete
 fi
 
@@ -205,7 +176,6 @@ export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
-zstyle :compinstall filename '/cygdrive/c/Users/Florian/.zshrc'
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' special-dirs true
@@ -214,5 +184,15 @@ export PATH=~/bin:${PATH}
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="~/.virtualenvs"
-    source /usr/local/bin/virtualenvwrapper.sh
+#    source /usr/local/bin/virtualenvwrapper.sh
+fi
+if [ -f ~/.rvm/scripts/rvm ]; then
+#    source ~/.rvm/scripts/rvm
+fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+## prompt
+if [ -f ${dotpath}/prompt.zsh ]; then
+    source ${dotpath}/prompt.zsh
 fi
