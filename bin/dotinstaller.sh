@@ -91,7 +91,7 @@ if [[ "${doinst}" == "yes" ]]; then
 
   linky .screenrc
   linky .tmux.conf
-  linky .zshrc.local .zshrc
+  linky .zshrc .zshrc
 
   linky vim/fa.vim .vimrc
   linky vim .vim
