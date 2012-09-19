@@ -20,9 +20,10 @@ xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 &
 fbsetbg -l &
 
 # systray
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --widthtype percent --width 10 --transparent true \
- --tint 0x333333 --height 12 --monitor 1 &
+#trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+# --expand true --widthtype percent --width 10 --transparent true \
+# --tint 0x333333 --height 12 --monitor 1 &
+~/bin/trayerx
 
 #x-terminal-emulator &
 

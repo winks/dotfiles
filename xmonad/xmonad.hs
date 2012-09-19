@@ -116,7 +116,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
   where
     myStartupHook = do
                     setWMName "LG3D"
-                    spawn("~/bin/run_once_silent trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --widthtype percent --width 10 --transparent true  --tint 0x333333 --height 12 --monitor 1 &")
+                    spawn("~/bin/trayerx")
                     spawn("~/bin/run_once_silent /usr/bin/xmodmap -e 'keycode 63 = Escape'")
                     spawn("~/bin/run_once_silent parcellite")
                     spawn("~/bin/run_once_silent xscreensaver -no-splash")
@@ -141,7 +141,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
       -- some programs to start with keybindings.
       , ((modm .|. shiftMask, xK_f), spawn "iceweasel")
-      , ((modm .|. shiftMask, xK_m), spawn "claws-mail")
+      , ((modm .|. shiftMask, xK_m), spawn "icedove")
 
       -- prompts
       , ((modm .|. shiftMask, xK_s), sshPrompt defaultXPConfig)
@@ -164,13 +164,15 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((modm .|. shiftMask, xK_Up   ), sendMessage $ Swap U)
       , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
 
-      -- alarm
+      , ((modm,               xK_p    ), spawn "exe=`dmenu_run` && eval \"exec $exe\"")
+
+      -- alarm -- ThinkVantage
       , ((0            , 0x1008ff41), spawn "aplay /home/florian/Documents/sound/ilikeit.wav")
       , ((modm         , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm1.wav")
       , ((controlMask  , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm2.wav")
       , ((shiftMask    , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm0.wav")
 
-      -- display
+      -- display -- Fn + F7
       , ((0             , 0x1008ff59), spawn "xrandr --output LVDS1 --auto && xrandr --output VGA1 --auto && xrandr --output VGA1 --right-of LVDS1")
       , ((shiftMask     , 0x1008ff59), spawn "xrandr --output VGA1 --off")
       , ((controlMask   , 0x1008ff59), spawn "xrandr --output LVDS1 --off")

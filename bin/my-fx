@@ -26,7 +26,12 @@ fi
 # small one
 if [[ "x${xrmode}" = "x--small" ]]; then
     echo "Switching to single-display mode..."
-    xrandr --output $xr2nd --mode 1680x1050 --right-of $xrmain --rotate normal
+    xrandr --output $xr2nd --mode 1680x1050 --left-of $xrmain --rotate normal
+    exit $?;
+fi
+if [[ "x${xrmode}" = "x--small2" ]]; then
+    echo "Switching to single-display mode..."
+    xrandr --output $xr2nd --mode 1680x1050 --above $xrmain --rotate normal
     exit $?;
 fi
 
@@ -41,9 +46,18 @@ if [[ "x${xrmode}" = "x--left" ]]; then
     xrandr --output $xr2nd --mode 1920x1080 --left-of $xrmain --rotate normal
     exit $?;
 fi
+
+###############
+# TNG-HP
+if [[ "x${xrmode}" = "x--hp" ]]; then
+    xrandr --output $xr2nd --mode 1920x1200 --left-of $xrmain --rotate normal
+    exit $?;
+fi
 ###############
 # big dell
-xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain --rotate normal
+#xrandr --output $xr2nd --mode 1920x1080 --left-of $xrmain --rotate normal
 
 # digital borked
 #xrandr --output DP1 --mode 1920x1080 --right-of LVDS1 --rotate normal
+
+~/bin/trayerx

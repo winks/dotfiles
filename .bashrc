@@ -303,3 +303,5 @@ export CVS_RSH=ssh
 export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignoredups
 export LESS="-erX"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
