@@ -50,12 +50,15 @@ fi
 ###############
 # TNG-HP
 if [[ "x${xrmode}" = "x--hp" ]]; then
-    xrandr --output $xr2nd --mode 1920x1200 --left-of $xrmain --rotate normal
+    xrandr --output $xr2nd --mode 1920x1200 --right-of $xrmain --rotate normal
     exit $?;
 fi
 ###############
 # big dell
-#xrandr --output $xr2nd --mode 1920x1080 --left-of $xrmain --rotate normal
+if [[ "x${xrmode}" = "x--dell" ]]; then
+    xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain --rotate normal
+    exit $?;
+fi
 
 # digital borked
 #xrandr --output DP1 --mode 1920x1080 --right-of LVDS1 --rotate normal

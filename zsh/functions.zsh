@@ -78,6 +78,10 @@ function ii() {
     LC_ALL=$O_LC_ALL
 }
 
+function thunder() {
+    echo "%(?,%{$fg_bold[grey]%}⚡%{$reset_color%},%{$fg_bold[yellow]%}⚡%{$reset_color%})"
+}
+
 ########################################
 ## os-specific stuff
 ##

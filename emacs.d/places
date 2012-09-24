@@ -1,0 +1,8 @@
+;;; -*- coding: utf-8 -*-
+(("/home/florian/.emacs.d/elpa/clojure-mode-1.11.5/clojure-mode-autoloads.el" . 1103)
+ ("/home/florian/.emacs.d/elpa/elisp-slime-nav-0.2/elisp-slime-nav-autoloads.el" . 795)
+ ("/home/florian/.emacs.d/elpa/inf-ruby-2.2.3/inf-ruby-autoloads.el" . 1246)
+ ("/home/florian/.emacs.d/elpa/monokai-theme-0.0.7/monokai-theme-autoloads.el" . 418)
+ ("/home/florian/.emacs.d/elpa/starter-kit-lisp-2.0.3/starter-kit-lisp-autoloads.el" . 1916)
+ ("/home/florian/.emacs.d/elpa/starter-kit-ruby-2.0.3/starter-kit-ruby-autoloads.el" . 2444)
+ ("/home/florian/.emacs.d/init.el" . 1072))

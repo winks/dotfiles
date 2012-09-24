@@ -39,6 +39,7 @@ local host="%{$FX[reset]$FG[105]%}%m"
 local dir="%{$FX[reset]$FG[215]%}%3~"
 
 local last="%(?..%{$FX[reset]$FG[203]%}%??${p})"
+local last2=`thunder`
 #local hist="%{$FX[reset]$FG[220]%}%!!"
 #local priv="%{$FX[reset]$FG[245]%}%#"
 local sign="%{$FX[reset]$FG[117]%}$"
@@ -53,4 +54,4 @@ zstyle ':vcs_info:*' formats ":%{$FX[reset]$FG[222]%}%c%u%b"
 local vcsi='${vcs_info_msg_0_}'
 
 setopt prompt_subst
-PROMPT="${last}${p}(${name}${p}@${host}${p} ${dir}${p}${vcsi}${p}) ${sign} %{$FX[reset]%}"
+PROMPT="${last2}${p}(${name}${p}@${host}${p} ${dir}${p}${vcsi}${p}) ${sign} %{$FX[reset]%}"

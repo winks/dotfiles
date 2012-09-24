@@ -1,0 +1,31 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/florian/code/clojure/eradi/src/" . "eradi/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/florian/code/clojure/eradi/src/eradi/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "tools.clj"
+ "server.clj"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/florian/.emacs.d/" (20439 15558) "swank/" "backups/" "elpa/" "./" "auto-save-list/" ".smex-items" "../" "init.el" "places")
+
+ ("/home/florian/code/clojure/eradi/src/eradi/" (20412 41968) "server.clj" "models/" "./" "views/" "tools.clj" "../")
+
+ ("/home/florian/code/clojure/eradi/src/" (20412 41200) "eradi/" "./" "../")
+
+ ("/home/florian/code/clojure/eradi/" (20429 44964) "src/" "docs/" ".gitignore" "./" "project.clj" "resources/" "classes/" ".project" "../" "target/" "README.md" ".git/" "lib/")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
