@@ -42,3 +42,10 @@ if [[ "x${TOOL}" = "xxm" ]]; then
     xmodmap ${DF}/../.us-intl-german.xmodmap
     exit
 fi
+
+# without a match, just try dotfiles/bin/$TOOL
+if [[ -f "${DF}/${TOOL}" ]]; then
+    shift
+    ${DF}/${TOOL} $*
+    exit
+fi

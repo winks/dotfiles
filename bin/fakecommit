@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function fakecommit {
+    victimname=$1
+    victimemail=$2
+
+    shift
+    shift
+
+    myname=$(git config user.name);
+    myemail=$(git config user.email);
+
+    git config user.name $victimname
+    git config user.email $victimemail
+
+    git commit $*
+
+    git config user.name $myname
+    git config user.email $myemail
+}
