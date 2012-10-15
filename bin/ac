@@ -1,0 +1,44 @@
+#!/bin/bash
+CMDS=("add" "fx" "fxd" "fxs" "sz" "tr" "xm")
+##########
+TOOL=$1;
+DF=$(dirname $(readlink -f `which my-fx`));
+
+if [[ "x${TOOL}" = "x" ]]; then
+    for item in "${CMDS[@]}"; do
+        echo $item;
+    done
+    exit
+fi
+###
+if [[ "x${TOOL}" = "xadd" ]]; then
+    shift
+    ${DF}/my-add $*
+    exit
+fi
+if [[ "x${TOOL}" = "xfx" ]]; then
+    shift
+    ${DF}/my-fx $*
+    exit
+fi
+if [[ "x${TOOL}" = "xfxd" ]]; then
+    ${DF}/my-fx --single && ${DF}/my-fx --dell
+    exit
+fi
+if [[ "x${TOOL}" = "xfxs" ]]; then
+    ${DF}/my-fx --single && ${DF}/my-fx --small
+    exit
+fi
+if [[ "x${TOOL}" = "xsz" ]]; then
+    source ${DF}/../.zshrx
+    exit
+fi
+if [[ "x${TOOL}" = "xtr" ]]; then
+    shift
+    ${DF}/trayerx $*
+    exit
+fi
+if [[ "x${TOOL}" = "xxm" ]]; then
+    xmodmap ${DF}/../.us-intl-german.xmodmap
+    exit
+fi

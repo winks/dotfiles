@@ -15,3 +15,5 @@ setopt share_history
 set -o ignoreeof
 # emacs bindings
 bindkey -e
+bindkey ';5D' emacs-backward-word
+bindkey ';5C' emacs-forward-word

@@ -25,12 +25,12 @@ fi
 ###############
 # small one
 if [[ "x${xrmode}" = "x--small" ]]; then
-    echo "Switching to single-display mode..."
-    xrandr --output $xr2nd --mode 1680x1050 --left-of $xrmain --rotate normal
+    echo "Second screen: 1680x1050 (right)"
+    xrandr --output $xr2nd --mode 1680x1050 --right-of $xrmain --rotate normal
     exit $?;
 fi
 if [[ "x${xrmode}" = "x--small2" ]]; then
-    echo "Switching to single-display mode..."
+    echo "Second screen: 1680x1050 (above)"
     xrandr --output $xr2nd --mode 1680x1050 --above $xrmain --rotate normal
     exit $?;
 fi
@@ -50,12 +50,14 @@ fi
 ###############
 # TNG-HP
 if [[ "x${xrmode}" = "x--hp" ]]; then
+    echo "Second screen: 1920x1200 (right)"
     xrandr --output $xr2nd --mode 1920x1200 --right-of $xrmain --rotate normal
     exit $?;
 fi
 ###############
 # big dell
 if [[ "x${xrmode}" = "x--dell" ]]; then
+    echo "Second screen: 1920x1080 (right)"
     xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain --rotate normal
     exit $?;
 fi
