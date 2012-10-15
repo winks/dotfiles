@@ -141,6 +141,23 @@ map <leader>n :NERDTreeToggle<CR>
 nmap ,f :FufFileWithCurrentBufferDir<CR>
 nmap ,b :FufBuffer<CR>
 
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+nnoremap <leader>p :CtrlP<CR>
+
+if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:<CR>
+    vmap <Leader>a: :Tabularize /:<CR>
+    nmap <Leader>a:: :Tabularize /:\zs<CR>
+    vmap <Leader>a:: :Tabularize /:\zs<CR>
+    nmap <Leader>a, :Tabularize /,<CR>
+    vmap <Leader>a, :Tabularize /,<CR>
+    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+endif
 
 if has("gui_running")
     au GUIEnter * set lines=52 columns=90
