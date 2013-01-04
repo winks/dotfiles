@@ -61,6 +61,40 @@ function w500bat {
     show_bat "/sys/class/power_supply/BAT0/" "energy_full" "energy_now" $1
 }
 
+function s710bat {
+    # system-specific stuff
+    show_bat "/sys/devices/LNXSYSTM:00/device:00/PNP0C0A:00/power_supply/CMB1/" "charge_full" "charge_now" $1
+}
+
+function s710bat2 {
+    # system-specific stuff
+    bat="/sys/devices/LNXSYSTM:00/device:00/PNP0C0A:00/power_supply/CMB1/"
+    full="charge_full"
+    now="charge_now"
+
+    # calculate level
+    _full=$( cat ${bat}${full} )
+    _now=$( cat ${bat}${now} )
+    fillint=`echo "scale=0; $_now*100/$_full" | bc`
+    fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
+
+    # verbose version
+    if [[ "$1" = '-v' ]]; then
+        echo $_full
+        echo $_now
+    fi
+
+    # colorized output
+    if [[ "$fillint" -ge 75 ]]; then
+        echo -n -e "${fg_bold[green]}"
+    elif [[ "$fillint" -ge 25 ]]; then
+        echo -n -e "${fg_bold[yellow]}"
+    else
+        echo -n -e "${fg_bold[red]}"
+    fi
+
+    echo -e "Battery: $fillint % remaining ${reset_color}"
+}
 
 # some system information
 function ii() {
