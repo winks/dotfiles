@@ -65,4 +65,4 @@ fi
 # digital borked
 #xrandr --output DP1 --mode 1920x1080 --right-of LVDS1 --rotate normal
 
-~/bin/trayerx
+ac tr

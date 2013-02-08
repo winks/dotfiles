@@ -9,3 +9,4 @@ vim/.netrwhist
 vim/.vim_mru_files
 vim/.viminfo
 backup-*
+emacs.d/auto-save-list

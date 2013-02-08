@@ -1,8 +1,9 @@
 #!/bin/bash
-CMDS=("add" "fx" "fxd" "fxs" "sz" "tr" "xm")
+CMDS=("add" "b" "fx" "fxd" "fxs" "nm" "tr" "xm" "zs" )
 ##########
 TOOL=$1;
-DF=$(dirname $(readlink -f `which my-fx`));
+
+DF=$(dirname $(readlink -f `which $0`));
 
 if [[ "x${TOOL}" = "x" ]]; then
     for item in "${CMDS[@]}"; do
@@ -14,6 +15,14 @@ fi
 if [[ "x${TOOL}" = "xadd" ]]; then
     shift
     ${DF}/my-add $*
+    exit
+fi
+if [[ "x${TOOL}" = "xb" ]]; then
+   ${DF}/ac fxd
+   ${DF}/ac xm
+   ${DF}/ac tr
+   ${DF}/ac nm
+   ${DF}/ac add
     exit
 fi
 if [[ "x${TOOL}" = "xfx" ]]; then
@@ -29,8 +38,12 @@ if [[ "x${TOOL}" = "xfxs" ]]; then
     ${DF}/my-fx --single && ${DF}/my-fx --small
     exit
 fi
-if [[ "x${TOOL}" = "xsz" ]]; then
-    source ${DF}/../.zshrx
+if [[ "x${TOOL}" = "xnm" ]]; then
+    ${DF}/run_once_silent nm-applet
+    exit
+fi
+if [[ "x${TOOL}" = "xzs" ]]; then
+    source ${DF}/../.zshrc
     exit
 fi
 if [[ "x${TOOL}" = "xtr" ]]; then

@@ -63,18 +63,17 @@ tileWin w = windows $ W.sink w
 
 evHook :: Event -> X All
 evHook (ClientMessageEvent _ _ _ dpy win typ dat) = do
-  state <- getAtom "_NET_WM_STATE"
+  state  <- getAtom "_NET_WM_STATE"
   fullsc <- getAtom "_NET_WM_STATE_FULLSCREEN"
   isFull <- runQuery isFullscreen win
 
   -- Constants for the _NET_WM_STATE protocol
   let remove = 0
-      add = 1
+      add    = 1
       toggle = 2
 
       -- The ATOM property type for changeProperty
-      ptype = 4
-
+      ptype  = 4
       action = head dat
 
   when (typ == state && (fromIntegral fullsc) `elem` tail dat) $ do
@@ -91,21 +90,21 @@ evHook (ClientMessageEvent _ _ _ dpy win typ dat) = do
 evHook _ = return $ All True
 
 main = do
-    xmobar <- spawnPipe ( "xmobar" )
+    xmobar <- spawnPipe ( "/usr/bin/xmobar" )
     xmonad $ myConfig xmobar
 
+-- ⌨  ⎆ ✇ ☘  ⌬ ⌛ ☣ ⚔ ✨   😈  😏  😒  
 myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
        , terminal           = "x-terminal-emulator"
        , workspaces         = ["sh", "code", "www", "im", "@" ]
                               ++ map show [6 .. 7 :: Int]
-                              ++ ["♥","♫"]
+                              ++ ["♫","♥"]
        , modMask            = mod4Mask
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
        , focusFollowsMouse  = True
-       , logHook            = (dynamicLogWithPP $ myPP h) >>
-				updatePointer (Relative 0.5 0.5)
+       , logHook            = (dynamicLogWithPP $ myPP h) >> updatePointer (Relative 0.5 0.5)
        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
        , mouseBindings      = myMouseBindings
        , manageHook         = manageDocks <+> manageHook defaultConfig <+> myManageHook
@@ -116,15 +115,14 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
   where
     myStartupHook = do
                     setWMName "LG3D"
-                    spawn("~/bin/trayerx")
-                    spawn("~/bin/run_once_silent /usr/bin/xmodmap -e 'keycode 63 = Escape'")
+                    spawn("~/bin/ac tr")
+                    spawn("~/bin/run_once_silent xmodmap ~/code/dotfiles/.us-intl-german.xmodmap")
                     spawn("~/bin/run_once_silent parcellite")
                     spawn("~/bin/run_once_silent xscreensaver -no-splash")
 
     myKeys (XConfig {modMask = modm}) = M.fromList $
-      [
       -- rotate workspaces
-      ((modm .|. controlMask, xK_Right), nextWS)
+      [ ((modm .|. controlMask, xK_Right), nextWS)
       , ((modm .|. controlMask, xK_Left), prevWS)
 
       -- switch to previous workspace
@@ -173,7 +171,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((shiftMask    , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm0.wav")
 
       -- display -- Fn + F7
-      , ((0             , 0x1008ff59), spawn "xrandr --output LVDS1 --auto && xrandr --output VGA1 --auto && xrandr --output VGA1 --right-of LVDS1")
+      , ((0             , 0x1008ff59), spawn "ac fxd")
       , ((shiftMask     , 0x1008ff59), spawn "xrandr --output VGA1 --off")
       , ((controlMask   , 0x1008ff59), spawn "xrandr --output LVDS1 --off")
       ]
@@ -193,31 +191,37 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
 
     myManageHook :: ManageHook
     myManageHook = composeAll (
-            [ className   =? "Gajim.py"           --> doShift "im"
-            , className   =? "Pidgin"             --> doShift "im"
-            , className   =? "Skype"              --> doShift "im"
-            , className   =? "Quasselclient"      --> doShift "im"
-            , className   =? "Iceweasel"          --> doShift "www"
-            , className   =? "Chromium-browser"   --> doShift "www"
-            , className   =? "uzbl-core"          --> doShift "www"
-            , className   =? "uzbl-tabbed"        --> doShift "www"
-            , className   =? "Midori"             --> doShift ""
-            , className   =? "Virt-Manager"       --> doShift "♫"
-            , className   =? "Quodlibet"          --> doShift "♫"
-            , className   =? "Rhythmbox"          --> doShift "♫"
-            , className   =? "Claws-mail"         --> doShift "@"
-            , className   =? "Thunderbird"        --> doShift "@"
-            , className   =? "jetbrains-phpstorm" --> doShift "code"
+            [ className   =? "Gajim.py"            --> doShift "im"
+            , className   =? "gajim"               --> doShift "im"
+            , className   =? "Pidgin"              --> doShift "im"
+            , className   =? "Skype"               --> doShift "im"
+            , className   =? "Quasselclient"       --> doShift "im"
+            , className   =? "Claws-mail"          --> doShift "@"
+            , className   =? "Thunderbird"         --> doShift "@"
+            , className   =? "Mail"                --> doShift "@"
+            , className   =? "Icedove"             --> doShift "@"
+            , className   =? "Chromium-browser"    --> doShift "www"
+            , className   =? "Chromium"            --> doShift "www"
+            , className   =? "Iceweasel"           --> doShift "♥"
+            , className   =? "uzbl-core"           --> doShift "♥"
+            , className   =? "uzbl-tabbed"         --> doShift "♥"
+            , className   =? "Midori"              --> doShift "♥"
+            , className   =? "Conkeror"            --> doShift "♥"
+            , className   =? "Virt-Manager"        --> doShift "7"
+            , className   =? "mysql-workbench-bin" --> doShift "7"
+            , className   =? "Quodlibet"           --> doShift "♫"
+            , className   =? "Rhythmbox"           --> doShift "♫"
+            , className   =? "jetbrains-phpstorm"  --> doShift "code"
             ]
             ++ [ className =? c --> doFloat | c <- myFloats ])
-      where myFloats = [  "Volume"
-                        , "XClock"
-                        , "Network-admin"
-                        , "frame"
-                        , "MPlayer"
-                        , "Pinentry-gtk-2"
-                        , "Wicd-client.py"
-                        ]
+      where myFloats = [ "Volume"
+                       , "XClock"
+                       , "Network-admin"
+                       , "frame"
+                       , "MPlayer"
+                       , "Pinentry-gtk-2"
+                       , "Wicd-client.py"
+                       ]
 
     myPP h = defaultPP { ppCurrent         = xmobarColor "#2da5fa" ""
                        , ppVisible         = xmobarColor "#1f72ac" ""
@@ -228,14 +232,14 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        , ppSep             = xmobarColor "#666" "" "]["
                        , ppUrgent	       = xmobarColor "#fff" "" . \wsId -> wsId ++ "*"
                        , ppLayout          = xmobarColor "#15d" "" . (\x -> case x of
-                                                "Full"                 -> " F "
-                                                "DwmStyle Tall"        -> "DT "
-                                                "DwmStyle Mirror Tall" -> "DMT"
+                                                "Full"                    -> " F "
+                                                "DwmStyle Tall"          -> "DT "
+                                                "DwmStyle Mirror Tall"   -> "DMT"
                                                 "Tabbed Bottom Simplest" -> "TB "
-                                                "ReflectX IM Grid" -> "IM "
-                                                "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")" -> " G "
+                                                "ReflectX IM Grid"       -> "IM "
+                                                "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")"           -> " G "
                                                 "ReflectX combining Grid and Grid with TwoPane using Or (Role \"MainWindow\") (Role \"buddy_list\")" -> "IM "
-                                                _                      -> x)
+                                                _                        -> x)
                        , ppWsSep           = xmobarColor "#666" "" "|"
                        , ppTitle           = shorten 45 . (\s -> s ++ " ")
 --                       , ppOrder           = reverse
@@ -243,21 +247,21 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        }
 
     myLayouts = avoidStruts $ smartBorders
-              $ onWorkspace "im" imLayout2
-              $ onWorkspace "www" (tabbedLayout ||| tiled)
-              $ onWorkspace "code" (tabbedLayout ||| tiled)
-              $ onWorkspaces ["@","♫"] (Full ||| tabbedLayout ||| tiled)
-              $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| gimpLayout
+              $ onWorkspace "code"         (tabbedLayout ||| tiled)
+              $ onWorkspace "www"          (tabbedLayout ||| tiled)
+              $ onWorkspace "im"           imLayout2
+              $ onWorkspaces ["@","♫","♥"] (Full ||| tabbedLayout ||| tiled)
+              $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| tabbedLayout ||| gimpLayout
             where
-                 tiled   = Tall nmaster delta ratio
-                 nmaster = 1
-                 delta   = 3/100
-                 ratio   = 1/2
+                tiled   = Tall nmaster delta ratio
+                nmaster = 1
+                delta   = 3/100
+                ratio   = 1/2
 
-                 myTheme = theme smallClean -- defaultTheme
-                 dwmLayout = dwmStyle shrinkText myTheme
-                 tabbedLayout = tabbedBottomAlways shrinkText myTheme
-                 gimpLayout = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
-                 imLayout1  = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
-                 imLayout2 = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Role "buddy_list"))
+                myTheme      = theme smallClean -- defaultTheme
+                dwmLayout    = dwmStyle shrinkText myTheme
+                tabbedLayout = tabbedBottomAlways shrinkText myTheme
+                gimpLayout   = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
+                imLayout1    = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
+                imLayout2    = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Or (Role "buddy_list") (Role "roster")))
 
