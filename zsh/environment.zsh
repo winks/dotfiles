@@ -44,3 +44,6 @@ fi
 if [ -f ~/.config/art-core/.profile_local ]; then
     source ~/.config/art-core/.profile_local
 fi
+
+export PATH=~/bin:~/code/dotfiles/bin:$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PYTHONPATH=$PYTHONPATH:$HOME/code/topaz/pypy

@@ -305,3 +305,4 @@ export HISTCONTROL=ignoredups
 export LESS="-erX"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PYTHONPATH=$PYTHONPATH:$HOME/code/topaz/pypy
