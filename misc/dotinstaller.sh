@@ -10,7 +10,7 @@ set -u
 # startup: set operation mode
 doclean="yes"
 doinst="yes"
-if [[ "x$1" == "x--help" ]]; then
+if [[ $# == 0 || "x$1" == "x--help" ]]; then
   echo "usage: `basename $0` [--install|--clean|--help]"
   echo -e "  --clean\tClean old files only"
   echo -e "  --install\tInstall and clean"
@@ -62,6 +62,7 @@ function linky() {
 # make backup copies
 if [[ "${doclean}" == "yes" ]]; then
   putaway ~/.bash_profile
+  putaway ~/.bash_logout
   putaway ~/.bashrc
   putaway ~/.gdbinit
 
@@ -76,6 +77,9 @@ if [[ "${doclean}" == "yes" ]]; then
   putaway ~/.zshrc # meh
   putaway ~/.vimrc
   putaway ~/.vim
+
+  putaway ~/.xinitrc
+  putaway ~/.xsession
 fi
 
 ########################################
@@ -95,4 +99,6 @@ if [[ "${doinst}" == "yes" ]]; then
 
   linky vim/fa.vim .vimrc
   linky vim .vim
+
+  linky .us-intl-german.xmodmap
 fi

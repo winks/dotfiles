@@ -27,10 +27,8 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 #    source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-export PATH=~/bin:${PATH}
-
 if [ -f ~/.rvm/scripts/rvm ]; then
 #    source ~/.rvm/scripts/rvm
 fi
 
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=~/bin:~/code/dotfiles/bin:${PATH}:$HOME/.rvm/bin # Add RVM to PATH for scripting
