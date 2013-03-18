@@ -2,7 +2,7 @@ Config {
          font = "xft:Envy Code R:size=10:antialias=true"
        , bgColor = "#222222"
        , fgColor = "#fff"
-       , position = TopW L 60
+       , position = TopW L 92
        , lowerOnStart = True
        , commands = [ Run Network "eth0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
                     , Run Network "wlan0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
@@ -19,6 +19,6 @@ Config {
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{<fc=#666666>[</fc>%multicpu%<fc=#666666>]=[</fc><fc=#cc1>%memory%</fc><fc=#666666>|</fc><fc=#ee10ee>%swap%</fc><fc=#666666>]=[</fc>%eth0%<fc=#666666>]=[</fc>%wlan0%<fc=#666666>]=[</fc>%wlan0wi%<fc=#666666>]=[</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>"
+       , template = " %StdinReader% }{<fc=#666666>][</fc>%multicpu%<fc=#666666>]=[</fc><fc=#cc1>%memory%</fc><fc=#666666>|</fc><fc=#ee10ee>%swap%</fc><fc=#666666>]=[</fc>%eth0%<fc=#666666>]=[</fc>%wlan0%<fc=#666666>]=[</fc>%wlan0wi%<fc=#666666>]=[</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>"
 --       , template = " %StdinReader% }{<fc=#666666><=[</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc><fc=#aa55cc></fc><fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>"
        }

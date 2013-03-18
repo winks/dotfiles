@@ -174,6 +174,10 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((0             , 0x1008ff59), spawn "ac fxd")
       , ((shiftMask     , 0x1008ff59), spawn "xrandr --output VGA1 --off")
       , ((controlMask   , 0x1008ff59), spawn "xrandr --output LVDS1 --off")
+
+      -- misc
+      , ((modm          , xK_Print),   spawn "gnome-screenshot")
+      , ((modm          , xK_c),       kill)
       ]
 
     myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
@@ -238,7 +242,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                                                 "Tabbed Bottom Simplest" -> "TB "
                                                 "ReflectX IM Grid"       -> "IM "
                                                 "combining Tabbed Bottom Simplest and Full with TwoPane using Not (Role \"gimp-toolbox\")"           -> " G "
-                                                "ReflectX combining Grid and Grid with TwoPane using Or (Role \"MainWindow\") (Role \"buddy_list\")" -> "IM "
+                                                "ReflectX combining Grid and Grid with TwoPane using Or (Role \"MainWindow\") (Or (Role \"buddy_list\") (Role \"roster\"))" -> "IM "
                                                 _                        -> x)
                        , ppWsSep           = xmobarColor "#666" "" "|"
                        , ppTitle           = shorten 45 . (\s -> s ++ " ")
