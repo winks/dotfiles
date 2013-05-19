@@ -10,6 +10,7 @@ vim/.vim_mru_files
 vim/.viminfo
 backup-*
 emacs.d/auto-save-list
+xmonad/history
 xmonad/xmonad-*
 xmonad/xmonad.errors
 xmonad/xmonad.hi

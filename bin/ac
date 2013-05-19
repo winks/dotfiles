@@ -38,6 +38,10 @@ if [[ "x${TOOL}" = "xfx" ]]; then
     "${DF}/my-fx" "$@"
     exit
 fi
+if [[ "x${TOOL}" = "xfxd2" ]]; then
+    ${DF}/my-fx --single && ${DF}/my-fx --dell2
+    exit
+fi
 if [[ "x${TOOL}" = "xfxd" ]]; then
     "${DF}/my-fx" --single && "${DF}/my-fx" --double
     exit

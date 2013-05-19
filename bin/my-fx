@@ -27,7 +27,6 @@ if [[ "x${xrmode}" = "x--single" ]]; then
     bg_set
     exit "$RET";
 fi
-
 # wtf?
 #xrandr --output VGA1 --mode 2048x1152 --right-of LVDS1
 
@@ -90,6 +89,13 @@ if [[ "x${xrmode}" = "x--triple" ]]; then
     xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
     xrandr --output $xr2nd --mode $xr3rd_res --right-of $xr2nd_digi --rotate normal
     bg_set
+    exit $?;
+fi
+# big dell2
+if [[ "x${xrmode}" = "x--dell2" ]]; then
+    xrandr --output $xrmain --mode "1366x768"
+    echo "Second screen: 1920x1080 (right)"
+    xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain  --rotate normal
     exit $?;
 fi
 
