@@ -115,10 +115,11 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
   where
     myStartupHook = do
                     setWMName "LG3D"
-                    spawn("~/bin/ac tr")
-                    spawn("~/bin/run_once_silent xmodmap ~/code/dotfiles/.us-intl-german.xmodmap")
-                    spawn("~/bin/run_once_silent parcellite")
-                    spawn("~/bin/run_once_silent xscreensaver -no-splash")
+                    spawn("/home/florian/code/dotfiles/bin/ac tr")
+                    spawn("/home/florian/code/dotfiles/bin/run_once_silent xmodmap ~/code/dotfiles/.us-intl-german.xmodmap")
+                    spawn("/home/florian/code/dotfiles/bin/run_once_silent parcellite")
+                    spawn("/home/florian/code/dotfiles/bin/run_once_silent xscreensaver -no-splash")
+                    spawn("/home/florian/code/dotfiles/bin/run_once_silent /usr/bin/xfce4-power-manager")
 
     myKeys (XConfig {modMask = modm}) = M.fromList $
       -- rotate workspaces
