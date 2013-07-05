@@ -31,7 +31,7 @@ if [[ "x${TOOL}" = "xfx" ]]; then
     exit
 fi
 if [[ "x${TOOL}" = "xfxd" ]]; then
-    ${DF}/my-fx --single && ${DF}/my-fx --dell
+    ${DF}/my-fx --single && ${DF}/my-fx --big
     exit
 fi
 if [[ "x${TOOL}" = "xfxs" ]]; then

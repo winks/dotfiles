@@ -39,7 +39,7 @@ local host="%{$FX[reset]$FG[105]%}%m"
 local dir="%{$FX[reset]$FG[215]%}%3~"
 
 local last="%(?..%{$FX[reset]$FG[203]%}%??${p})"
-local last2=`prefixthunder`
+local last2=`prefixlambda`
 #local hist="%{$FX[reset]$FG[220]%}%!!"
 #local priv="%{$FX[reset]$FG[245]%}%#"
 local sign="%{$FX[reset]$FG[117]%}$"

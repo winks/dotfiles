@@ -78,6 +78,9 @@ function ii() {
     LC_ALL=$O_LC_ALL
 }
 
+function prefixlambda() {
+    echo "%(?,%{$fg_bold[grey]%}λ%{$reset_color%},%{$fg_bold[yellow]%}λ%{$reset_color%})"
+}
 function prefixthunder() {
     echo "%(?,%{$fg_bold[grey]%}⚡%{$reset_color%},%{$fg_bold[yellow]%}⚡%{$reset_color%})"
 }

@@ -99,6 +99,7 @@ if [[ "${doinst}" == "yes" ]]; then
 
   linky vim/fa.vim .vimrc
   linky vim .vim
+  linky xmonad .xmonad
 
   linky .us-intl-german.xmodmap
 fi

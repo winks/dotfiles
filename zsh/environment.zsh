@@ -24,11 +24,12 @@ locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="~/.virtualenvs"
-#    source /usr/local/bin/virtualenvwrapper.sh
+    source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-if [ -f ~/.rvm/scripts/rvm ]; then
-#    source ~/.rvm/scripts/rvm
-fi
+export PATH=~/bin:~/code/dotfiles/bin:${PATH}
 
-export PATH=~/bin:~/code/dotfiles/bin:${PATH}:$HOME/.rvm/bin # Add RVM to PATH for scripting
+source /usr/local/share/chruby/chruby.sh
+chruby ruby-1.9
+
+export ANDROID_HOME=/opt/src/android/sdk
