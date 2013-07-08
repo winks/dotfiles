@@ -33,3 +33,4 @@ source /usr/local/share/chruby/chruby.sh
 chruby ruby-1.9
 
 export ANDROID_HOME=/opt/src/android/sdk
+export TERM="xterm-256color"

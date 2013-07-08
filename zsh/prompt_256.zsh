@@ -30,10 +30,16 @@ else
     fi
 fi
 
+HOSTNAME=$HOST
+shortname=${HOSTNAME%%.*}
+hostname_crc=$(echo $HOSTNAME | tr 'A-Z' 'a-z' | cksum)
+hostname_crc=${hostname_crc%% *}
+hostcolor=$(( 0x${hostname_crc} % 8 + 104 ))
+
 local p="%{$FX[reset]$FG[243]%}"
 #local name="%{$FX[reset]$FG[114]%}%n" # lgreen
 local name="%{$FX[reset]$FG[220]%}%n"
-local host="%{$FX[reset]$FG[105]%}%m"
+local host="%{$FX[reset]$FG[$hostcolor]%}%m"
 #local jobs="%1(j.(%{$FX[reset]$FG[197]%}%j job%2(j.s.)${p})-.)"
 #local time="%{$FX[reset]$FG[215]%}%*"
 local dir="%{$FX[reset]$FG[215]%}%3~"
