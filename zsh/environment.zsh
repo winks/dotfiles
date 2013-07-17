@@ -22,15 +22,23 @@ export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
+export PATH=~/bin:~/code/dotfiles/bin:${PATH}
+export TERM="xterm-256color"
+
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="~/.virtualenvs"
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-export PATH=~/bin:~/code/dotfiles/bin:${PATH}
+if [ -f /usr/local/share/chruby/chruby.sh ]; then
+    source /usr/local/share/chruby/chruby.sh
+    chruby ruby-1.9
+fi
 
-source /usr/local/share/chruby/chruby.sh
-chruby ruby-1.9
+if [ -d /opt/src/android/sdk ]; then
+   export ANDROID_HOME=/opt/src/android/sdk
+fi
 
-export ANDROID_HOME=/opt/src/android/sdk
-export TERM="xterm-256color"
+if [ -f ~/.config/art-core/.profile_local ]; then
+    source ~/.config/art-core/.profile_local
+fi

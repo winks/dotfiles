@@ -24,41 +24,40 @@ fi
 
 ###############
 # small one
+xr2nd_res='1680x1050'
 if [[ "x${xrmode}" = "x--small" ]]; then
-    echo "Second screen: 1680x1050 (right)"
-    xrandr --output $xr2nd --mode 1680x1050 --right-of $xrmain --rotate normal
+    echo "Second screen: $xr2nd_res (right)"
+    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal
     exit $?;
 fi
 if [[ "x${xrmode}" = "x--small2" ]]; then
-    echo "Second screen: 1680x1050 (above)"
-    xrandr --output $xr2nd --mode 1680x1050 --above $xrmain --rotate normal
+    echo "Second screen: $xr2nd_res (above)"
+    xrandr --output $xr2nd --mode $xr2nd_res --above $xrmain --rotate normal
     exit $?;
 fi
 
 ###############
 # beamer
+xr2nd_res='1024x768'
 if [[ "x${xrmode}" = "x--beamer" ]]; then
-    xrandr --output $xr2nd --mode 1440x900 --left-of $xrmain --rotate normal
+    echo "Second screen: $xr2nd_res (mirror)"
+    xrandr --output $xr2nd --mode $xr2nd_res --same-as $xrmain --rotate normal
     exit $?;
 fi
 
+xr2nd_res='1024x768'
 if [[ "x${xrmode}" = "x--left" ]]; then
-    xrandr --output $xr2nd --mode 1920x1080 --left-of $xrmain --rotate normal
+    echo "Second screen: $xr2nd_res (left)"
+    xrandr --output $xr2nd --mode $xr2nd_res --left-of $xrmain --rotate normal
     exit $?;
 fi
 
-###############
-# TNG-HP
-if [[ "x${xrmode}" = "x--hp" ]]; then
-    echo "Second screen: 1920x1200 (right)"
-    xrandr --output $xr2nd --mode 1920x1200 --right-of $xrmain --rotate normal
-    exit $?;
-fi
 ###############
 # big samsung
+xr2nd_res='1920x1080'
 if [[ "x${xrmode}" = "x--big" ]]; then
-    echo "Second screen: 1920x1080 (right)"
-    xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain --rotate normal
+    echo "Second screen: $xr2nd_res (right)"
+    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal
     exit $?;
 fi
 
