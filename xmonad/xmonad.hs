@@ -227,6 +227,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        , "MPlayer"
                        , "Pinentry-gtk-2"
                        , "Wicd-client.py"
+                       , "Keepassx"
                        ]
 
     myPP h = defaultPP { ppCurrent         = xmobarColor "#2da5fa" ""
