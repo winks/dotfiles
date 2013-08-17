@@ -19,11 +19,11 @@ function my_vers() {
 }
 
 # battery level information
-function w500bat {
+function show_bat {
     # system-specific stuff
-    bat="/sys/class/power_supply/BAT0/"
-    full="energy_full"
-    now="energy_now"
+    bat=$1
+    full=$2
+    now=$3
 
     # calculate level
     _full=$( cat ${bat}${full} )
@@ -32,7 +32,7 @@ function w500bat {
     fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
 
     # verbose version
-    if [[ "$1" = '-v' ]]; then
+    if [[ "$4" = '-v' ]]; then
         echo $_full
         echo $_now
     fi
@@ -48,6 +48,19 @@ function w500bat {
 
     echo -e "Battery: $fillint % remaining ${reset_color}"
 }
+
+# battery level information
+function nx7010bat {
+    # system-specific stuff
+    show_bat "/sys/class/power_supply/C11F/" "charge_full" "charge_now" $1
+}
+
+# battery level information
+function w500bat {
+    # system-specific stuff
+    show_bat "/sys/class/power_supply/BAT0/" "energy_full" "energy_now" $1
+}
+
 
 # some system information
 function ii() {
