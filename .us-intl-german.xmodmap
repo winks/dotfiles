@@ -55,5 +55,11 @@ keycode  58 = m M mu M mu mu mu masculine
 keycode  60 = period greater ellipsis periodcentered dead_abovedot dead_caron U2026 division
 keycode  61 = slash question endash emdash questiondown dead_hook dead_belowdot abovedot
 
-! greek lambda, small and big, on caps-l
+! GREEK SMALL LETTER LAMDA
 keycode  46 = l L U03BB U039B
+! LATIN SMALL LETTER F WITH HOOK
+keycode  41 = f F U0192 U0191
+! RIGHTWARDS ARROW
+keycode  20 = minus underscore U2192 U2190
+
+!keycode 135 = Super_L
