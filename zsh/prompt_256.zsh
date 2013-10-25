@@ -36,6 +36,9 @@ hostname_crc=$(echo $HOSTNAME | tr 'A-Z' 'a-z' | cksum)
 hostname_crc=${hostname_crc%% *}
 hostcolor=$(( 0x${hostname_crc} % 8 + 104 ))
 
+hostname_crc=$(echo $HOSTNAME | tr 'A-Z' 'a-z' | cksum | cut -c-10)
+hostcolor=$(($hostname_crc % 8))
+
 local p="%{$FX[reset]$FG[243]%}"
 #local name="%{$FX[reset]$FG[114]%}%n" # lgreen
 local name="%{$FX[reset]$FG[220]%}%n"

@@ -22,7 +22,8 @@ export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
-export PATH=~/bin:~/code/dotfiles/bin:${PATH}
+export GOROOT=/usr/local/go
+export PATH=~/bin:~/code/dotfiles/bin:${PATH}:${GOROOT}/bin
 export TERM="xterm-256color"
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then

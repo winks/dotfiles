@@ -101,6 +101,16 @@ function prefixsym() {
     echo "%(?,%{$fg_bold[grey]%}😏%{$reset_color%},%{$fg_bold[yellow]%}😏%{$reset_color%})"
 }
 
+# Pretty print JSON
+function cjson () {
+  local url=$(echo $1)
+  if [[ "http" == $url[0,4] ]] ; then
+    curl --silent $url | python -mjson.tool | pygmentize -O style=monokai -f console256 -g
+  else
+    cat $url | python -mjson.tool | pygmentize -O style=monokai -f console256 -g
+  fi
+}
+
 ########################################
 ## os-specific stuff
 ##

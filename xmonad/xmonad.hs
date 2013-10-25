@@ -116,10 +116,12 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
     myStartupHook = do
                     setWMName "LG3D"
                     spawn("/home/florian/code/dotfiles/bin/ac tr")
+                    spawn("eval $(cat /home/florian/.fehbg)")
+                    spawn("/usr/bin/dropbox start")
                     spawn("/home/florian/code/dotfiles/bin/run_once_silent xmodmap ~/code/dotfiles/.us-intl-german.xmodmap")
                     spawn("/home/florian/code/dotfiles/bin/run_once_silent parcellite")
+                    spawn("/home/florian/code/dotfiles/bin/run_once_silent /home/florian/bin/xscreensaver-tracker")
                     spawn("/home/florian/code/dotfiles/bin/run_once_silent xscreensaver -no-splash")
-                    spawn("/home/florian/code/dotfiles/bin/run_once_silent xscreensaver-command -watch > ~/.screensaver.log")
                     spawn("/home/florian/code/dotfiles/bin/run_once_silent /usr/bin/xfce4-power-manager")
 
     myKeys (XConfig {modMask = modm}) = M.fromList $
