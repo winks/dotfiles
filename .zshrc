@@ -32,3 +32,7 @@ if (( C == 256 )); then
 else
     source $Z/prompt_256.zsh
 fi
+
+if [ -f /usr/local/bin/doge ]; then
+    doge
+fi
