@@ -111,6 +111,11 @@ function cjson () {
   fi
 }
 
+function dige() {
+    echo -en "; such resolv\n;\n;   so dns\n;\n;     wow\n;";
+    dig $@;
+}
+
 ########################################
 ## os-specific stuff
 ##
