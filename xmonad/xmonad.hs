@@ -55,6 +55,16 @@ import XMonad.Hooks.ManageHelpers
 import Control.Monad
 import Data.Monoid (All (All))
 
+ws_shell = "sh"
+ws_code  = "code"
+ws_www   = "www"
+ws_im    = "im"
+ws_mail  = "@"
+ws_elev  = "☹"
+ws_stuff = "♨"
+ws_music = "♫"
+ws_last  = "♥"
+
 -- Helper functions to fullscreen the window
 fullFloat, tileWin :: Window -> X ()
 fullFloat w = windows $ W.float w r
@@ -97,9 +107,9 @@ main = do
 myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
        , terminal           = "x-terminal-emulator"
-       , workspaces         = ["sh", "code", "www", "im", "@" ]
-                              ++ map show [6 .. 7 :: Int]
-                              ++ ["♫","♥"]
+       , workspaces         = [ws_shell, ws_code, ws_www, ws_im, ws_mail, ws_elev, ws_stuff, ws_music, ws_last]
+--                              ++ map show [6 .. 7 :: Int]
+--                              ++ ["♫","♥"]
        , modMask            = mod4Mask
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
@@ -197,29 +207,39 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
         , ((modMask, button5), (\_ -> nextWS))
         ]
 
+    -- find these out with 'xprop | grep CLASS'
     myManageHook :: ManageHook
     myManageHook = composeAll (
-            [ className   =? "Gajim.py"            --> doShift "im"
-            , className   =? "gajim"               --> doShift "im"
-            , className   =? "Pidgin"              --> doShift "im"
-            , className   =? "Skype"               --> doShift "im"
-            , className   =? "Quasselclient"       --> doShift "im"
-            , className   =? "Claws-mail"          --> doShift "@"
-            , className   =? "Thunderbird"         --> doShift "@"
-            , className   =? "Mail"                --> doShift "@"
-            , className   =? "Icedove"             --> doShift "@"
-            , className   =? "Chromium-browser"    --> doShift "www"
-            , className   =? "Chromium"            --> doShift "www"
-            , className   =? "Iceweasel"           --> doShift "♥"
-            , className   =? "uzbl-core"           --> doShift "♥"
-            , className   =? "uzbl-tabbed"         --> doShift "♥"
-            , className   =? "Midori"              --> doShift "♥"
-            , className   =? "Conkeror"            --> doShift "♥"
-            , className   =? "Virt-Manager"        --> doShift "7"
-            , className   =? "mysql-workbench-bin" --> doShift "7"
-            , className   =? "Quodlibet"           --> doShift "♫"
-            , className   =? "Rhythmbox"           --> doShift "♫"
-            , className   =? "jetbrains-phpstorm"  --> doShift "code"
+            [ className   =? "jetbrains-phpstorm"  --> doShift ws_code
+            , className   =? "jetbrains-idea"      --> doShift ws_code
+            , className   =? "Ltbin"               --> doShift ws_code
+            , className   =? "Chromium-browser"    --> doShift ws_www
+            , className   =? "Chromium"            --> doShift ws_www
+            , className   =? "Gajim.py"            --> doShift ws_im
+            , className   =? "Gajim"               --> doShift ws_im
+            , className   =? "gajim"               --> doShift ws_im
+            , className   =? "Pidgin"              --> doShift ws_im
+            , className   =? "Skype"               --> doShift ws_im
+            , className   =? "Quasselclient"       --> doShift ws_im
+            , className   =? "Claws-mail"          --> doShift ws_mail
+            , className   =? "Thunderbird"         --> doShift ws_mail
+            , className   =? "Mail"                --> doShift ws_mail
+            , className   =? "Icedove"             --> doShift ws_mail
+            , className   =? "Wpa_gui"             --> doShift ws_elev
+            , className   =? "Virt-Manager"        --> doShift ws_stuff
+            , className   =? "mysql-workbench-bin" --> doShift ws_stuff
+            , className   =? "Quodlibet"           --> doShift ws_music
+            , className   =? "Rhythmbox"           --> doShift ws_music
+            , className   =? "banshee"             --> doShift ws_music
+            , className   =? "Totem"               --> doShift ws_music
+            , className   =? "Vlc"                 --> doShift ws_music
+            , className   =? "Iceweasel"           --> doShift ws_last
+            , className   =? "Firefox"             --> doShift ws_last
+            , className   =? "uzbl-core"           --> doShift ws_last
+            , className   =? "uzbl-tabbed"         --> doShift ws_last
+            , className   =? "Midori"              --> doShift ws_last
+            , className   =? "Conkeror"            --> doShift ws_last
+            , className   =? "luakit"              --> doShift ws_last
             ]
             ++ [ className =? c --> doFloat | c <- myFloats ])
       where myFloats = [ "Volume"
@@ -256,10 +276,8 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        }
 
     myLayouts = avoidStruts $ smartBorders
-              $ onWorkspace "code"         (tabbedLayout ||| tiled)
-              $ onWorkspace "www"          (tabbedLayout ||| tiled)
-              $ onWorkspace "im"           imLayout2
-              $ onWorkspaces ["@","♫","♥"] (Full ||| tabbedLayout ||| tiled)
+              $ onWorkspaces [ws_shell, ws_code, ws_www, ws_mail, ws_elev, ws_stuff, ws_music, ws_last] (tabbedLayout ||| tiled)
+              $ onWorkspace ws_im imLayout2
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| tabbedLayout ||| gimpLayout
             where
                 tiled   = Tall nmaster delta ratio
