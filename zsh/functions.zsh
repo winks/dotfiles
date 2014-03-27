@@ -116,6 +116,23 @@ function dige() {
     dig $@;
 }
 
+function vms_running () {
+    ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
+        echo -n $v
+        len=${#v}
+        diff=$((30 - $len))
+        for i in `seq 1 $diff`; do
+            echo -n " "
+        done
+        match=""
+        find ~/code -name Vagrantfile | xargs grep $v | cut -d':' -f 1 | sort | uniq | while read f; do
+            match="$match $(dirname $f | xargs basename)"
+        done
+        echo "| $match" | sed -e 's/\n/ /'
+    done
+}
+
+
 ########################################
 ## os-specific stuff
 ##
