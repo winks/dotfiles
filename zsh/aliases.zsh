@@ -21,3 +21,4 @@ alias hexfind='grep --color="auto" -P -n "[\x80-\xFF]"'
 which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias tmux="tmux -2"
+alias touchpadoff="synclient TouchPadOff=1"

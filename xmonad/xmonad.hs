@@ -225,6 +225,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             , className   =? "Thunderbird"         --> doShift ws_mail
             , className   =? "Mail"                --> doShift ws_mail
             , className   =? "Icedove"             --> doShift ws_mail
+            , className   =? "Keepassx"            --> doShift ws_mail
             , className   =? "Wpa_gui"             --> doShift ws_elev
             , className   =? "Virt-Manager"        --> doShift ws_stuff
             , className   =? "mysql-workbench-bin" --> doShift ws_stuff
@@ -249,7 +250,6 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        , "MPlayer"
                        , "Pinentry-gtk-2"
                        , "Wicd-client.py"
-                       , "Keepassx"
                        ]
 
     myPP h = defaultPP { ppCurrent         = xmobarColor "#2da5fa" ""
