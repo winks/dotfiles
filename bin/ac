@@ -3,7 +3,7 @@ CMDS=("add" "b" "fx" "fxd" "fxs" "nm" "tr" "xm" "zs" )
 ##########
 TOOL=$1;
 
-DF=$(dirname $(readlink -f `which $0`));
+DF=$(dirname "$(readlink -f "$(which "$0")")");
 
 if [[ "x${TOOL}" = "x" ]]; then
     for item in "${CMDS[@]}"; do
@@ -14,51 +14,59 @@ fi
 ###
 if [[ "x${TOOL}" = "xadd" ]]; then
     shift
-    ${DF}/my-add $*
+    "${DF}/my-add" "$@"
     exit
 fi
 if [[ "x${TOOL}" = "xb" ]]; then
-   ${DF}/ac fxd
-   ${DF}/ac xm
-   ${DF}/ac tr
-   ${DF}/ac nm
-   ${DF}/ac add
-    exit
+   "${DF}/ac" fxd
+   "${DF}/ac" xbase
+   exit
+fi
+if [[ "x${TOOL}" = "xb2" ]]; then
+   "${DF}/ac" fx --single
+   "${DF}/ac" xbase
+   exit
+fi
+if [[ "x${TOOL}" = "xbase" ]]; then
+   "${DF}/ac" xm
+   "${DF}/ac" tr
+   "${DF}/ac" add
+   exit
 fi
 if [[ "x${TOOL}" = "xfx" ]]; then
     shift
-    ${DF}/my-fx $*
+    "${DF}/my-fx" "$@"
     exit
 fi
 if [[ "x${TOOL}" = "xfxd" ]]; then
-    ${DF}/my-fx --single && ${DF}/my-fx --double
+    "${DF}/my-fx" --single && "${DF}/my-fx" --double
     exit
 fi
 if [[ "x${TOOL}" = "xfxs" ]]; then
-    ${DF}/my-fx --single && ${DF}/my-fx --small
+    "${DF}/my-fx" --single && "${DF}/my-fx" --small
     exit
 fi
 if [[ "x${TOOL}" = "xnm" ]]; then
-    ${DF}/run_once_silent nm-applet
+    "${DF}/run_once_silent" nm-applet
     exit
 fi
 if [[ "x${TOOL}" = "xzs" ]]; then
-    source ${DF}/../.zshrc
+    source "${DF}/../.zshrc"
     exit
 fi
 if [[ "x${TOOL}" = "xtr" ]]; then
     shift
-    ${DF}/trayerx $*
+    "${DF}/trayerx" "$@"
     exit
 fi
 if [[ "x${TOOL}" = "xxm" ]]; then
-    xmodmap ${DF}/../.us-intl-german.xmodmap
+    xmodmap "${DF}/../.us-intl-german.xmodmap"
     exit
 fi
 
 # without a match, just try dotfiles/bin/$TOOL
 if [[ -f "${DF}/${TOOL}" ]]; then
     shift
-    ${DF}/${TOOL} $*
+    "${DF}/${TOOL}" "$@"
     exit
 fi

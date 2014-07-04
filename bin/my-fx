@@ -1,8 +1,8 @@
 #!/bin/bash
 ###############
 # some config
-xrmode=$1;
-echo $xrmode;
+xrmode=$1
+echo "$xrmode"
 xrmain="LVDS1"
 xrmain_res="1366x768"
 xr2nd="VGA1"
@@ -10,7 +10,7 @@ xr2nd_digi="DP1"
 
 function bg_set() {
     if [ -f "${HOME}/.fehbg" ]; then
-        $( cat ${HOME}/.fehbg | sed "s,',,g" );
+        $( sed "s,',,g" "${HOME}/.fehbg" );
     fi
 }
 
@@ -23,9 +23,9 @@ xrandr --output $xrmain --mode $xrmain_res
 # single-display
 if [[ "x${xrmode}" = "x--single" ]]; then
     echo "Switching to single-display mode..."
-    RET=`xrandr --output $xr2nd --off`
+    RET=$(xrandr --output $xr2nd --off)
     bg_set
-    exit $RET;
+    exit "$RET";
 fi
 
 # wtf?
@@ -78,8 +78,8 @@ fi
 
 if [[ "x${xrmode}" = "x--ddouble" ]]; then
     echo "Second screen: $xr2nd_res (right)"
-    echo xrandr --output $xr2ndd --mode $xr2nd_res --right-of $xrmain --rotate normal
-    xrandr --output $xr2ndd --mode $xr2nd_res --right-of $xrmain --rotate normal
+    echo xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
+    xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
     bg_set
     exit $?;
 fi
