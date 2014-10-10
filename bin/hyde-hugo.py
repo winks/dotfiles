@@ -6,6 +6,19 @@ import sys
 from subprocess import call
 
 STOP_AT = 400
+CAT_BLACKLIST = ['blog.md', 'stack.md', 'blog__2011.md', 'stack_2011.md']
+
+REPLACE = {
+    'github': 'https://github.com/',
+    'bitbucket': 'https://bitbucket.org/',
+    's9y': 'http://s9y.org',
+    'hyde': 'http://ringce.com/hyde',
+    'vim': 'http://www.vim.org',
+    'django': 'http://djangoproject.com',
+    'silex': 'http://silex.sensiolabs.org/',
+    'blueprint': 'http://www.blueprintcss.org/',
+    'sass': 'http://sass-lang.com/',
+}
 
 def fmt_date(s):
     parts = s.split(' ')
@@ -61,25 +74,41 @@ for file in files:
     stripped = re.sub(r'^' + input + '/', '', file)
     print file, stripped
     parts = stripped.split('/')
+    static_page = False
     if parts[-1] == 'index.html':
-        continue # @TODO fixme
-    md_path = re.sub(r'\.html$', '.md', stripped)
-    new_path = 'content/{}'.format(md_path)
+        if len(parts) < 2:
+            continue
+        else:
+            static_page = True
+    if static_page:
+        md_path = re.sub(r'\/index.html$', '.md', stripped)
+        new_path = 'content/{}'.format(md_path.replace('/', '__'))
+    else:
+        md_path = re.sub(r'\.html$', '.md', stripped)
+        new_path = 'content/{}'.format(md_path)
+    print md_path
     with open(file, 'r') as f:
-      old = f.read()
-      title = '1111'
-      date = '2222-22-22'
+        old = f.read()
+        title = '1111'
+        date = '2011-06-18T23:23:23Z'
 
-      tt = re_hyde_title.match(old)
-      if tt:
-        title = tt.group(1).strip()
-      dd = re_hyde_date.match(old)
-      if dd:
-        date = fmt_date(dd.group(1).strip())
+        tt = re_hyde_title.match(old)
+        if tt:
+            title = tt.group(1).strip().strip('"')
+        dd = re_hyde_date.match(old)
+        if dd:
+            date = fmt_date(dd.group(1).strip())
 
-      old = re.sub(re_hyde_tags, '', old)
-      old = re.sub(r'[\n]{4,}', '\n\n\n', old)
-      header = tpl.format(title, date)
-      call(["hugo", "new", md_path])
-      with open(new_path, 'w') as f2:
-        f2.write(header + old.strip())
+        old = re.sub(re_hyde_tags, '', old)
+        old = re.sub(r'[\n]{4,}', '\n\n\n', old)
+        header = tpl.format(title, date)
+        dir_name = os.path.dirname(new_path)
+        if len(dir_name) > 0 and not os.path.isdir(dir_name):
+            os.makedirs(dir_name)
+        #call(["hugo", "new", md_path])
+        if md_path not in CAT_BLACKLIST:
+            with open(new_path, 'w') as f2:
+                for k, v in REPLACE.iteritems():
+                    pat = '{{{{links.{}}}}}'.format(k)
+                    old = old.replace(pat, v)
+                f2.write(header + old.strip())
