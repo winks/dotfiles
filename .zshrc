@@ -36,3 +36,5 @@ fi
 if [ -f /usr/local/bin/doge ]; then
     doge
 fi
+
+alias vagrant_puppet='vagrant up puppet --provision-with shell,puppet'

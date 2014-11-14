@@ -195,8 +195,8 @@ fi
 function px() {
     local arg=$1
     local len=${#arg}
-    local x=$arg[0,1]
-    local xs=$arg[2,$len]
+    local x=${arg:0:1}
+    local xs=${arg:1:$len}
     /bin/ps aux | grep "[${x}]${xs}"
 }
 

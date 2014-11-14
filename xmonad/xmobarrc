@@ -6,12 +6,12 @@ Config {
        , lowerOnStart = True
        , commands = [ Run Network "eth0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
                     , Run Network "wlan0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
-                    , Run Wireless "wlan0" ["-t", "<fc=#00ccff><essid></fc> <fc=#1050ff><qualitybar></fc>"] 20
+                    , Run Wireless "wlan0" ["-t", "<fc=#00ccff><essid></fc> <fc=#1050ff><quality></fc>"] 20
                     , Run MultiCpu ["-t","<total0>% <bar0><fc=#666666>]=[</fc><total1>% <bar1>","-L","5","-H","50","--normal","#0c0","--high","#c00","-p","2"] 50
                     , Run Memory ["-t","<usedratio>% <usedbar>"] 50
                     , Run Swap ["-t","<usedratio>%"] 50
                     , Run Date "%a %b %_d %H:%M" "date" 10
-                    , Run Battery ["-L","25","-H","70","--low","#c00","--high","#0c0","-t","<acstatus><left>%","--","-O", "<fc=#0c0>AC</fc> ", "-o",""] 20
+                    , Run Battery ["BAT0","-L","25","-H","70","--low","#c00","--high","#0c0","-t","<acstatus><left>%","--","-O", "<fc=#0c0>AC</fc> ", "-o",""] 20
                     , Run ThermalZone 0 ["-L", "40", "-H", "60", "-l", "#77f", "-h", "#c00", "-t","<temp>C"] 30
                     , Run ThermalZone 1 ["-L", "40", "-H", "60", "-l", "#77f", "-h", "#c00", "-t","<temp>C"] 30
 --                    , Run Volume "default" "Master" ["-t", "<status><volumebar>", "--", "--onc", "#0c0", "--offc", "#c00"] 10

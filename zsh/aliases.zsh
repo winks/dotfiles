@@ -13,7 +13,6 @@ alias ls="/bin/ls -b -CF --color=none"
 alias l="ls -lF --color=auto"
 alias ll="ls -lhAF --color=auto"
 alias rm='rm -i'
-alias sudo="sudo -H -i"
 alias today='cal | sed "s/.*/ & /;s/ $(date +%e) / [] /"'
 alias ..="cd .."
 alias ...="cd ../.."

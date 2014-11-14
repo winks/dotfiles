@@ -169,7 +169,8 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((modm .|. shiftMask, xK_Up   ), sendMessage $ Swap U)
       , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
 
-      , ((modm,               xK_p    ), spawn "exe=`dmenu_run` && eval \"exec $exe\"")
+      --, ((modm,               xK_p    ), spawn "exe=`dmenu_run` && eval \"exec $exe\"")
+      , ((modm,               xK_p    ), spawn "dmenu_run")
 
       -- alarm -- ThinkVantage
       , ((0            , 0x1008ff41), spawn "aplay /home/florian/Documents/sound/ilikeit.wav")
