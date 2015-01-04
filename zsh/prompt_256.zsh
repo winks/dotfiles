@@ -62,5 +62,9 @@ zstyle ':vcs_info:*' formats ":%{$FX[reset]$FG[222]%}%c%u%b"
 
 local vcsi='${vcs_info_msg_0_}'
 
+if [[ "$LC_PUTTY" -eq 1 ]]; then
+  last2="#"
+fi
+
 setopt prompt_subst
 PROMPT="${last2}${p}(${name}${p}@${host}${p} ${dir}${p}${vcsi}${p}) ${sign} %{$FX[reset]%}"
