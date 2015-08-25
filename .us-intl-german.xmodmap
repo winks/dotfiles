@@ -2,6 +2,7 @@
 ! 27feb2010  +chris+
 ! 29mar2010  +chris+
 ! 16sep2011  +chris+
+! 2012-...   +wink+
 
 ! Define the modifier key group_shift.
 ! Only keys with this modifier will be changed by this file.
@@ -29,14 +30,24 @@ keycode 66 = ISO_Group_Shift ISO_Group_Shift ISO_First_Group NoSymbol
 
 ! umlauts on caps-aou, sharp s on caps-s.
 keycode  38 = a A adiaeresis Adiaeresis aacute Aacute ae AE
-keycode  39 = s S ssharp U017F ssharp section U017F U1E9E
+keycode  39 = s S ssharp section ssharp U017F U017F U1E9E
 keycode  32 = o O odiaeresis Odiaeresis oacute Oacute oslash Oslash
 keycode  30 = u U udiaeresis Udiaeresis uacute Uacute downarrow uparrow
 
 ! at on caps-q, euro on caps-e, mu on caps-m, element-of on caps-shift-e
 keycode  24 = q Q at Q adiaeresis Adiaeresis at Greek_OMEGA
 keycode  26 = e E EuroSign U220A eacute Eacute EuroSign EuroSign
+keycode  27 = r R registered R r R r R
+keycode  28 = t T THORN T t T t T
 keycode  58 = m M mu M mu mu mu masculine
+keycode  57 = n N U2603 U2615 n N n N
+keycode  56 = b B U2606 U2605 b B b B
+keycode  55 = v V U2622 U2623 v V v V
+keycode  54 = c C copyright cent c C c C
+keycode  53 = x X U262E U262F x X x X
+keycode  52 = z Z U2620 U262D z Z z Z
+keycode  47 = semicolon colon degree paragraph semicolon colon semicolon colon
+keycode  49 = grave asciitilde U00B0 U00B0 grave asciitilde grave asciitilde
 
 ! cursor keys on caps-hjkl
 !keycode  43 = h H Left Home hstroke Hstroke

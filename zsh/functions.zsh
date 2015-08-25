@@ -200,3 +200,8 @@ function px() {
     /bin/ps aux | grep "[${x}]${xs}"
 }
 
+function ccat() {
+    local arg=$1
+    pygmentize -g $1 | less -R
+}
+

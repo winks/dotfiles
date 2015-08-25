@@ -38,3 +38,11 @@ if [ -f /usr/local/bin/doge ]; then
 fi
 
 alias vagrant_puppet='vagrant up puppet --provision-with shell,puppet'
+
+function shorts () {
+echo 'shrug - ¯\_(ツ)_/¯'
+echo 'table - (╯°□°)╯︵ ┻━┻'
+echo 'rocky - https://www.youtube.com/watch?v=qfNfQixs8yA'
+echo '        ▄︻̷̿┻̿═━一'
+echo '       ༼ つ ◕_◕ ༽つ'
+}
