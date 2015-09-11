@@ -205,3 +205,8 @@ function ccat() {
     pygmentize -g $1 | less -R
 }
 
+function ec2() {
+    ls /etc/hosts.ec2 > /dev/null 2>&1 || return
+    cat /etc/hosts.ec2
+}
+
