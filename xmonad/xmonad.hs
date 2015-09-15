@@ -270,7 +270,8 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        }
 
     myLayouts = avoidStruts $ smartBorders
-              $ onWorkspaces [ws_shell, ws_code, ws_www, ws_mail, ws_elev, ws_stuff, ws_music, ws_last] (tabbedLayout ||| tiled)
+              $ onWorkspaces [ws_shell, ws_mail, ws_elev, ws_stuff, ws_music, ws_last] (tabbedLayout ||| (dwmLayout $ tiled ||| Mirror tiled))
+              $ onWorkspaces [ws_code, ws_www ] (tabbedLayout ||| tiled)
               $ onWorkspace ws_im imLayout2
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| tabbedLayout ||| gimpLayout
             where
