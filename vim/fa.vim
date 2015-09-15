@@ -176,9 +176,9 @@ if has("gui_running")
     set guifont=Droid\ Sans\ Mono\ 10
     set colorcolumn=80
 
-    set background=dark
+    set background=light
     "colorscheme darkspectrum
-    colorscheme solarized
+    colorscheme ironman
     set cursorline
 
     let g:Powerline_symbols = 'fancy'
