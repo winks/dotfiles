@@ -21,18 +21,24 @@ function my_vers() {
 # battery level information
 function show_bat {
     # system-specific stuff
-    bat=$1
-    full=$2
-    now=$3
+    local _bat=$1
+    local _full=$2
+    local _now=$3
+    local _opt=$4
+    local _path="/sys/class/power_supply/${_bat}"
 
+    if [ ! -d "${_path}" ]; then
+        echo "Battery '${_bat}' not found!"
+        return
+    fi
     # calculate level
-    _full=$( cat ${bat}${full} )
-    _now=$( cat ${bat}${now} )
-    fillint=`echo "scale=0; $_now*100/$_full" | bc`
-    fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
+    _full=$( cat "${_path}/${_full}" )
+    _now=$( cat "${_path}/${_now}" )
+    local fillint=`echo "scale=0; $_now*100/$_full" | bc`
+    local fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
 
     # verbose version
-    if [[ "$4" = '-v' ]]; then
+    if [[ "_$opt" = '-v' ]]; then
         echo $_full
         echo $_now
     fi
@@ -52,48 +58,18 @@ function show_bat {
 # battery level information
 function nx7010bat {
     # system-specific stuff
-    show_bat "/sys/class/power_supply/C11F/" "charge_full" "charge_now" $1
+    show_bat "C11F" "charge_full" "charge_now" $1
 }
 
 # battery level information
 function w500bat {
     # system-specific stuff
-    show_bat "/sys/class/power_supply/BAT0/" "energy_full" "energy_now" $1
+    show_bat "BAT0" "energy_full" "energy_now" $1
 }
 
 function s710bat {
     # system-specific stuff
-    show_bat "/sys/devices/LNXSYSTM:00/device:00/PNP0C0A:00/power_supply/CMB1/" "charge_full" "charge_now" $1
-}
-
-function s710bat2 {
-    # system-specific stuff
-    bat="/sys/devices/LNXSYSTM:00/device:00/PNP0C0A:00/power_supply/CMB1/"
-    full="charge_full"
-    now="charge_now"
-
-    # calculate level
-    _full=$( cat ${bat}${full} )
-    _now=$( cat ${bat}${now} )
-    fillint=`echo "scale=0; $_now*100/$_full" | bc`
-    fillfloat=`echo "scale=2; $_now*100/$_full" | bc`
-
-    # verbose version
-    if [[ "$1" = '-v' ]]; then
-        echo $_full
-        echo $_now
-    fi
-
-    # colorized output
-    if [[ "$fillint" -ge 75 ]]; then
-        echo -n -e "${fg_bold[green]}"
-    elif [[ "$fillint" -ge 25 ]]; then
-        echo -n -e "${fg_bold[yellow]}"
-    else
-        echo -n -e "${fg_bold[red]}"
-    fi
-
-    echo -e "Battery: $fillint % remaining ${reset_color}"
+    show_bat "CMB1" "charge_full" "charge_now" $1
 }
 
 # some system information
@@ -153,12 +129,12 @@ function dige() {
 function vms_running () {
     ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
         echo -n $v
-        len=${#v}
-        diff=$((30 - $len))
+        local len=${#v}
+        local diff=$((30 - $len))
         for i in `seq 1 $diff`; do
             echo -n " "
         done
-        match=""
+        local match=""
         find ~/code -name Vagrantfile | xargs grep $v | cut -d':' -f 1 | sort | uniq | while read f; do
             match="$match $(dirname $f | xargs basename)"
         done
