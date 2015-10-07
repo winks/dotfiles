@@ -7,16 +7,20 @@ xrmain="LVDS1"
 xrmain_res="1366x768"
 xr2nd="VGA1"
 xr2nd_digi="DP1"
+#xr2nd_digi="HDMI1"
 
 function bg_set() {
     if [ -f "${HOME}/.fehbg" ]; then
-        $( sed "s,',,g" "${HOME}/.fehbg" );
+        #`sed "s,',,g" "${HOME}/.fehbg"`
+        echo CHECK ~/.fehbg !
     fi
 }
 
 ###############
 # notebook
 xrandr --output $xrmain --mode $xrmain_res
+
+# on "Can't open display" use -d :0 for xrandr
 
 
 ###############
@@ -51,15 +55,25 @@ fi
 xr2nd_res='1024x768'
 if [[ "x${xrmode}" = "x--beamer" ]]; then
     echo "Second screen: $xr2nd_res (mirror)"
+xr2nd_res='1366x768'
+xr2nd="HDMI1"
     xrandr --output $xr2nd --mode $xr2nd_res --same-as $xrmain --rotate normal
     bg_set
     exit $?;
 fi
 
-xr2nd_res='1024x768'
+xr2nd_res='1280x1024'
 if [[ "x${xrmode}" = "x--left" ]]; then
     echo "Second screen: $xr2nd_res (left)"
     xrandr --output $xr2nd --mode $xr2nd_res --left-of $xrmain --rotate normal
+    bg_set
+    exit $?;
+fi
+
+xr2nd_res='1280x1024'
+if [[ "x${xrmode}" = "x--above" ]]; then
+    echo "Second screen: $xr2nd_res (left)"
+    xrandr --output $xr2nd --mode $xr2nd_res --above $xrmain --rotate normal
     bg_set
     exit $?;
 fi

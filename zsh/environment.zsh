@@ -14,6 +14,7 @@ export HISTTIMEFORMAT="%F %T"
 
 export GIT_EDITOR=vim
 export EDITOR=vim
+export VISUAL=vim
 export CVS_RSH=ssh
 export RSYNC_RSH=ssh
 
@@ -23,8 +24,6 @@ export GREP_COLOR='1;32'
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
-export GOROOT=/usr/local/go
-export PATH=~/bin:~/code/dotfiles/bin:${PATH}:${GOROOT}/bin
 export TERM="xterm-256color"
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
@@ -45,5 +44,8 @@ if [ -f ~/.config/art-core/.profile_local ]; then
     source ~/.config/art-core/.profile_local
 fi
 
-export PATH=~/bin:~/code/dotfiles/bin:$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PYTHONPATH=$PYTHONPATH:$HOME/code/topaz/pypy
+export GOROOT="/usr/local/go"
+export PATH="~/bin:~/code/dotfiles/bin:${PATH}"
+export PATH="${PATH}:${GOROOT}/bin"
+export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
+export RUST_SRC_PATH="/opt/src/rust/src"

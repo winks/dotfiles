@@ -183,6 +183,10 @@ function ccat() {
 
 function ec2() {
     ls /etc/hosts.ec2 > /dev/null 2>&1 || return
-    cat /etc/hosts.ec2
+    if [ "x$1" = "x" ]; then
+        cat /etc/hosts.ec2
+    else
+        cat /etc/hosts.ec2 | grep --color=none $1
+    fi
 }
 

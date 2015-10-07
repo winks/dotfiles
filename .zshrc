@@ -37,7 +37,8 @@ if [ -f /usr/local/bin/doge ]; then
     doge
 fi
 
-alias vagrant_puppet='vagrant up puppet --provision-with shell,puppet'
+alias puppet_u='vagrant up puppet --provision-with shell,puppet'
+alias puppet_p='vagrant provision puppet --provision-with shell,puppet'
 
 function shorts () {
 echo 'shrug - ¯\_(ツ)_/¯'
