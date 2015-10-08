@@ -21,3 +21,4 @@ which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias tmux="tmux -2"
 alias touchpadoff="synclient TouchPadOff=1; xset m 1/8 40"
+alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"

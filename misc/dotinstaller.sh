@@ -62,24 +62,23 @@ function linky() {
 # make backup copies
 if [[ "${doclean}" == "yes" ]]; then
   putaway ~/.bash_profile
-  putaway ~/.bash_logout
   putaway ~/.bashrc
   putaway ~/.gdbinit
+  putaway ~/.gemrc
 
-  putaway ~/.gitconfig
   putaway ~/.hgrc
   putaway ~/multitail.conf
 
   putaway ~/.screenrc
   putaway ~/.tmux.conf
-  putaway ~/.zshrc.local
 
-  putaway ~/.zshrc # meh
   putaway ~/.vimrc
   putaway ~/.vim
 
-  putaway ~/.xinitrc
-  putaway ~/.xsession
+  putaway ~/.xmobarrc
+  putaway ~/.xmonad
+  putaway ~/.xsessionrc
+  putaway ~/.zshrc
 fi
 
 ########################################
@@ -88,18 +87,20 @@ if [[ "${doinst}" == "yes" ]]; then
   linky .bash_profile
   linky .bashrc
   linky .gdbinit
+  linky .gemrc
 
-  linky .gitconfig
   linky .hgrc
   linky multitail.conf
 
   linky .screenrc
   linky .tmux.conf
-  linky .zshrc .zshrc
 
   linky vim/fa.vim .vimrc
   linky vim .vim
-  linky xmonad .xmonad
 
-  linky .us-intl-german.xmodmap
+  linky xmonad/xmobarrc .xmobarrc
+  linky xmonad .xmonad
+  linky .xsessionrc
+  linky .zshrc
+
 fi

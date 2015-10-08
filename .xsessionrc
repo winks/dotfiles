@@ -1,0 +1,2 @@
+export PATH="$HOME/bin:$HOME/code/dotfiles/bin:$PATH"
+export _JAVA_AWT_WM_NONREPARENTING=1
