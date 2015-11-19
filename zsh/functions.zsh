@@ -145,6 +145,15 @@ function vms_running () {
     done
 }
 
+# Show git branches by date
+# http://www.commandlinefu.com/commands/view/2345/show-git-branches-by-date-useful-for-showing-active-branches
+function sort-branches() {
+    local remote=$1
+    for k in `git branch ${remote} | perl -pe s/^..// | cut -d' ' -f1`; do
+        echo -e `git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k -- | head -n 1`\\t$k;
+    done | sort -r
+}
+
 
 ########################################
 ## os-specific stuff
