@@ -33,7 +33,7 @@ fi
 
 if [ -f /usr/local/share/chruby/chruby.sh ]; then
     source /usr/local/share/chruby/chruby.sh
-    chruby ruby-1.9
+    chruby ruby-2.3.0
 fi
 
 if [ -d /opt/src/android/sdk ]; then

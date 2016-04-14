@@ -228,19 +228,20 @@ if has("autocmd")
     autocmd FileType less  setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType xml   setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType py    setlocal ts=4 sts=2 sw=2 expandtab
+    autocmd FileType go    setlocal ts=4 sts=2 sw=2 noexpandtab
+    autocmd FileType Makefile setlocal ts=4 sts=2 sw=2 noexpandtab
     " Delete white spaces on save
     autocmd BufWritePre *.html,*.php,*.pthml,*.js,*.xml :call <SID>StripTrailingWhitespaces()
-    " Treat .rss files as XML
-    autocmd BufNewFile,BufRead *.rss setfiletype xml
-    " Treat .json files as javascript
-    autocmd BufNewFile,BufRead *.json set ft=javascript
     " Source the vimrc file after saving it
     autocmd BufWritePost .vimrc source $MYVIMRC
 
     augroup filetypedetect
-    "    au! BufRead,BufNewFile *.pp     setfiletype puppet
-    "    au! BufRead,BufNewFile +.inc    setfiletype php
-        au BufRead,BufNewFile *.pp              set filetype=puppet
+        au BufNewFile,BufRead *.pp      set ft=puppet
+    " Treat .rss files as XML
+        au BufNewFile,BufRead *.rss     set ft=xml
+    " Treat .json files as javascript
+        au BufNewFile,BufRead *.json    set ft=javascript
+        au BufNewFile,BufRead *.go      set ft=go
     augroup END
 
     augroup Programming
