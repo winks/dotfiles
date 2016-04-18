@@ -72,6 +72,16 @@ function s710bat {
     show_bat "CMB1" "charge_full" "charge_now" $1
 }
 
+function batbat {
+    if [ -d $(readlink -f "/sys/class/power_supply/CMB1") ]; then
+        s710bat
+    elif [ -d $(readlink -f "/sys/class/power_supply/C11F") ]; then
+        nx7010bat
+    else
+        w500bat
+    fi
+}
+
 # some system information
 function ii() {
     local O_LANG=$LANG

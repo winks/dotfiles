@@ -88,6 +88,13 @@ if [[ "x${xrmode}" = "x--double" ]]; then
     bg_set
     exit $?;
 fi
+if [[ "x${xrmode}" = "x--double2" ]]; then
+    xxr2nd_res='1920x1200'
+    echo "Second screen: $xxr2nd_res (right)"
+    xrandr --output $xr2nd --mode $xxr2nd_res --right-of $xrmain --rotate normal
+    bg_set
+    exit $?;
+fi
 
 if [[ "x${xrmode}" = "x--ddouble" ]]; then
     echo "Second screen: $xr2nd_res (right)"

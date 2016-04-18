@@ -173,7 +173,7 @@ endif
 
 if has("gui_running")
     au GUIEnter * set lines=52 columns=90
-    set guifont=Droid\ Sans\ Mono\ 10
+    set guifont=Noto\ Mono\ 10
     set colorcolumn=80
 
     set background=light

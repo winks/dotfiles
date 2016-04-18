@@ -1,5 +1,5 @@
 #!/bin/bash
-CMDS=("add" "b" "fx" "fxd" "fxs" "nm" "tr" "xm" "zs" )
+CMDS=("b" "fx" "fxd" "fxs" "tr" "xm")
 ##########
 TOOL=$1;
 
@@ -12,51 +12,12 @@ if [[ "x${TOOL}" = "x" ]]; then
     exit
 fi
 ###
-if [[ "x${TOOL}" = "xadd" ]]; then
-    shift
-    "${DF}/my-add" "$@"
-    exit
-fi
 if [[ "x${TOOL}" = "xb" ]]; then
    "${DF}/ac" fxd
-   "${DF}/ac" xbase
-   exit
-fi
-if [[ "x${TOOL}" = "xb2" ]]; then
-   "${DF}/ac" fx --single
-   "${DF}/ac" xbase
-   exit
-fi
-if [[ "x${TOOL}" = "xbase" ]]; then
    "${DF}/ac" xm
    "${DF}/ac" tr
-   "${DF}/ac" add
+   exec "ssh-add ~/.ssh/id-rsa"
    exit
-fi
-if [[ "x${TOOL}" = "xfx" ]]; then
-    shift
-    "${DF}/my-fx" "$@"
-    exit
-fi
-if [[ "x${TOOL}" = "xfxd2" ]]; then
-    ${DF}/my-fx --single && ${DF}/my-fx --dell2
-    exit
-fi
-if [[ "x${TOOL}" = "xfxd" ]]; then
-    "${DF}/my-fx" --single && "${DF}/my-fx" --double
-    exit
-fi
-if [[ "x${TOOL}" = "xfxs" ]]; then
-    "${DF}/my-fx" --single && "${DF}/my-fx" --small
-    exit
-fi
-if [[ "x${TOOL}" = "xnm" ]]; then
-    "${DF}/run_once_silent" nm-applet
-    exit
-fi
-if [[ "x${TOOL}" = "xzs" ]]; then
-    source "${DF}/../.zshrc"
-    exit
 fi
 if [[ "x${TOOL}" = "xtr" ]]; then
     shift
@@ -65,6 +26,19 @@ if [[ "x${TOOL}" = "xtr" ]]; then
 fi
 if [[ "x${TOOL}" = "xxm" ]]; then
     xmodmap "${DF}/../.us-intl-german.xmodmap"
+    exit
+fi
+if [[ "x${TOOL}" = "xfx" ]]; then
+    shift
+    "${DF}/my-fx" "$@"
+    exit
+fi
+if [[ "x${TOOL}" = "xfxd" ]]; then
+    "${DF}/my-fx" --single && "${DF}/my-fx" --double
+    exit
+fi
+if [[ "x${TOOL}" = "xfxd2" ]]; then
+    ${DF}/my-fx --single && ${DF}/my-fx --dell2
     exit
 fi
 

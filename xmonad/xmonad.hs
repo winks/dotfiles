@@ -270,9 +270,9 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        }
 
     myLayouts = avoidStruts $ smartBorders
-              $ onWorkspaces [ws_shell, ws_mail, ws_elev, ws_stuff, ws_music, ws_last] (tabbedLayout ||| (dwmLayout $ tiled ||| Mirror tiled))
-              $ onWorkspaces [ws_code, ws_www ] (tabbedLayout ||| tiled)
-              $ onWorkspace ws_im imLayout2
+              $ onWorkspaces [ws_shell, ws_mail, ws_elev, ws_music, ws_last] (tabbedLayout ||| (dwmLayout $ tiled ||| Mirror tiled))
+              $ onWorkspaces [ws_code, ws_www] (tabbedLayout ||| tiled)
+              $ onWorkspaces [ws_im] imLayout2
               $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| tabbedLayout ||| gimpLayout
             where
                 tiled   = Tall nmaster delta ratio
@@ -286,4 +286,5 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                 gimpLayout   = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
                 imLayout1    = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
                 imLayout2    = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Or (Role "buddy_list") (Role "roster")))
+                imLayout3    = reflectHoriz $ combineTwoP (TwoPane delta (1/8)) (Grid) (Mirror tiled) (Or (Role "MainWindow") (Or (Role "buddy_list") (Role "roster")))
 
