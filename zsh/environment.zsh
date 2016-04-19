@@ -26,8 +26,17 @@ locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && export LANG='en_US.utf8'
 
 export TERM="xterm-256color"
 
+if [ -d /opt/src/android/sdk ]; then
+   export ANDROID_HOME=/opt/src/android/sdk
+fi
+
+export GOROOT="/usr/local/go"
+export PATH="${HOME}/bin:${HOME}/code/dotfiles/bin:${PATH}"
+export PATH="${PATH}:${GOROOT}/bin"
+export RUST_SRC_PATH="/opt/src/rust/src"
+
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME="~/.virtualenvs"
+    export WORKON_HOME="${HOME}/.virtualenvs"
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
@@ -35,17 +44,3 @@ if [ -f /usr/local/share/chruby/chruby.sh ]; then
     source /usr/local/share/chruby/chruby.sh
     chruby ruby-2.3.0
 fi
-
-if [ -d /opt/src/android/sdk ]; then
-   export ANDROID_HOME=/opt/src/android/sdk
-fi
-
-if [ -f ~/.config/art-core/.profile_local ]; then
-    source ~/.config/art-core/.profile_local
-fi
-
-export GOROOT="/usr/local/go"
-export PATH="~/bin:~/code/dotfiles/bin:${PATH}"
-export PATH="${PATH}:${GOROOT}/bin"
-export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
-export RUST_SRC_PATH="/opt/src/rust/src"

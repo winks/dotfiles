@@ -4,12 +4,17 @@
 ##    by fa[at]art-core.org
 ## ported from .bashrc 0.91, 2011-08-09
 ########################################
-## 2012-09-17
-my_version='1.2'
+## 2016-04-19
+my_version='1.4'
 ########################################
 #set -x
 
 Z=~/code/dotfiles/zsh
+
+## host-specific stuff, purely optional
+if [ -f ~/.config/art-core/.profile.pre ]; then
+    source ~/.config/art-core/.profile.pre
+fi
 
 ## grml defaults
 #source ${Z}/zshrc.base
@@ -21,11 +26,6 @@ source $Z/aliases.zsh
 source $Z/options.zsh
 source $Z/functions.zsh
 
-## host-specific stuff, purely optional
-if [ -f ~/.ssh/.profile.host ]; then
-    source ~/.ssh/.profile.host
-fi
-
 ## prompt
 if (( C == 256 )); then
     source $Z/prompt_256.zsh
@@ -33,17 +33,7 @@ else
     source $Z/prompt_256.zsh
 fi
 
-if [ -f /usr/local/bin/doge ]; then
-    doge
+## host-specific stuff, purely optional
+if [ -f ~/.config/art-core/.profile.post ]; then
+    source ~/.config/art-core/.profile.post
 fi
-
-alias puppet_u='vagrant up puppet --provision-with shell,puppet'
-alias puppet_p='vagrant provision puppet --provision-with shell,puppet'
-
-function shorts () {
-echo 'shrug - ¯\_(ツ)_/¯'
-echo 'table - (╯°□°)╯︵ ┻━┻'
-echo 'rocky - https://www.youtube.com/watch?v=qfNfQixs8yA'
-echo '        ▄︻̷̿┻̿═━一'
-echo '       ༼ つ ◕_◕ ༽つ'
-}

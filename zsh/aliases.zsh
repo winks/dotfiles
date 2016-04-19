@@ -7,9 +7,6 @@ alias cp='cp -i -r'
 alias df='df -h'
 alias du='du -h'
 alias dum='du --max-depth=1'
-alias gp='git pull'
-alias gpp='git pull && git push'
-alias gps='git stash && git pull && git push && git stash apply'
 alias grep='grep --color'
 alias ls="/bin/ls -b -CF --color=none"
 alias l="ls -lF --color=auto"
@@ -35,3 +32,10 @@ alias touchpadon="echo Use tpenable && tpenable"
 alias acxm="ac xm"
 alias actr="ac tr"
 alias acb="ac b"
+
+# dev
+alias gp='git pull'
+alias gpp='git pull && git push'
+alias gps='git stash && git pull && git push && git stash apply'
+alias puppet_u='vagrant up puppet --provision-with shell,puppet'
+alias puppet_p='vagrant provision puppet --provision-with shell,puppet'

@@ -4,6 +4,23 @@
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 " http://blog.danielfischer.com/2010/11/19/a-starting-guide-to-vim-from-textmate/
 
+" Tell vim to remember certain things when we exit
+" '10 : marks will be remembered for up to 10 previously edited files
+" :20 : up to 20 lines of command-line history will be remembered
+" % : saves and restores the buffer list
+" n... : where to save the viminfo files
+if has('win32')
+    set viminfo='10,:20,%,n$HOME/vimfiles/_viminfo
+    set directory=$HOME/vimfiles/tmp
+    let g:fuf_dataDir = expand("$HOME/vimfiles/vim-fuf-data")
+    let MRU_File = expand("$HOME/vimfiles/_vim_mru_files")
+else
+    set viminfo='10,:20,%,n~/.vim/.viminfo
+    set directory=$HOME/.vim/tmp
+    let g:fuf_dataDir = expand("$HOME/.vim/.vim-fuf-data")
+    let MRU_File = expand("$HOME/.vim/.vim_mru_files")
+endif
+
 filetype off
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
@@ -54,20 +71,6 @@ if version >= 730
     set colorcolumn=80
 endif
 
-" Tell vim to remember certain things when we exit
-" '10 : marks will be remembered for up to 10 previously edited files
-" :20 : up to 20 lines of command-line history will be remembered
-" % : saves and restores the buffer list
-" n... : where to save the viminfo files
-if has('win32')
-    set viminfo='10,:20,%,n$HOME/vimfiles/_viminfo
-    set directory=$HOME/vimfiles/tmp
-    let MRU_File = expand("$HOME/vimfiles/_vim_mru_files")
-else
-    set viminfo='10,:20,%,n~/.vim/.viminfo
-    set directory=~/.vim/tmp
-    let MRU_File = expand("~/.vim/.vim_mru_files")
-endif
 
 let mapleader =","
 
@@ -180,14 +183,14 @@ if has("gui_running")
     "colorscheme darkspectrum
     colorscheme ironman
     set cursorline
-
     let g:Powerline_symbols = 'fancy'
 else
     set t_Co=256
 
     set background=dark
     colorscheme solarized
-    set cursorline
+    "colorscheme elflord
+    "set cursorline
     let g:Powerline_symbols = 'fancy'
 endif
 
@@ -289,3 +292,7 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+let g:netrw_liststyle=3
+map <Leader>e :vsp<CR>:Explore<CR>
+map <Leader>E :e .<CR>
