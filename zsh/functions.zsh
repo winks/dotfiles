@@ -148,10 +148,19 @@ function vms_running () {
             echo -n " "
         done
         local match=""
+        local c=0
         find ~/code -name Vagrantfile | xargs grep $v | cut -d':' -f 1 | sort | uniq | while read f; do
-            match="$match $(dirname $f | xargs basename)"
+            if [ "$c" -lt 5 ]; then
+                match="$match $(dirname $f | xargs basename)"
+            fi
+            c=$((c+1))
         done
-        echo "| $match" | sed -e 's/\n/ /'
+        echo -n "| $match" | sed -e 's/\n/ /'
+        if [ "$c" -gt 5 ]; then
+            echo " ... ($(($c - 5)) more)"
+        else
+            echo
+        fi
     done
 }
 
