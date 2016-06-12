@@ -35,12 +35,21 @@ export PATH="${HOME}/bin:${HOME}/code/dotfiles/bin:${PATH}"
 export PATH="${PATH}:${GOROOT}/bin"
 export RUST_SRC_PATH="/opt/src/rust/src"
 
+if [ -d "$HOME/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
+  export NPM_PACKAGES="/nix/_node_modules"
+  export PATH="$PATH:$NPM_PACKAGES/bin"
+fi
+
+
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="${HOME}/.virtualenvs"
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-if [ -f /usr/local/share/chruby/chruby.sh ]; then
+if [ -f $HOME/.nix-profile/share/chruby/chruby.sh ]; then
+    source $HOME/.nix-profile/share/chruby/chruby.sh
+    chruby ruby-2.3.0
+elif [ -f /usr/local/share/chruby/chruby.sh ]; then
     source /usr/local/share/chruby/chruby.sh
     chruby ruby-2.3.0
 fi
