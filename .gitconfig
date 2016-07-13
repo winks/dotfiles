@@ -17,6 +17,7 @@
     co = checkout
     df = diff
     lg = log -p
+    since = !git log $(git merge-base --fork-point master)..HEAD
 
 [push]
     default = current
