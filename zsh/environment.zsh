@@ -40,6 +40,9 @@ if [ -d "$HOME/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
   export PATH="$PATH:$NPM_PACKAGES/bin"
 fi
 
+if [ -d "${HOME}/.local/share/man" ]; then
+    export MANPATH=${HOME}/.local/share/man
+fi
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="${HOME}/.virtualenvs"

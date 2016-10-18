@@ -8,6 +8,7 @@
 ! Only keys with this modifier will be changed by this file.
 ! 66 is Caps Lock.
 keycode 66 = ISO_Group_Shift ISO_Group_Shift ISO_First_Group NoSymbol
+!keycode 66 = Caps_Lock
 
 ! Some notes to users of us(intl) or us(altgr-intl):
 !

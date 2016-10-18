@@ -16,7 +16,7 @@ if [[ "x${TOOL}" = "xb" ]]; then
    "${DF}/ac" fxd
    "${DF}/ac" xm
    "${DF}/ac" tr
-   exec "ssh-add ~/.ssh/id-rsa"
+   /usr/bin/ssh-add -l || exec /usr/bin/ssh-add "${HOME}/.ssh/id_rsa"
    exit
 fi
 if [[ "x${TOOL}" = "xtr" ]]; then
