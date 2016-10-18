@@ -124,12 +124,16 @@ def main(domain, mode='default', filter=None):
     for option in cp.options(section):
         config[option] = cp.get(section, option)
 
-    if not 'ec2_region' in config:
-        sys.exit(4)
-    if not 'ec2_access_key' in config:
-        sys.exit(5)
-    if not 'ec2_secret_key' in config:
-        sys.exit(6)
+    overrides = ['EC2_REGION', 'EC2_ACCESS_KEY', 'EC2_SECRET_KEY', 'EC2_URL']
+
+    for override in overrides:
+        tmp_o = None
+        tmp_o = os.environ.get(override)
+        if tmp_o:
+            config[override.lower()] = tmp_o
+        if not override.lower() in config:
+            print "Mandatory value for '{}' not set.".format(override)
+            sys.exit(4)
 
     client = boto.ec2.connect_to_region(config['ec2_region'],
                                              aws_access_key_id=config['ec2_access_key'],
