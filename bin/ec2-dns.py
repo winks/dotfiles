@@ -79,8 +79,34 @@ def fmt(inst, domain):
     if ip:
         return "{}\t{}\t{}".format(ip, fqdn, name)
 
+def fmt_private(inst, domain, filter):
+    ip = getattr(inst, 'private_ip_address')
+    name = getattr(inst, 'private_dns_name')
 
-def main(domain):
+    dom_parts = name.split('.')[1:]
+    dom = '.'.join(dom_parts)
+
+    fqdn = ''
+    host = ''
+    if 'Name' in inst.tags:
+        fqdn = inst.tags['Name'].strip().replace(' ', '-xyz-')
+        host = fqdn.split('.')[0]
+        if filter:
+            parts = filter.split('|')
+            valid = False
+            for f in parts:
+                if f in host:
+                    valid = True
+            if valid:
+                return "{}:\n  ip: '{}'\n  host_aliases: '{}'".format(fqdn, ip, host)
+            else:
+                return False
+        else:
+            return "{}:\n  ip: '{}'\n  host_aliases: '{}'".format(fqdn, ip, host)
+
+    return False
+
+def main(domain, mode='default', filter=None):
     home = os.environ.get('HOME')
     if not home:
         sys.exit(1)
@@ -114,7 +140,10 @@ def main(domain):
     for rx in reservations:
         for inst in rx.instances:
             #debug(inst)
-            line = fmt(inst, domain)
+            if mode == 'private':
+                line = fmt_private(inst, domain, filter)
+            else:
+                line = fmt(inst, domain)
             if line:
                 lines.append(line)
 
@@ -125,6 +154,13 @@ def main(domain):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage: {} DEFAULT_DOMAIN".format(sys.argv[0])
+        print "Usage: {} DEFAULT_DOMAIN [default|private] [filter]".format(sys.argv[0])
+        print "    filter example: cass|kafk|super"
         sys.exit(1)
-    main(sys.argv[1])
+    mode = 'default'
+    filter = None
+    if len(sys.argv) > 2 and sys.argv[2] == 'private':
+        mode = 'private'
+    if len(sys.argv) > 3:
+        filter = sys.argv[3]
+    main(sys.argv[1], mode, filter)
