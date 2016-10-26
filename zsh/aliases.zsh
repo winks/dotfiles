@@ -19,6 +19,7 @@ alias hexfind='grep --color="auto" -P -n "[\x80-\xFF]"'
 which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
+alias weather="curl -4 wttr.in/muc"
 
 # laptop
 alias tpdisable="synclient TouchPadOff=1; xset m 1/8 40"
