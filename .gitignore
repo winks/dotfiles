@@ -3,6 +3,7 @@ vim/bundle/command-t/ruby/command-t/*.o
 vim/bundle/command-t/ruby/command-t/*.so
 vim/bundle/command-t/ruby/command-t/*.log
 vim/tmp/
+vim/tmp/.*
 vim/.netrwhist
 vim/.vim_mru_files
 vim/.viminfo
