@@ -24,7 +24,10 @@ source $Z/environment.zsh
 source $Z/aliases.zsh
 ## options
 source $Z/options.zsh
+## functions
 source $Z/functions.zsh
+## completion
+source $Z/completion.zsh
 
 ## prompt
 if (( C == 256 )); then

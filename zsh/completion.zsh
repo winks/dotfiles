@@ -5,6 +5,6 @@ autoload -Uz compinit && compinit
 # autocomplete ssh
 local knownhosts
 knownhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
-zstyle ':completion:*:(ssh|scp|sftp):*' hosts $knownhosts
+zstyle ':completion:*:(cssh|rsync|ssh|scp|sftp):*' hosts $knownhosts
 
 

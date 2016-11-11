@@ -3,9 +3,9 @@
 # some config
 xrmode=$1
 echo "$xrmode"
-xrmain="LVDS1"
+xrmain="LVDS-1"
 xrmain_res="1366x768"
-xr2nd="VGA1"
+xr2nd="VGA-1"
 xr2nd_digi="DP1"
 #xr2nd_digi="HDMI1"
 

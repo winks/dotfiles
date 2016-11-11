@@ -4,19 +4,29 @@
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 " http://blog.danielfischer.com/2010/11/19/a-starting-guide-to-vim-from-textmate/
 
+" yes this needs to be at the very top
+set nocompatible
+
 " Tell vim to remember certain things when we exit
 " '10 : marks will be remembered for up to 10 previously edited files
 " :20 : up to 20 lines of command-line history will be remembered
 " % : saves and restores the buffer list
 " n... : where to save the viminfo files
 if has('win32')
-    set viminfo='10,:20,%,n$HOME/vimfiles/_viminfo
+    set viminfo+='10,:20,%,n$HOME/vimfiles/_viminfo
     set directory=$HOME/vimfiles/tmp
+    set backupdir=$HOME/vimfiles/tmp
+    set undodir=$HOME/vimfiles/tmp
     let g:fuf_dataDir = expand("$HOME/vimfiles/vim-fuf-data")
     let MRU_File = expand("$HOME/vimfiles/_vim_mru_files")
 else
-    set viminfo='10,:20,%,n~/.vim/.viminfo
-    set directory=$HOME/.vim/tmp
+    if isdirectory($HOME . '/.vim/tmp') == 0
+        :silent !mkdir -p ~/.vim/tmp >/dev/null 2>&1
+    endif
+    set viminfo+='10,:20,%,n~/.vim/.viminfo
+    set directory=~/.vim/tmp//
+    set backupdir=~/.vim/tmp//
+    set undodir=~/.vim/tmp//
     let g:fuf_dataDir = expand("$HOME/.vim/.vim-fuf-data")
     let MRU_File = expand("$HOME/.vim/.vim_mru_files")
 endif
@@ -24,8 +34,6 @@ endif
 filetype off
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
-
-set nocompatible
 
 set modelines=0
 
@@ -66,8 +74,8 @@ if has("statusline")
 endif
 
 if version >= 730
-    set relativenumber
-    set undofile
+    "set relativenumber
+    "set undofile
     set colorcolumn=80
 endif
 
@@ -182,7 +190,7 @@ if has("gui_running")
     set background=light
     "colorscheme darkspectrum
     colorscheme ironman
-    set cursorline
+    "set cursorline
     let g:Powerline_symbols = 'fancy'
 else
     set t_Co=256
