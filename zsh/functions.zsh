@@ -140,6 +140,11 @@ function dige() {
 }
 
 function vms_running () {
+    local spath="$1"
+    if [ "$spath" = "" ];then
+        spath="${HOME}/code"
+    fi
+    local v_files=""
     ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
         echo -n $v
         local len=${#v}
@@ -149,7 +154,10 @@ function vms_running () {
         done
         local match=""
         local c=0
-        find ~/code -name Vagrantfile | xargs grep $v | cut -d':' -f 1 | sort | uniq | while read f; do
+        if [ "$v_files" = "" ]; then
+          v_files=$(find $spath -name Vagrantfile)
+        fi
+        echo $v_files | xargs grep $v | cut -d':' -f 1 | sort | uniq | while read f; do
             if [ "$c" -lt 5 ]; then
                 match="$match $(dirname $f | xargs basename)"
             fi

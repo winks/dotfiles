@@ -50,9 +50,7 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 if [ -f $HOME/.nix-profile/share/chruby/chruby.sh ]; then
-    source $HOME/.nix-profile/share/chruby/chruby.sh
-    chruby ruby-2.3.0
+    alias my-chruby="source $HOME/.nix-profile/share/chruby/chruby.sh; chruby ruby-2.3.0"
 elif [ -f /usr/local/share/chruby/chruby.sh ]; then
-    source /usr/local/share/chruby/chruby.sh
-    chruby ruby-2.3.0
+    alias my-chruby="source /usr/local/share/chruby/chruby.sh; chruby ruby-2.3.0"
 fi
