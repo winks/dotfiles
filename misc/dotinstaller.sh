@@ -88,6 +88,7 @@ if [[ "${doinst}" == "yes" ]]; then
   linky .bashrc
   linky .gdbinit
   linky .gemrc
+  linky .gitconfig
 
   linky .hgrc
   linky multitail.conf
@@ -98,9 +99,11 @@ if [[ "${doinst}" == "yes" ]]; then
   linky vim/fa.vim .vimrc
   linky vim .vim
 
+dpkg -l | grep xmonad && {
   linky xmonad/xmobarrc .xmobarrc
   linky xmonad .xmonad
   linky .xsessionrc
-  linky .zshrc
+}
 
+  linky .zshrc
 fi

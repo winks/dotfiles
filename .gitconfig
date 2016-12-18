@@ -20,4 +20,4 @@
     since = !git log $(git merge-base --fork-point master)..HEAD
 
 [push]
-    default = current
+    default = simple
