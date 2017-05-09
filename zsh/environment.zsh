@@ -40,6 +40,10 @@ if [ -d "$HOME/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
   export PATH="$PATH:$NPM_PACKAGES/bin"
 fi
 
+if [ -d "$HOME/.cargo/bin" ]; then
+  export PATH="$PATH:$HOME/.cargo/bin"
+fi
+
 if [ -d "${HOME}/.local/share/man" ]; then
     export MANPATH=${HOME}/.local/share/man
 fi

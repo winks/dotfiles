@@ -145,7 +145,11 @@ function vms_running () {
         spath="${HOME}/code"
     fi
     local v_files=""
-    ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
+    #ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
+    local x=$(ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort)
+    echo $x | paste -s
+    echo $x | while read v; do
+
         echo -n $v
         local len=${#v}
         local diff=$((30 - $len))
@@ -236,4 +240,16 @@ function shorts () {
     echo 'rocky - https://www.youtube.com/watch?v=qfNfQixs8yA'
     echo '        ▄︻̷̿┻̿═━一'
     echo '       ༼ つ ◕_◕ ༽つ'
+}
+
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
 }

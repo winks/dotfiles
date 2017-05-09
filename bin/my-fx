@@ -5,9 +5,21 @@ xrmode=$1
 echo "$xrmode"
 xrmain="LVDS-1"
 xrmain_res="1366x768"
+xrmain_scale=""
 xr2nd="VGA-1"
 xr2nd_digi="DP1"
+xr2nd_scale=""
 #xr2nd_digi="HDMI1"
+
+_ck=$(xrandr | grep "eDP-1 connected")
+if [ $? = 0 ]; then
+  xrmain="eDP-1"
+  xrmain_res="2560x1440"
+  xrmain_scale="--scale 1x1"
+  xr2nd="HDMI-1"
+  xr2nd_scale="--scale 1.35x1.35"
+  xr2nd_fb="--panning 2560x1440+2560+0"
+fi
 
 function bg_set() {
     if [ -f "${HOME}/.fehbg" ]; then
@@ -18,7 +30,7 @@ function bg_set() {
 
 ###############
 # notebook
-xrandr --output $xrmain --mode $xrmain_res
+xrandr --output $xrmain --mode $xrmain_res $xrmain_scale
 
 # on "Can't open display" use -d :0 for xrandr
 
@@ -84,7 +96,7 @@ xr2nd_res='1920x1080'
 xr3rd_res='1024x768'
 if [[ "x${xrmode}" = "x--double" ]]; then
     echo "Second screen: $xr2nd_res (right)"
-    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal
+    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal $xr2nd_scale $xr2nd_fb --auto
     bg_set
     exit $?;
 fi
