@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+name=$(zenity --entry --name Filename:)
+scrot -s /tmp/$name.png
+scp /tmp/$name.png bianca:~/www/stuff.art-core.org/public/test/
+zenity --info --text=https://stuff.art-core.org/test/$name.png

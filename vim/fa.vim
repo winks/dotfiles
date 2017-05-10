@@ -57,6 +57,7 @@ set ruler
 set backspace=indent,eol,start
 set paste
 set title
+let &titleold=getcwd()
 
 set equalalways
 set splitbelow splitright
