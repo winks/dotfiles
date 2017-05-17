@@ -13,5 +13,5 @@ emacs.d/auto-save-list
 xmonad/history
 xmonad/xmonad-*
 xmonad/xmonad.errors
-xmonad/xmonad.hi
-xmonad/xmonad.o
+xmonad/**/*.hi
+xmonad/**/*.o

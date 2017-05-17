@@ -14,6 +14,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout
+import XMonad.Layout.Decoration
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.IM
 --import XMonad.Layout.IMExtra
@@ -54,6 +55,8 @@ import System.IO
 import XMonad.Hooks.ManageHelpers
 import Control.Monad
 import Data.Monoid (All (All))
+
+import BlueTheme(blueTheme, blueXPConfig)
 
 ws_shell = "sh"
 ws_code  = "code"
@@ -103,7 +106,7 @@ main = do
     xmobar <- spawnPipe ( "/usr/bin/xmobar" )
     xmonad $ myConfig xmobar
 
--- ⌨  ⎆ ✇ ☘  ⌬ ⌛ ☣ ⚔ ✨   😈  😏  😒  
+-- ⌨  ⎆ ✇ ☘  ⌬ ⌛ ☣ ⚔ ✨   😈  😏  😒
 myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
        , terminal           = "x-terminal-emulator"
@@ -114,7 +117,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
        , focusFollowsMouse  = True
-       , logHook            = (dynamicLogWithPP $ myPP h) >> updatePointer (Relative 0.5 0.5)
+       , logHook            = (dynamicLogWithPP $ myPP h) >> updatePointer (0.5, 0.5) (1, 1)
        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
        , mouseBindings      = myMouseBindings
        , manageHook         = manageDocks <+> manageHook defaultConfig <+> myManageHook
@@ -126,6 +129,9 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
     myStartupHook = do
                     setWMName "LG3D"
                     spawn("/home/florian/bin/autoexec.bat")
+
+    -- currentXPConfig = defaultXPConfig
+    currentXPConfig = blueXPConfig
 
     myKeys (XConfig {modMask = modm}) = M.fromList $
       -- rotate workspaces
@@ -149,11 +155,11 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
       , ((modm .|. shiftMask, xK_m), spawn "icedove")
 
       -- prompts
-      , ((modm .|. shiftMask, xK_s), sshPrompt defaultXPConfig)
-      , ((modm .|. controlMask, xK_x), xmonadPrompt defaultXPConfig)
-      , ((modm, xK_x), runOrRaisePrompt defaultXPConfig)
+      , ((modm .|. shiftMask, xK_s), sshPrompt currentXPConfig)
+      , ((modm .|. controlMask, xK_x), xmonadPrompt currentXPConfig)
+      , ((modm, xK_x), runOrRaisePrompt currentXPConfig)
       --, ((modm, xK_s), scratchpadSpawnAction defaultConfig)
-      , ((modm .|. controlMask, xK_t), themePrompt defaultXPConfig)
+      , ((modm .|. controlMask, xK_t), themePrompt currentXPConfig)
 
       , ((0, 0x1008ff12), spawn "amixer sset 'Master' toggle")
       , ((0, 0x1008ff11), spawn "amixer sset 'Master' 5%-")
@@ -280,9 +286,10 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                 delta   = 3/100
                 ratio   = 1/2
 
-                myTheme      = theme smallClean -- defaultTheme
-                dwmLayout    = dwmStyle shrinkText myTheme
-                tabbedLayout = tabbedBottomAlways shrinkText myTheme
+                currentTheme = blueTheme
+
+                dwmLayout    = dwmStyle shrinkText currentTheme
+                tabbedLayout = tabbedBottomAlways shrinkText currentTheme
                 gimpLayout   = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
                 imLayout1    = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
                 imLayout2    = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Or (Role "buddy_list") (Role "roster")))

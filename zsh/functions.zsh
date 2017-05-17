@@ -149,7 +149,6 @@ function vms_running () {
     local x=$(ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort)
     echo $x | paste -s
     echo $x | while read v; do
-
         echo -n $v
         local len=${#v}
         local diff=$((30 - $len))

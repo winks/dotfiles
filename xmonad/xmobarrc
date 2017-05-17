@@ -1,6 +1,6 @@
 Config {
          font = "xft:Fantasque Sans Mono:size=10,Sans:size=10:antialias=true"
-       , bgColor = "#333"
+       , bgColor = "#002244" --"#333"
        , fgColor = "#fff"
        , position = TopW L 100
        , lowerOnStart = True
