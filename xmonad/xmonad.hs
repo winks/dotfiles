@@ -114,7 +114,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
        , focusFollowsMouse  = True
-       , logHook            = (dynamicLogWithPP $ myPP h) >> updatePointer (Relative 0.5 0.5)
+       , logHook            = (dynamicLogWithPP $ myPP h) >> updatePointer (0.5, 0.5) (1, 1)
        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
        , mouseBindings      = myMouseBindings
        , manageHook         = manageDocks <+> manageHook defaultConfig <+> myManageHook
@@ -280,9 +280,17 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                 delta   = 3/100
                 ratio   = 1/2
 
-                myTheme      = theme smallClean -- defaultTheme
+                myTheme      = def { inactiveBorderColor = "#708090"
+                                   , inactiveColor       = "#333333"
+                                   , inactiveTextColor   = "#666666"
+                                   , activeBorderColor   = "#369FAF"
+                                   , activeColor         = "#666666"
+                                   , activeTextColor     = "#A2E5EF"
+                                   , fontName            = "xft:terminus:size=12,Sans:size=12:antialias=true"
+                                   , decoHeight          = 20
+                                   }
                 dwmLayout    = dwmStyle shrinkText myTheme
-                tabbedLayout = tabbedBottomAlways shrinkText myTheme
+                tabbedLayout = tabbedBottomAlways shrinkText myTheme -- tabbedBottomAlways shrinkText MyTheme
                 gimpLayout   = combineTwoP (TwoPane 0.04 0.82) (tabbedLayout) (Full) (Not (Role "gimp-toolbox"))
                 imLayout1    = (reflectHoriz (withIM (1%8) (Role "buddy_list") Grid))
                 imLayout2    = reflectHoriz $ combineTwoP (TwoPane delta (1%8)) (Grid) (Grid) (Or (Role "MainWindow") (Or (Role "buddy_list") (Role "roster")))

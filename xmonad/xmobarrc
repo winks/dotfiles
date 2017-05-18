@@ -1,10 +1,10 @@
 Config {
-         font = "xft:Fantasque Sans Mono:size=10,Sans:size=10:antialias=true"
-       , bgColor = "#333"
+         font = "xft:Terminus:size=10,Sans:size=10:antialias=true"
+       , bgColor = "#602060" -- "#002244" -- "#333"
        , fgColor = "#fff"
        , position = TopW L 100
        , lowerOnStart = True
-       , commands = [ Run Wireless "wlan0" ["-t", "<fc=#00ccff><essid></fc> <fc=#1050ff><quality></fc>"] 20
+       , commands = [ Run Wireless "wl3ps0" ["-t", "<fc=#00ccff><essid></fc> <fc=#1050ff><quality></fc>"] 20
                     , Run Memory ["-t","<usedratio>%"] 50
                     , Run Swap ["-t","<usedratio>%"] 50
                     , Run Date "%a %b %_d %H:%M" "date" 10
@@ -15,9 +15,9 @@ Config {
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{<fc=#666666>[</fc><fc=#cc1>%memory%</fc><fc=#666666>|</fc><fc=#ee10ee>%swap%</fc><fc=#666666>]=[</fc>%wlan0wi%<fc=#666666>][</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>               "
+       , template = " %StdinReader% }{<fc=#666666>[</fc><fc=#cc1>%memory%</fc><fc=#666666>|</fc><fc=#ee10ee>%swap%</fc><fc=#666666>]=[</fc>%wl3ps0wi%<fc=#666666>][</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>                    "
        }
 
---                      Run Network "eth0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
---                    , Run Network "wlan0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
+--                      Run Network "enp0s31f6" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
+--                    , Run Network "wlp3s0" ["-L","0","-H","128","--normal","#0c0","--high","#c00","-m","5","-t","<rx><fc=#666666>|</fc><tx>"] 20
 --                    , Run MultiCpu ["-t","<total0>% <bar0><fc=#666666>]=[</fc><total1>% <bar1>","-L","5","-H","50","--normal","#0c0","--high","#c00","-p","2"] 50
