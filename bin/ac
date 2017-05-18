@@ -41,13 +41,13 @@ if [ "${TOOL}" = "keys" ]; then
    for k in $rsa_keys; do
      fk="${HOME}/${k}"
      echo $fk
-     /usr/bin/ssh-add -l | grep "$fk" || exec /usr/bin/ssh-add "$fk"
+     /usr/bin/ssh-add -l | grep "$fk" || /usr/bin/ssh-add "$fk"
    done
    for k in $ed_keys; do
      fk="${HOME}/${k}"
      _comm=$(cat $fk | cut -d' ' -f 3-)
      echo $fk
-     /usr/bin/ssh-add -l | grep "${_comm} (ED25519)$" || exec /usr/bin/ssh-add "$fk"
+     /usr/bin/ssh-add -l | grep "${_comm} (ED25519)$" || /usr/bin/ssh-add "$fk"
    done
 
    exit

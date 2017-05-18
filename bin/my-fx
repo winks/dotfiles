@@ -1,137 +1,117 @@
-#!/bin/bash
-###############
-# some config
-xrmode=$1
-#echo "$xrmode"
-xrmain="LVDS-1"
-xrmain_res="1366x768"
-xrmain_scale=""
-xr2nd="VGA-1"
-xr2nd_digi="DP1"
-xr2nd_scale=""
+#!/usr/bin/env bash
 
+DEBUG=0
+if [ "$1" = "--debug" ]; then
+  DEBUG=1
+  shift
+fi
+mode="$1"
+
+########################################
+# some config
+main_name="LVDS-1"
+main_res="1366x768"
+main_scale=""
+
+second_name="VGA-1"
+second_res="1920x1080"
+second_scale=""
+second_fb=""
+
+third_name="VGA-1"
+third_res="1024x768"
+third_scale=""
+
+# check for HiDPI panel (T460p)
 _ck=$(xrandr | grep "eDP-1 connected")
 if [ $? = 0 ]; then
-  xrmain="eDP-1"
-  xrmain_res="2560x1440"
-  xrmain_scale="--scale 1x1"
-  xr2nd="HDMI-1"
-  xr2nd_scale="--scale 1.333x1.333"
-  xr2nd_fb="--panning 2560x1440+2560+0"
+    main_name="eDP-1"
+    main_res="2560x1440"
+    main_scale="--scale 1x1"
+    second_name="HDMI-1"
+    second_res="1920x1080"
+    second_scale="--scale 1.333x1.333"
+    second_fb="--panning 2560x1440+2560+0"
 fi
 
+# check for third screen connected
+# @TODO
+
 function bg_set() {
-    #if [ -f "${HOME}/.fehbg" ]; then
-        #`sed "s,',,g" "${HOME}/.fehbg"`
-        #echo CHECK ~/.fehbg !
-    #fi
+    if [ -f "${HOME}/.fehbg" ]; then
+        ${HOME}/.fehbg 2>&1| grep -v 'libpng warning: iCCP: known incorrect'
+    fi
 }
 
-###############
+function run() {
+    if [ $DEBUG = 1 ]; then
+        echo " $@"
+        RET=0
+    else
+        RET=$("$@")
+    fi
+    return $RET
+}
+
+########################################
 # notebook
-xrandr --output $xrmain --mode $xrmain_res $xrmain_scale
+########################################
+echo "Main screen $main_name @ $main_res"
+cmd="xrandr --output $main_name --mode $main_res $main_scale"
+run $cmd
 
 # on "Can't open display" use -d :0 for xrandr
 
-
-###############
-# single-display
-if [[ "x${xrmode}" = "x--single" ]]; then
+########################################
+# single screen
+########################################
+if [ "${mode}" = "--single" ]; then
     echo "Switching to single-display mode..."
-    RET=$(xrandr --output $xr2nd --off)
+    cmd="xrandr --output $second_name --off"
+    run $cmd
+    RET=$?
     bg_set
     exit $RET;
 fi
 # wtf?
 #xrandr --output VGA1 --mode 2048x1152 --right-of LVDS1
 
-###############
-# small one
-xr2nd_res='1680x1050'
-if [[ "x${xrmode}" = "x--small" ]]; then
-    echo "Second screen: $xr2nd_res (right)"
-    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal
-    bg_set
-    exit $?;
-fi
-if [[ "x${xrmode}" = "x--small2" ]]; then
-    echo "Second screen: $xr2nd_res (above)"
-    xrandr --output $xr2nd --mode $xr2nd_res --above $xrmain --rotate normal
-    bg_set
-    exit $?;
-fi
-
-###############
+########################################
 # beamer
-xr2nd_res='1024x768'
-if [[ "x${xrmode}" = "x--beamer" ]]; then
-    echo "Second screen: $xr2nd_res (mirror)"
-xr2nd_res='1366x768'
-xr2nd="HDMI1"
-    xrandr --output $xr2nd --mode $xr2nd_res --same-as $xrmain --rotate normal
+########################################
+if [ "${mode}" = "--beamer" ]; then
+    second_res='1024x768'
+    echo "Second screen: $second_name @ $second_res (mirror)"
+    cmd="xrandr --output $second_name --mode $second_res --same-as $main_name --rotate normal"
+    run $cmd
+    RET=$?
     bg_set
-    exit $?;
+    exit $RET;
 fi
 
-xr2nd_res='1280x1024'
-if [[ "x${xrmode}" = "x--left" ]]; then
-    echo "Second screen: $xr2nd_res (left)"
-    xrandr --output $xr2nd --mode $xr2nd_res --left-of $xrmain --rotate normal
+########################################
+# big 24"/27" or whatever
+########################################
+if [ "${mode}" = "--double" ]; then
+    echo "Second screen: $second_name @ $second_res (right)"
+    cmd="xrandr --output $second_name --mode $second_res --right-of $main_name --rotate normal $second_scale $second_fb --auto"
+    run $cmd
+    RET=$?
     bg_set
-    exit $?;
+    exit $RET;
 fi
 
-xr2nd_res='1280x1024'
-if [[ "x${xrmode}" = "x--above" ]]; then
-    echo "Second screen: $xr2nd_res (left)"
-    xrandr --output $xr2nd --mode $xr2nd_res --above $xrmain --rotate normal
+########################################
+# three screens
+########################################
+if [ "${mode}" = "--triple" ]; then
+    echo "Second screen: $second_res (right)"
+    cmd="xrandr --output $second_name --mode $second_res --right-of $main_name --rotate normal"
+    run $cmd
+    RET=$?
+    cmd="xrandr --output $third_name --mode $third_res --right-of $second_name --rotate normal"
+    run $cmd
+    RET=$?
     bg_set
-    exit $?;
+    exit $RET;
 fi
-
-###############
-# big samsung
-xr2nd_res='1920x1080'
-xr3rd_res='1024x768'
-if [[ "x${xrmode}" = "x--double" ]]; then
-    echo "Second screen: $xr2nd_res (right)"
-    xrandr --output $xr2nd --mode $xr2nd_res --right-of $xrmain --rotate normal $xr2nd_scale $xr2nd_fb --auto
-    bg_set
-    exit $?;
-fi
-if [[ "x${xrmode}" = "x--double2" ]]; then
-    xxr2nd_res='1920x1200'
-    echo "Second screen: $xxr2nd_res (right)"
-    xrandr --output $xr2nd --mode $xxr2nd_res --right-of $xrmain --rotate normal
-    bg_set
-    exit $?;
-fi
-
-if [[ "x${xrmode}" = "x--ddouble" ]]; then
-    echo "Second screen: $xr2nd_res (right)"
-    echo xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
-    xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
-    bg_set
-    exit $?;
-fi
-
-if [[ "x${xrmode}" = "x--triple" ]]; then
-    echo "Second screen: $xr2nd_res (right)"
-    echo xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
-    xrandr --output $xr2nd_digi --mode $xr2nd_res --right-of $xrmain --rotate normal
-    xrandr --output $xr2nd --mode $xr3rd_res --right-of $xr2nd_digi --rotate normal
-    bg_set
-    exit $?;
-fi
-# big dell2
-if [[ "x${xrmode}" = "x--dell2" ]]; then
-    xrandr --output $xrmain --mode "1366x768"
-    echo "Second screen: 1920x1080 (right)"
-    xrandr --output $xr2nd --mode 1920x1080 --right-of $xrmain  --rotate normal
-    exit $?;
-fi
-
-# digital borked
-#xrandr --output DP1 --mode 1920x1080 --right-of LVDS1 --rotate normal
-
-ac tr
