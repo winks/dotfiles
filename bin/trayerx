@@ -11,16 +11,21 @@ echo $x2
 
 width=7
 height=18
-if [ "$x2" = "2560" ] || [ "$x2" == "4480" ];then
-  width=5
+if [ "$x2" = "2560" ] || [ "$x2" -ge "4480" ];then
+  width=7
   height=28
 elif [ "$x2" = "1366" ];then
   width=7
   height=18
 fi
 
+_color=0x333333 # dark grey
+_color=0x002244 # dark blue
+_color=0x330033 # dark purple
+_color=0x602060 # purple
+
 killall trayer >/dev/null 2>&1
-trayer --SetDockType true --transparent true --tint 0x333333 --alpha 0 \
+trayer --SetDockType true --transparent true --tint $_color --alpha 0 \
        --widthtype percent --width $width --heighttype pixel --height $height \
        --expand true --edge top --align right --monitor 2 >/dev/null 2>&1 &
 

@@ -296,10 +296,10 @@ endfunction
 set sessionoptions=blank,buffers,curdir,folds,help
 ",resize,tabpages,winsize
 
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces
 
 let g:netrw_liststyle=3
 map <Leader>e :vsp<CR>:Explore<CR>

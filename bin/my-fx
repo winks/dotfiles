@@ -2,14 +2,13 @@
 ###############
 # some config
 xrmode=$1
-echo "$xrmode"
+#echo "$xrmode"
 xrmain="LVDS-1"
 xrmain_res="1366x768"
 xrmain_scale=""
 xr2nd="VGA-1"
 xr2nd_digi="DP1"
 xr2nd_scale=""
-#xr2nd_digi="HDMI1"
 
 _ck=$(xrandr | grep "eDP-1 connected")
 if [ $? = 0 ]; then
@@ -17,15 +16,15 @@ if [ $? = 0 ]; then
   xrmain_res="2560x1440"
   xrmain_scale="--scale 1x1"
   xr2nd="HDMI-1"
-  xr2nd_scale="--scale 1.35x1.35"
+  xr2nd_scale="--scale 1.333x1.333"
   xr2nd_fb="--panning 2560x1440+2560+0"
 fi
 
 function bg_set() {
-    if [ -f "${HOME}/.fehbg" ]; then
+    #if [ -f "${HOME}/.fehbg" ]; then
         #`sed "s,',,g" "${HOME}/.fehbg"`
-        echo CHECK ~/.fehbg !
-    fi
+        #echo CHECK ~/.fehbg !
+    #fi
 }
 
 ###############

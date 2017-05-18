@@ -1,49 +1,66 @@
 #!/bin/bash
-CMDS=("b" "fx" "fxd" "fxs" "tr" "xm")
+CMDS=("b" "fx" "fxd" "k" "keys" "tr")
 ##########
-TOOL=$1;
+TOOL="$1";
 
 DF=$(dirname "$(readlink -f "$(which "$0")")");
 
-if [[ "x${TOOL}" = "x" ]]; then
+if [ "${TOOL}" = "" ]; then
     for item in "${CMDS[@]}"; do
         echo $item;
     done
     exit
 fi
-###
-if [[ "x${TOOL}" = "xb" ]]; then
+###################
+if [ "${TOOL}" = "b" ]; then
    "${DF}/ac" fxd
    "${DF}/ac" xm
    "${DF}/ac" tr
-   /usr/bin/ssh-add -l || exec /usr/bin/ssh-add "${HOME}/.ssh/id_rsa"
-   exit
+   "${DF}/ac" keys
 fi
-if [[ "x${TOOL}" = "xtr" ]]; then
-    shift
-    "${DF}/trayerx" "$@"
-    exit
-fi
-if [[ "x${TOOL}" = "xxm" ]]; then
-    xmodmap "${DF}/../.us-intl-german.xmodmap"
-    exit
-fi
-if [[ "x${TOOL}" = "xfx" ]]; then
+###################
+if [ "${TOOL}" = "fx" ]; then
     shift
     "${DF}/my-fx" "$@"
     exit
 fi
-if [[ "x${TOOL}" = "xfxd" ]]; then
+###################
+if [ "${TOOL}" = "fxd" ]; then
     "${DF}/my-fx" --single && "${DF}/my-fx" --double
     exit
 fi
-if [[ "x${TOOL}" = "xfxd2" ]]; then
-    ${DF}/my-fx --single && ${DF}/my-fx --dell2
+###################
+if [ "${TOOL}" = "k" ]; then
+    xmodmap "${DF}/../.us-intl-german.xmodmap"
+    exit
+fi
+###################
+if [ "${TOOL}" = "keys" ]; then
+   rsa_keys=".ssh/id_rsa"
+   ed_keys=".ssh/id_ed25519"
+   for k in $rsa_keys; do
+     fk="${HOME}/${k}"
+     echo $fk
+     /usr/bin/ssh-add -l | grep "$fk" || exec /usr/bin/ssh-add "$fk"
+   done
+   for k in $ed_keys; do
+     fk="${HOME}/${k}"
+     _comm=$(cat $fk | cut -d' ' -f 3-)
+     echo $fk
+     /usr/bin/ssh-add -l | grep "${_comm} (ED25519)$" || exec /usr/bin/ssh-add "$fk"
+   done
+
+   exit
+fi
+###################
+if [ "${TOOL}" = "tr" ]; then
+    shift
+    "${DF}/trayerx" "$@"
     exit
 fi
 
 # without a match, just try dotfiles/bin/$TOOL
-if [[ -f "${DF}/${TOOL}" ]]; then
+if [ -f "${DF}/${TOOL}" ]; then
     shift
     "${DF}/${TOOL}" "$@"
     exit

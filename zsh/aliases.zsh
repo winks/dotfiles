@@ -32,11 +32,6 @@ alias tpenable="synclient TouchPadOff=0; xset m 1/8 40"
 alias touchpadoff="echo Use tpdisable && tpdisable"
 alias touchpadon="echo Use tpenable && tpenable"
 
-# gui
-alias acxm="ac xm"
-alias actr="ac tr"
-alias acb="ac b"
-
 # dev
 alias gp='git pull'
 alias gpp='git pull && git push'
