@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+
+function show_battery_warning {
+    # system-specific stuff
+    local _bat=$1
+    local _full=$2
+    local _now=$3
+    local _opt=$4
+    local _path="/sys/class/power_supply/${_bat}"
+
+    if [ ! -d "${_path}" ]; then
+        echo "Battery '${_bat}' not found!"
+        return
+    fi
+    # calculate level
+    _full=$( cat "${_path}/${_full}" )
+    _now=$( cat "${_path}/${_now}" )
+    local fillint=`echo "scale=0; $_now*100/$_full" | bc`
+
+    echo $_full >> /tmp/bat
+    echo $_now >> /tmp/bat
+
+    if [[ "$fillint" -le 99 ]]; then
+        zenity --info --title "Battery warning" --text "WARNING\\nBattery below ${fillint}%!"
+    else
+        zenity --info --title "Battery nonwarning" --text "WARNING\\nBattery below ${fillint}%!"
+    fi
+}
+
+if [ -d $(readlink -f "/sys/class/power_supply/BAT0") ]; then
+    echo "x230" >> /tmp/bat
+    show_battery_warning "BAT0" "energy_full" "energy_now"
+else
+    echo "else" >> /tmp/bat
+    show_battery_warning "BAT0" "energy_full" "energy_now"
+fi

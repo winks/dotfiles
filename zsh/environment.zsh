@@ -3,7 +3,7 @@
 ########################################
 
 typeset -U fpath
-fpath=($Z/functions $fpath)
+fpath=($Z/ext_functions $fpath)
 
 C=$(tput colors)
 

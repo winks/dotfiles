@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+echo
+echo 'nix-channel --add https://nixos.org/channels/nixpkgs-unstable'
+echo 'nix-channel --update'
+echo
+echo '# Show all'
+echo 'nix-env -qa'
+echo
+echo '# Show installed'
+echo 'nix-env -q'
+echo
+echo '# Install'
+echo 'nix-env -i PACKAGE'
+echo
+echo '# Uninstall'
+echo 'nix-env -e PACKAGE'
+echo
+echo '# Upgrade all'
+echo 'nix-env -u'

@@ -142,11 +142,14 @@ function dige() {
 function vms_running () {
     local spath="$1"
     if [ "$spath" = "" ];then
-        spath="${HOME}/code"
+        spath="${AC_CODE_DIR:-${HOME}/code}"
     fi
     local v_files=""
-    #ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort | while read v; do
     local x=$(ps ux | grep '[V]BoxHeadless' | sed -e 's/.*comment \([a-zA-Z0-9_-]\+\) .*/\1/' | sort)
+    if [ "$x" = "" ]; then
+        echo "No running VMs detected."
+        return 1
+    fi
     echo $x | paste -s
     echo $x | while read v; do
         echo -n $v

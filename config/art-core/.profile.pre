@@ -1,0 +1,12 @@
+# executed at the start of ~/.zshrc
+
+export HOST='foo.example.org'
+
+export HOSTCOLOR=133
+export HOSTCOLOR=202
+export HOSTCOLOR=208
+
+export USERCOLOR=228
+export USERCOLOR=208
+
+export AC_CODE_DIR="${HOME}/code"
