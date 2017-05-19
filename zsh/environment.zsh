@@ -31,9 +31,14 @@ if [ -d /opt/src/android/sdk ]; then
 fi
 
 export GOROOT="/usr/local/go"
-export PATH="${HOME}/bin:${HOME}/code/dotfiles/bin:${PATH}"
+export PATH="${HOME}/code/dotfiles/bin:${PATH}"
+export PATH="${HOME}/bin:${PATH}"
 export PATH="${PATH}:${GOROOT}/bin"
 export RUST_SRC_PATH="/opt/src/rust/src"
+
+if [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
 
 if [ -d "$HOME/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
   export NPM_PACKAGES="/nix/_node_modules"
@@ -51,6 +56,9 @@ fi
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME="${HOME}/.virtualenvs"
     source /usr/local/bin/virtualenvwrapper.sh
+elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
+    export WORKON_HOME="${HOME}/.virtualenvs"
+    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
 if [ -f $HOME/.nix-profile/share/chruby/chruby.sh ]; then
