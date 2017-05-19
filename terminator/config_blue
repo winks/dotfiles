@@ -1,9 +1,11 @@
 [global_config]
   borderless = True
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  title_font = Terminus 8
   title_inactive_bg_color = "#000000"
   title_inactive_fg_color = "#998f8f"
   title_transmit_bg_color = "#002244"
+  title_use_system_font = False
 [keybindings]
 [layouts]
   [[default]]
@@ -19,5 +21,5 @@
   [[default]]
     background_color = "#222222"
     cursor_color = "#aaaaaa"
-    font = Bitstream Vera Sans Mono 9
+    font = Bitstream Vera Sans Mono 10
     use_system_font = False

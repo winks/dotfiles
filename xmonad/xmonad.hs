@@ -69,7 +69,7 @@ currentXPConfig = defaultXPConfig
 xm1 = "#2da5fa"
 xm2 = "#1f72ac"
 
-xmobarTitleLength = 60
+xmobarTitleLength = 80
 
 ws_shell = "sh"
 ws_code  = "code"
