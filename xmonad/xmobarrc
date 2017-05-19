@@ -1,8 +1,8 @@
 Config { font     = "xft:Fantasque Sans Mono:size=10,Sans:size=10:antialias=true"
-       --, bgColor  = "#333"
-       --, bgColor  = "#002244"
-       , bgColor  = "#602060"
+       , bgColor  = "#002244"
        , fgColor  = "#fff"
+       , borderColor = "#fff"
+       , border   = NoBorder
        , commands = [ Run Wireless "wlan0" ["-t", "<fc=#00ccff><essid></fc> <fc=#1050ff><quality></fc>"] 20
                     , Run Memory ["-t","<usedratio>%"] 50
                     , Run Swap ["-t","<usedratio>%"] 50
@@ -13,7 +13,11 @@ Config { font     = "xft:Fantasque Sans Mono:size=10,Sans:size=10:antialias=true
                     , Run StdinReader
                     ]
        , position     = TopW L 100
-       , lowerOnStart = True
+       , lowerOnStart = False
+       , hideOnStart  = False
+       , allDesktops  = False
+       , persistent   = True
+       , pickBroadest = False
        , sepChar      = "%"
        , alignSep     = "}{"
        , template = " %StdinReader% }{<fc=#666666>[</fc><fc=#cc1>%memory%</fc><fc=#666666>|</fc><fc=#ee10ee>%swap%</fc><fc=#666666>]=[</fc>%wlan0wi%<fc=#666666>][</fc>%thermal0%<fc=#666666>|</fc>%thermal1%<fc=#666666>]=[</fc>%battery%<fc=#666666>]=[</fc><fc=#cc8a00>%date%</fc><fc=#666666>]</fc>               "

@@ -57,6 +57,19 @@ import Control.Monad
 import Data.Monoid (All (All))
 
 import BlueTheme(blueTheme, blueXPConfig)
+import PurpleTheme(purpleTheme, purpleXPConfig)
+
+--currentTheme = purpleTheme
+--currentXPConfig = purpleXPConfig
+--xm1 = "#220022"
+--xm2 = "#00ff00"
+
+currentTheme = blueTheme
+currentXPConfig = defaultXPConfig
+xm1 = "#2da5fa"
+xm2 = "#1f72ac"
+
+xmobarTitleLength = 60
 
 ws_shell = "sh"
 ws_code  = "code"
@@ -111,8 +124,6 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
        , terminal           = "x-terminal-emulator"
        , workspaces         = [ws_shell, ws_code, ws_www, ws_im, ws_mail, ws_elev, ws_stuff, ws_music, ws_last]
---                              ++ map show [6 .. 7 :: Int]
---                              ++ ["♫","♥"]
        , modMask            = mod4Mask
        , normalBorderColor  = "#ccc"
        , focusedBorderColor = "#05c"
@@ -130,68 +141,61 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                     setWMName "LG3D"
                     spawn("/home/florian/bin/autoexec.bat")
 
-    -- currentXPConfig = defaultXPConfig
-    currentXPConfig = blueXPConfig
-
     myKeys (XConfig {modMask = modm}) = M.fromList $
       -- rotate workspaces
       [ ((modm .|. controlMask, xK_Right), nextWS)
-      , ((modm .|. controlMask, xK_Left), prevWS)
+      , ((modm .|. controlMask, xK_Left ), prevWS)
 
       -- switch to previous workspace
-      , ((modm, xK_z), toggleWS)
-
-      , ((modm .|. shiftMask, xK_b),   withFocused toggleBorder)
+      , ((modm,                 xK_z    ), toggleWS)
+      , ((modm .|. shiftMask,   xK_b    ), withFocused toggleBorder)
 
       -- lock the screen with xtrlock
-      , ((modm .|. shiftMask, xK_l), spawn "xlock")
-      , ((0, 0x1008ff2d), spawn "xlock")
-
+      , ((modm .|. shiftMask,   xK_l    ), spawn "xlock")
       -- lock screen with mod+f12
-      , ((modm, xK_F12), spawn "xscreensaver-command --lock")
+      , ((modm,                 xK_F12  ), spawn "xscreensaver-command --lock")
 
       -- some programs to start with keybindings.
-      , ((modm .|. shiftMask, xK_f), spawn "iceweasel")
-      , ((modm .|. shiftMask, xK_m), spawn "icedove")
+      , ((modm .|. shiftMask,   xK_f    ), spawn "iceweasel")
+      , ((modm .|. shiftMask,   xK_m    ), spawn "icedove")
 
       -- prompts
-      , ((modm .|. shiftMask, xK_s), sshPrompt currentXPConfig)
-      , ((modm .|. controlMask, xK_x), xmonadPrompt currentXPConfig)
-      , ((modm, xK_x), runOrRaisePrompt currentXPConfig)
-      --, ((modm, xK_s), scratchpadSpawnAction defaultConfig)
-      , ((modm .|. controlMask, xK_t), themePrompt currentXPConfig)
-
-      , ((0, 0x1008ff12), spawn "amixer sset 'Master' toggle")
-      , ((0, 0x1008ff11), spawn "amixer sset 'Master' 5%-")
-      , ((0, 0x1008ff13), spawn "amixer sset 'Master' 5%+")
+      , ((modm,                 xK_s    ), scratchpadSpawnAction defaultConfig)
+      , ((modm .|. shiftMask,   xK_s    ), sshPrompt currentXPConfig)
+      , ((modm,                 xK_x    ), runOrRaisePrompt currentXPConfig)
+      , ((modm .|. controlMask, xK_x    ), xmonadPrompt currentXPConfig)
+      , ((modm .|. controlMask, xK_t    ), themePrompt currentXPConfig)
 
       -- window navigation keybindings.
-      , ((modm,               xK_Right), sendMessage $ Go R)
-      , ((modm,               xK_Left ), sendMessage $ Go L)
-      , ((modm,               xK_Up   ), sendMessage $ Go U)
-      , ((modm,               xK_Down ), sendMessage $ Go D)
-      , ((modm .|. shiftMask, xK_Right), sendMessage $ Swap R)
-      , ((modm .|. shiftMask, xK_Left ), sendMessage $ Swap L)
-      , ((modm .|. shiftMask, xK_Up   ), sendMessage $ Swap U)
-      , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
-
-      --, ((modm,               xK_p    ), spawn "exe=`dmenu_run` && eval \"exec $exe\"")
-      , ((modm,               xK_p    ), spawn "dmenu_run")
-
-      -- alarm -- ThinkVantage
-      , ((0            , 0x1008ff41), spawn "aplay /home/florian/Documents/sound/ilikeit.wav")
-      , ((modm         , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm1.wav")
-      , ((controlMask  , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm2.wav")
-      , ((shiftMask    , 0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm0.wav")
-
-      -- display -- Fn + F7
-      , ((0             , 0x1008ff59), spawn "ac fxd")
-      , ((shiftMask     , 0x1008ff59), spawn "xrandr --output VGA1 --off")
-      , ((controlMask   , 0x1008ff59), spawn "xrandr --output LVDS1 --off")
+      , ((modm,                 xK_Right), sendMessage $ Go R)
+      , ((modm,                 xK_Left ), sendMessage $ Go L)
+      , ((modm,                 xK_Up   ), sendMessage $ Go U)
+      , ((modm,                 xK_Down ), sendMessage $ Go D)
+      , ((modm .|. shiftMask,   xK_Right), sendMessage $ Swap R)
+      , ((modm .|. shiftMask,   xK_Left ), sendMessage $ Swap L)
+      , ((modm .|. shiftMask,   xK_Up   ), sendMessage $ Swap U)
+      , ((modm .|. shiftMask,   xK_Down ), sendMessage $ Swap D)
 
       -- misc
-      , ((modm          , xK_Print),   spawn "gnome-screenshot")
-      , ((modm          , xK_c),       kill)
+      , ((modm,                 xK_Print), spawn "gnome-screenshot")
+      , ((modm,                 xK_c    ), kill)
+      , ((modm,                 xK_p    ), spawn "dmenu_run")
+
+      , ((0,            0x1008ff2d), spawn "xlock")
+      , ((0,            0x1008ff12), spawn "amixer sset 'Master' toggle")
+      , ((0,            0x1008ff11), spawn "amixer sset 'Master' 5%-")
+      , ((0,            0x1008ff13), spawn "amixer sset 'Master' 5%+")
+
+      -- alarm -- ThinkVantage
+      , ((0,            0x1008ff41), spawn "aplay /home/florian/Documents/sound/ilikeit.wav")
+      , ((modm,         0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm1.wav")
+      , ((controlMask,  0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm2.wav")
+      , ((shiftMask,    0x1008ff41), spawn "aplay /home/fpletz/Downloads/alarm/alarm0.wav")
+
+      -- display -- Fn + F7
+      --, ((0,            0x1008ff59), spawn "ac fxd")
+      --, ((shiftMask,    0x1008ff59), spawn "xrandr --output VGA1 --off")
+      --, ((controlMask,  0x1008ff59), spawn "xrandr --output LVDS1 --off")
       ]
 
     myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
@@ -212,7 +216,6 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
     myManageHook = composeAll (
             [ className   =? "jetbrains-phpstorm"  --> doShift ws_code
             , className   =? "jetbrains-idea"      --> doShift ws_code
-            , className   =? "Ltbin"               --> doShift ws_code
             , className   =? "Chromium-browser"    --> doShift ws_www
             , className   =? "Chromium"            --> doShift ws_www
             , className   =? "Gajim.py"            --> doShift ws_im
@@ -226,7 +229,6 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             , className   =? "Mail"                --> doShift ws_mail
             , className   =? "Icedove"             --> doShift ws_mail
             , className   =? "Keepassx"            --> doShift ws_mail
-            , className   =? "Wpa_gui"             --> doShift ws_elev
             , className   =? "Virt-Manager"        --> doShift ws_stuff
             , className   =? "mysql-workbench-bin" --> doShift ws_stuff
             , className   =? "Quodlibet"           --> doShift ws_music
@@ -241,6 +243,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
             , className   =? "Midori"              --> doShift ws_last
             , className   =? "Conkeror"            --> doShift ws_last
             , className   =? "luakit"              --> doShift ws_last
+            , className   =? "Wpa_gui"             --> doShift ws_elev
             ]
             ++ [ className =? c --> doFloat | c <- myFloats ])
       where myFloats = [ "Volume"
@@ -252,8 +255,8 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        , "Wicd-client.py"
                        ]
 
-    myPP h = defaultPP { ppCurrent         = xmobarColor "#2da5fa" ""
-                       , ppVisible         = xmobarColor "#1f72ac" ""
+    myPP h = defaultPP { ppCurrent         = xmobarColor xm1 ""
+                       , ppVisible         = xmobarColor xm2 ""
                        , ppHiddenNoWindows = \wsId ->
                                     if (reads wsId :: [(Int, String)]) == []
                                         then wsId
@@ -261,7 +264,7 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                        , ppSep             = xmobarColor "#666" "" "]["
                        , ppUrgent	       = xmobarColor "#fff" "" . \wsId -> wsId ++ "*"
                        , ppLayout          = xmobarColor "#15d" "" . (\x -> case x of
-                                                "Full"                    -> " F "
+                                                "Full"                   -> " F "
                                                 "DwmStyle Tall"          -> "DT "
                                                 "DwmStyle Mirror Tall"   -> "DMT"
                                                 "Tabbed Bottom Simplest" -> "TB "
@@ -270,23 +273,21 @@ myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
                                                 "ReflectX combining Grid and Grid with TwoPane using Or (Role \"MainWindow\") (Or (Role \"buddy_list\") (Role \"roster\"))" -> "IM "
                                                 _                        -> x)
                        , ppWsSep           = xmobarColor "#666" "" "|"
-                       , ppTitle           = shorten 45 . (\s -> s ++ " ")
---                       , ppOrder           = reverse
+                       , ppTitle           = shorten xmobarTitleLength . (\s -> s ++ " ")
+                       --, ppOrder           = reverse
                        , ppOutput          = hPutStrLn h
                        }
 
     myLayouts = avoidStruts $ smartBorders
-              $ onWorkspaces [ws_shell, ws_mail, ws_elev, ws_music, ws_last] (tabbedLayout ||| (dwmLayout $ tiled ||| Mirror tiled))
-              $ onWorkspaces [ws_code, ws_www] (tabbedLayout ||| tiled)
+              $ onWorkspaces [ws_shell, ws_code, ws_www, ws_mail, ws_elev] (tabbedLayout ||| (dwmLayout $ tiled ||| Mirror tiled))
+              -- $ onWorkspaces [ws_code, ws_www] (tabbedLayout ||| tiled)
               $ onWorkspaces [ws_im] imLayout2
-              $ (dwmLayout $ tiled ||| Mirror tiled) ||| Full ||| tabbedLayout ||| gimpLayout
+              $ (dwmLayout $ tiled ||| Mirror tiled) ||| tabbedLayout ||| Full ||| gimpLayout
             where
                 tiled   = Tall nmaster delta ratio
                 nmaster = 1
                 delta   = 3/100
                 ratio   = 1/2
-
-                currentTheme = blueTheme
 
                 dwmLayout    = dwmStyle shrinkText currentTheme
                 tabbedLayout = tabbedBottomAlways shrinkText currentTheme
