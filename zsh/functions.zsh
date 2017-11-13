@@ -19,7 +19,7 @@ function my_vers() {
 }
 
 # battery level information
-function show_bat {
+function _show_bat {
     # system-specific stuff
     local _bat=$1
     local _full=$2
@@ -58,18 +58,18 @@ function show_bat {
 # battery level information
 function nx7010bat {
     # system-specific stuff
-    show_bat "C11F" "charge_full" "charge_now" $1
+    _show_bat "C11F" "charge_full" "charge_now" $1
 }
 
 # battery level information
 function w500bat {
     # system-specific stuff
-    show_bat "BAT0" "energy_full" "energy_now" $1
+    _show_bat "BAT0" "energy_full" "energy_now" $1
 }
 
 function s710bat {
     # system-specific stuff
-    show_bat "CMB1" "charge_full" "charge_now" $1
+    _show_bat "CMB1" "charge_full" "charge_now" $1
 }
 
 function batbat {
@@ -237,11 +237,11 @@ function ec2() {
 
 
 function shorts () {
-    echo 'shrug - ¯\_(ツ)_/¯'
-    echo 'table - (╯°□°)╯︵ ┻━┻'
-    echo 'rocky - https://www.youtube.com/watch?v=qfNfQixs8yA'
-    echo '        ▄︻̷̿┻̿═━一'
-    echo '       ༼ つ ◕_◕ ༽つ'
+    echo '¯\_(ツ)_/¯'
+    echo '(╯°□°)╯︵ ┻━┻'
+    echo 'rocky https://www.youtube.com/watch?v=qfNfQixs8yA'
+    echo '▄︻̷̿┻̿═━一'
+    echo '༼ つ ◕_◕ ༽つ'
 }
 
 # fshow - git commit browser

@@ -31,11 +31,3 @@ alias tpenable="synclient TouchPadOff=0; xset m 1/8 40"
 
 alias touchpadoff="echo Use tpdisable && tpdisable"
 alias touchpadon="echo Use tpenable && tpenable"
-
-# dev
-alias gp='git pull'
-alias gpp='git pull && git push'
-alias gps='git stash && git pull && git push && git stash apply'
-alias puppet_u='vagrant up puppet --provision-with shell,puppet'
-alias puppet_p='vagrant provision puppet --provision-with shell,puppet'
-alias fabdeploy='~/.virtualenvs/puppet/bin/fab deploy'
