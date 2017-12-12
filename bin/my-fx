@@ -9,33 +9,53 @@ mode="$1"
 
 ########################################
 # some config
-main_name="LVDS-1"
-main_res="1366x768"
-main_scale=""
 
-second_name="VGA-1"
-second_res="1920x1080"
+# default settings
+main_scale=""
 second_scale=""
 second_fb=""
-
-third_name="VGA-1"
-third_res="1024x768"
+second_where="left-of" #left-of|right-of|above|below
+second_target="1"
 third_scale=""
+third_where="right-of"
+third_target="2" # 1|2
+beamer_name="VGA-1"
+beamer_res="1024x768"
 
-# check for HiDPI panel (T460p)
-_ck=$(xrandr | grep "eDP-1 connected")
-if [ $? = 0 ]; then
+
+case $(hostname) in
+  parakeet)
     main_name="eDP-1"
-    main_res="2560x1440"
-    main_scale="--scale 1x1"
-    second_name="HDMI-1"
-    second_res="1920x1080"
-    second_scale="--scale 1.333x1.333"
-    second_fb="--panning 2560x1440+2560+0"
-fi
+    main_res="1920x1080"
 
-# check for third screen connected
-# @TODO
+    second_name="DP-2"
+    second_res="1920x1200"
+  ;;
+
+  *)
+    main_name="LVDS-1"
+    main_res="1366x768"
+
+    second_name="VGA-1"
+    second_res="1920x1080"
+
+    third_name="VGA-1"
+    third_res="1024x768"
+
+    # check for HiDPI panel (T460p)
+    _ck=$(xrandr | grep "eDP-1 connected primary 2560")
+    if [ $? = 0 ]; then
+        main_name="eDP-1"
+        main_res="2560x1440"
+        main_scale="--scale 1x1"
+
+        second_name="HDMI-1"
+        second_res="1920x1080"
+        second_scale="--scale 1.333x1.333"
+        second_fb="--panning 2560x1440+2560+0"
+    fi
+  ;;
+esac
 
 function bg_set() {
     if [ -f "${HOME}/.fehbg" ]; then
@@ -52,6 +72,17 @@ function run() {
     fi
     return $RET
 }
+
+if [ "${mode}" = "--show" ]; then
+    _out=$(xrandr)
+    echo "$_out" | grep '^Screen'
+    echo
+    echo "$_out" | grep ' connected' | sed "s/ connected/\tconnected/"
+    echo
+    echo "$_out" | grep ' disconnected' | sed "s/ disconnected/\tdisconnected/" | sort
+    exit 0
+fi
+
 
 ########################################
 # notebook
@@ -73,16 +104,13 @@ if [ "${mode}" = "--single" ]; then
     bg_set
     exit $RET;
 fi
-# wtf?
-#xrandr --output VGA1 --mode 2048x1152 --right-of LVDS1
 
 ########################################
 # beamer
 ########################################
 if [ "${mode}" = "--beamer" ]; then
-    second_res='1024x768'
-    echo "Second screen: $second_name @ $second_res (mirror)"
-    cmd="xrandr --output $second_name --mode $second_res --same-as $main_name --rotate normal"
+    echo "Second screen: $beamer_name @ $beamer_res (mirror)"
+    cmd="xrandr --output $beamer_name --mode $beamer_res --same-as $main_name --rotate normal"
     run $cmd
     RET=$?
     bg_set
@@ -94,7 +122,7 @@ fi
 ########################################
 if [ "${mode}" = "--double" ]; then
     echo "Second screen: $second_name @ $second_res (right)"
-    cmd="xrandr --output $second_name --mode $second_res --right-of $main_name --rotate normal $second_scale $second_fb --auto"
+    cmd="xrandr --output $second_name --mode $second_res --$second_where $main_name --rotate normal $second_scale $second_fb --auto"
     run $cmd
     RET=$?
     bg_set
@@ -105,11 +133,21 @@ fi
 # three screens
 ########################################
 if [ "${mode}" = "--triple" ]; then
-    echo "Second screen: $second_res (right)"
-    cmd="xrandr --output $second_name --mode $second_res --right-of $main_name --rotate normal"
+    if [ "${second_target}" = "1" ]; then
+        second_target="$main_name"
+    fi
+    echo "Second screen: $second_res ($second_where $second_target)"
+    cmd="xrandr --output $second_name --mode $second_res --$second_where $second_target --rotate normal"
     run $cmd
     RET=$?
-    cmd="xrandr --output $third_name --mode $third_res --right-of $second_name --rotate normal"
+
+    if [ "${third_target}" = "2" ]; then
+        third_target="$second_name"
+    else
+        third_target="$main_name"
+    fi
+    echo "Third screen: $second_res ($third_where $third_target)"
+    cmd="xrandr --output $third_name --mode $third_res --$third_where -of $third_target --rotate normal"
     run $cmd
     RET=$?
     bg_set
