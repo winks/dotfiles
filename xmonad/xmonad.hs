@@ -122,7 +122,7 @@ main = do
 -- ⌨  ⎆ ✇ ☘  ⌬ ⌛ ☣ ⚔ ✨   😈  😏  😒
 myConfig h = withUrgencyHook NoUrgencyHook $ defaultConfig
        { borderWidth        = 1
-       , terminal           = "x-terminal-emulator"
+       , terminal           = "/usr/bin/x-terminal-emulator"
        , workspaces         = [ws_shell, ws_code, ws_www, ws_im, ws_mail, ws_elev, ws_stuff, ws_music, ws_last]
        , modMask            = mod4Mask
        , normalBorderColor  = "#ccc"

@@ -29,5 +29,5 @@ alias weather="curl -4 wttr.in/muc"
 alias tpdisable="synclient TouchPadOff=1; xset m 1/8 40"
 alias tpenable="synclient TouchPadOff=0; xset m 1/8 40"
 
-alias touchpadoff="echo Use tpdisable && tpdisable"
-alias touchpadon="echo Use tpenable && tpenable"
+#alias touchpadoff="echo Use tpdisable && tpdisable"
+#alias touchpadon="echo Use tpenable && tpenable"

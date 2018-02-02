@@ -255,3 +255,13 @@ fshow() {
                 {}
 FZF-EOF"
 }
+
+function check_last_exit_code() {
+  local LAST_EXIT_CODE=$?
+  local SYMBOL=$1
+  if [[ $LAST_EXIT_CODE -ne 0 ]]; then
+    echo "%{$FG[196]%}-${LAST_EXIT_CODE}-%{$FX[reset]%}"
+  else
+    echo "$SYMBOL"
+  fi
+}

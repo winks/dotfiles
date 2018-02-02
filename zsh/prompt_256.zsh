@@ -20,13 +20,13 @@ else
     fi
     # This assembles the primary prompt string
     if (( EUID != 0 )); then
-        PPRE="${RED}${EXITCODE}"
-        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
-        PPOST="${BBLUE}$ ${NO_COLOUR}"
+        PPRE="[a]${RED}${EXITCODE}"
+        PROMPT="[b]${UC}%n${WHITE}@${HC}%m %40<...<${YELLOW}%3~%<< "
+        PPOST="[c]${BBLUE}$ ${NO_COLOUR}"
     else
-        PPRE="${BLUE}${EXITCODE}"
-        PROMPT="${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
-        PPOST="${BWHITE}# ${NO_COLOUR}"
+        PPRE="[a]${BLUE}${EXITCODE}"
+        PROMPT="[b]${UC}%n${WHITE}@${HC}%m %40<...<%B${BRED}%3~%b%<< "
+        PPOST="[c]${BWHITE}# ${NO_COLOUR}"
     fi
 fi
 
@@ -50,17 +50,9 @@ else
 fi
 
 local px="%{$FX[reset]$FG[243]%}"
-#local name="%{$FX[reset]$FG[114]%}%n" # lgreen
 local name="%{$FX[reset]$FG[$usercolor]%}%n"
 local host="%{$FX[reset]$FG[$hostcolor]%}%m"
-#local jobs="%1(j.(%{$FX[reset]$FG[197]%}%j job%2(j.s.)${px})-.)"
-#local time="%{$FX[reset]$FG[215]%}%*"
 local dir="%{$FX[reset]$FG[215]%}%3~"
-
-local last="%(?..%{$FX[reset]$FG[203]%}%??${px})"
-local last2=`prefixlambda`
-#local hist="%{$FX[reset]$FG[$usercolor]%}%!!"
-#local priv="%{$FX[reset]$FG[245]%}%#"
 local sign="%{$FX[reset]$FG[117]%}$"
 
 # Use zshcontrib's vcs_info to get information about any current version control systems.
@@ -70,11 +62,9 @@ zstyle ':vcs_info:*' stagedstr "%{$FX[reset]$FG[082]%}"
 zstyle ':vcs_info:*' unstagedstr "%{$FX[reset]$FG[197]%}"
 zstyle ':vcs_info:*' formats ":%{$FX[reset]$FG[222]%}%c%u%b"
 
-local vcsi='${vcs_info_msg_0_}'
-
-if [[ "$LC_PUTTY" -eq 1 ]]; then
-  last2=""
-fi
+#if [[ "$LC_PUTTY" -eq 1 ]]; then
 
 setopt prompt_subst
-PROMPT="${last2}${px}(${name}${px}@${host}${px} ${dir}${px}${vcsi}${px}) ${sign} %{$FX[reset]%}"
+
+PROMPT='$(check_last_exit_code λ)${px}(${name}${px}@${host}${px} ${dir}${px}${vcs_info_msg_0_}${px}) ${sign} %{$FX[reset]%}'
+RPROMPT='$(check_last_exit_code)'
