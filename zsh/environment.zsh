@@ -76,7 +76,10 @@ __ac_modpath "${HOME}/bin"
 
 if [ -d /usr/local/go ]; then
   export GOROOT="/usr/local/go"
-__ac_modpath "${GOROOT}/bin" append
+fi
+if [ -d "${HOME}/code/go" ]; then
+  export GOPATH="${HOME}/code/go"
+__ac_modpath "${GOPATH}/bin" append
 fi
 
 export RUST_SRC_PATH="/opt/src/rust/src"
@@ -106,8 +109,8 @@ elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
     source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
-if [ -f ${HOME}/.nix-profile/share/chruby/chruby.sh ]; then
+if [ -f "${HOME}/.nix-profile/share/chruby/chruby.sh" ]; then
     alias my-chruby="source ${HOME}/.nix-profile/share/chruby/chruby.sh; chruby ruby-2.3.0"
-elif [ -f /usr/local/share/chruby/chruby.sh ]; then
+elif [ -f "/usr/local/share/chruby/chruby.sh" ]; then
     alias my-chruby="source /usr/local/share/chruby/chruby.sh; chruby ruby-2.3.0"
 fi

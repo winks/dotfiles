@@ -17,7 +17,7 @@ second_fb=""
 second_where="left-of" #left-of|right-of|above|below
 second_target="1"
 third_scale=""
-third_where="right-of"
+third_where="left-of"
 third_target="2" # 1|2
 beamer_name="VGA-1"
 beamer_res="1024x768"
@@ -28,8 +28,11 @@ case $(hostname) in
     main_name="eDP-1"
     main_res="1920x1080"
 
-    second_name="DP-2"
-    second_res="1920x1200"
+    second_name="HDMI-1"
+    second_res="1920x1080"
+
+    third_name="DP-2"
+    third_res="1920x1200"
   ;;
 
   *)
@@ -147,7 +150,7 @@ if [ "${mode}" = "--triple" ]; then
         third_target="$main_name"
     fi
     echo "Third screen: $second_res ($third_where $third_target)"
-    cmd="xrandr --output $third_name --mode $third_res --$third_where -of $third_target --rotate normal"
+    cmd="xrandr --output $third_name --mode $third_res --"$third_where" $third_target --rotate normal"
     run $cmd
     RET=$?
     bg_set

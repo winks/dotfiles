@@ -97,7 +97,7 @@ set textwidth=79
 set formatoptions=qrn1
 
 set list
-set listchars=tab:»·
+set listchars=tab:»·,nbsp:·
 
 " hardcore mode: unmap arrow keys
 "nnoremap <up> <nop>
@@ -149,7 +149,8 @@ nnoremap <leader>e :tabnew<CR>
 " line numbers
 :noremap <leader>l :set number!<CR>
 " Invisible characters
-:noremap <leader>i :set list!<CR>
+:noremap <leader>j :set listchars=tab:»·,space:·,nbsp:·,trail:·<CR>
+:noremap <leader>i :set invlist<CR>
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j

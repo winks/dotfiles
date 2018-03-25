@@ -265,3 +265,7 @@ function check_last_exit_code() {
     echo "$SYMBOL"
   fi
 }
+
+function grepe {
+    grep --color -E "$1|$" $2
+}

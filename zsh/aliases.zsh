@@ -20,6 +20,7 @@ which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
 alias weather="curl -4 wttr.in/muc"
+alias find.="find ."
 
 [ -f "$HOME/code/dotfiles/multitail.conf" ] && {
   alias multitail="multitail --config $HOME/code/dotfiles/multitail.conf"
