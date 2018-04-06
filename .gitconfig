@@ -20,8 +20,9 @@
     ci = commit
     br = branch
     co = checkout
-    df = diff
-    lg = log -p
+    df = diff --color
+    dfw = diff --color --color-words
+    lg = log -p --color
     since = !git log $(git merge-base --fork-point master)..HEAD
 	up = pull --rebase --autostash
 	what = log --format='%an %s'

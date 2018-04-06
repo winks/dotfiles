@@ -294,7 +294,7 @@ fi
 ##
 #my_set_prompt
 
-export PATH="~/bin:"$PATH
+export PATH=$HOME/bin:$PATH
 
 export GIT_EDITOR=vim
 export EDITOR=vim

@@ -1,0 +1,10 @@
+#!/bin/sh
+LOCK=$(which i3lock)
+if [ -z "${LOCK}" ]; then
+ LOCK=$(which xlock)
+fi
+if [ -f "${HOME}/code/dotfiles/bin/lockit" ]; then
+  LOCK="${HOME}/code/dotfiles/bin/lockit"
+fi
+
+exec sh -c "${LOCK} && sudo pm-suspend"

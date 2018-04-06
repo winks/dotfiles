@@ -21,6 +21,7 @@ which vim >/dev/null 2>&1 && alias vi='vim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
 alias weather="curl -4 wttr.in/muc"
 alias find.="find ."
+alias psthread='ps -e -T -eo pcpu,pid,tid,args,comm'
 
 [ -f "$HOME/code/dotfiles/multitail.conf" ] && {
   alias multitail="multitail --config $HOME/code/dotfiles/multitail.conf"

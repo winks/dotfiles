@@ -150,7 +150,12 @@ function vms_running () {
         echo "No running VMs detected."
         return 1
     fi
-    echo $x | paste -s
+    oneline=$(echo $x | paste -s -d '|' | sed -e 's/|/ | /g')
+    echo $oneline
+    for i in $(seq 1 ${#oneline}); do
+        echo -n "="
+    done
+    echo
     echo $x | while read v; do
         echo -n $v
         local len=${#v}
@@ -219,6 +224,14 @@ function px() {
     local x=${arg:0:1}
     local xs=${arg:1:$len}
     /bin/ps aux | grep "[${x}]${xs}"
+}
+
+function gx() {
+    local arg=$1
+    local len=${#arg}
+    local x=${arg:0:1}
+    local xs=${arg:1:$len}
+    grep "[${x}]${xs}"
 }
 
 function ccat() {

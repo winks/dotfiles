@@ -1,0 +1,16 @@
+#!/bin/bash
+
+ARG="$1"
+MODE="Something @"
+
+if [ "${ARG}" == "unlock" -o "${ARG}" == "u" ]; then
+  MODE="Unlocking @"
+elif [ "${ARG}" == "lock" -o "${ARG}" == "l" ]; then
+  MODE="Locking   @"
+fi
+
+LOG="$HOME/Documents/florian/worklog.txt"
+mkdir -p $(dirname "$LOG") > /dev/null 2>&1
+
+echo -n "$MODE " >> "$LOG"
+/bin/date --iso-8601=seconds >> "$LOG"

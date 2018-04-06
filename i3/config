@@ -172,7 +172,9 @@ bar {
         colors {
             background #333333
         }
-        font pango:monospace 6
+        #font pango:monospace 6
+        font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+
 }
 
 bar {
@@ -184,7 +186,8 @@ bar {
         colors {
             background #333333
         }
-        font pango:monospace 6
+        #font pango:monospace 6
+        font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 }
 
 #######################################################################
@@ -225,7 +228,7 @@ bindsym Mod4+0 $x_switch 10
 
 ######################################################################
 # own stuff
-bindsym Mod4+F12 exec /usr/bin/xscreensaver-command -lock
+bindsym Mod4+F12 exec /home/florian/code/dotfiles/bin/lockit
 
 # dmenu
 bindsym Mod4+p exec dmenu_run
@@ -233,10 +236,37 @@ bindsym Mod4+p exec dmenu_run
 # start a terminal
 bindsym Mod4+Shift+Return exec i3-sensible-terminal
 
+bindsym Mod4+Print exec "cd $HOME ; scrot"
+bindsym Mod4+t scratchpad show
+
+
+# assign [class=["x-terminal-emulator|X-terminal-emulator" ] 1
+
+assign [class="Code|qtc|QtCreator" ] 2
+
+assign [class="Chromium|Chromium-browser|google-chrome|Google-chrome" ] 3
+
+assign [class="gajim|Gajim|Gajim.py" ] 4
+assign [class="Quasselclient" ] 4
+
+assign [class="Thunderbird|Mail" ] 5
+assign [class="Geary" ] 5
+assign [class="keepassx|Keepassx" ] 5
+assign [class="ta|Ta" ] 5
+
+assign [class="Wpa_gui" ] 6
+
+assign [class="Firefox" ] 9
+assign [class="brave" ] 9
+assign [class="Clementine|Spotify|spotify|Vlc|Rhythmbox" ] 9
+
 # run stuff
-exec_always --no-startup-id /home/florian/code/dotfiles/bin/run_once_silent /usr/bin/parcellite
-exec /home/florian/code/dotfiles/bin/ac k
-exec /home/florian/code/dotfiles/bin/my-fx --triple
-exec /home/florian/.fehbg
-exec /usr/bin/xscreensaver -no-splash &
-exec /home/florian/bin/start_daemontools
+#exec /usr/bin/xscreensaver -no-splash &
+#exec_always --no-startup-id /home/florian/code/dotfiles/bin/run_once_silent /usr/bin/parcellite
+#exec --no-startup-id /home/florian/code/dotfiles/bin/ac k
+#exec --no-startup-id setxkbmap -option compose:ralt
+#exec --no-startup-id /home/florian/code/dotfiles/bin/my-fx --triple
+#exec --no-startup-id /home/florian/.fehbg
+#exec --no-startup-id /usr/bin/xautolock -time 5 -secure -locker "/home/florian/code/dotfiles/bin/lockit"
+#exec --no-startup-id /home/florian/bin/start_daemontools
+exec --no-startup-id /home/florian/code/dotfiles/autoexec.bat

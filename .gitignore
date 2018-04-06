@@ -15,4 +15,6 @@ xmonad/xmonad-*
 xmonad/xmonad.errors
 xmonad/**/*.hi
 xmonad/**/*.o
+xmonad/xmobarrc
 .idea/
+bin/autoexec.bat

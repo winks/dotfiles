@@ -1,0 +1,4 @@
+#!/bin/sh
+
+$(dirname $0)/worklog lock
+/usr/bin/i3lock --ignore-empty-password --color=333355 --nofork;$(dirname $0)/worklog unlock

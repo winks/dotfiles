@@ -13,7 +13,7 @@ if [ "${TOOL}" = "" ]; then
 fi
 ###################
 if [ "${TOOL}" = "b" ]; then
-   "${DF}/ac" fxd
+   "${DF}/ac" fxt
    "${DF}/ac" xm
    "${DF}/ac" tr
    "${DF}/ac" keys
@@ -27,6 +27,11 @@ fi
 ###################
 if [ "${TOOL}" = "fxd" ]; then
     "${DF}/my-fx" --single && "${DF}/my-fx" --double
+    exit
+fi
+###################
+if [ "${TOOL}" = "fxt" ]; then
+    "${DF}/my-fx" --single && "${DF}/my-fx" --triple
     exit
 fi
 ###################

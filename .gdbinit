@@ -613,3 +613,8 @@ document zmemcheck
 	usage: zmemcheck [ptr].
 	if ptr is 0, all blocks will be listed.
 end
+
+set follow-fork-mode child
+show follow-fork-mode
+show detach-on-fork
+#set follow-exec-mode

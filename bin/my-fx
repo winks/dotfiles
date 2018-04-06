@@ -101,6 +101,8 @@ run $cmd
 ########################################
 if [ "${mode}" = "--single" ]; then
     echo "Switching to single-display mode..."
+    cmd="xrandr --output $third_name --off"
+    run $cmd
     cmd="xrandr --output $second_name --off"
     run $cmd
     RET=$?
@@ -114,6 +116,17 @@ fi
 if [ "${mode}" = "--beamer" ]; then
     echo "Second screen: $beamer_name @ $beamer_res (mirror)"
     cmd="xrandr --output $beamer_name --mode $beamer_res --same-as $main_name --rotate normal"
+    run $cmd
+    RET=$?
+    bg_set
+    exit $RET;
+fi
+
+if [ "${mode}" = "--confi" ]; then
+    second_res='1366x768'
+    second_name='HDMI-1'
+    echo "Second screen: $second_name @ $second_res (mirror)"
+    cmd="xrandr --output $second_name --mode $second_res --same-as $main_name --rotate normal"
     run $cmd
     RET=$?
     bg_set
