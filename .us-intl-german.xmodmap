@@ -9,6 +9,8 @@
 ! 66 is Caps Lock.
 keycode 66 = ISO_Group_Shift ISO_Group_Shift ISO_First_Group NoSymbol
 !keycode 66 = Caps_Lock
+keycode 108 = Mode_switch Mode_switch Mode_switch Mode_switch
+!keycode 108 = Alt_R
 
 ! Some notes to users of us(intl) or us(altgr-intl):
 !
@@ -40,6 +42,7 @@ keycode  24 = q Q at Q adiaeresis Adiaeresis at Greek_OMEGA
 keycode  26 = e E EuroSign U220A eacute Eacute EuroSign EuroSign
 keycode  27 = r R registered R r R r R
 keycode  28 = t T THORN T t T t T
+keycode  31 = i I i I iacute Iacute i I
 keycode  58 = m M mu M mu mu mu masculine
 keycode  57 = n N U2603 U2615 n N n N
 keycode  56 = b B U2606 U2605 b B b B

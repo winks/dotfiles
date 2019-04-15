@@ -21,6 +21,8 @@ third_where="left-of"
 third_target="2" # 1|2
 beamer_name="VGA-1"
 beamer_res="1024x768"
+beamer_name="HDMI-1"
+beamer_res="1920x1080"
 
 
 case $(hostname) in

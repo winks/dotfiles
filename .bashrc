@@ -304,5 +304,9 @@ export HISTTIMEFORMAT="%F %T "
 export HISTCONTROL=ignoredups
 export LESS="-erX"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PYTHONPATH=$PYTHONPATH:$HOME/code/topaz/pypy
+[ -d "$HOME/.nix-profile/bin" ] && {
+  export PATH=$PATH:$HOME/.nix-profile/bin
+}
+[ -d "$HOME/.rvm/bin" ] && {
+  export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+}

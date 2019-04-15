@@ -31,5 +31,6 @@ alias psthread='ps -e -T -eo pcpu,pid,tid,args,comm'
 alias tpdisable="synclient TouchPadOff=1; xset m 1/8 40"
 alias tpenable="synclient TouchPadOff=0; xset m 1/8 40"
 
-#alias touchpadoff="echo Use tpdisable && tpdisable"
-#alias touchpadon="echo Use tpenable && tpenable"
+[ -f "$HOME/.config/i3/config" ] && {
+  alias i3cheatsheet="egrep ^bind $HOME/.config/i3/config | cut -d ' ' -f 2- | sed 's/ /\t/' | column -ts $'\t' | pr -2 -w 145 -t | less"
+}
