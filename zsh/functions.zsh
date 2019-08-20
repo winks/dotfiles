@@ -252,7 +252,8 @@ function ec2() {
 function shorts () {
     echo '¯\_(ツ)_/¯'
     echo '(╯°□°)╯︵ ┻━┻'
-    echo 'rocky https://www.youtube.com/watch?v=qfNfQixs8yA'
+    echo 'rocky  https://www.youtube.com/watch?v=qfNfQixs8yA'
+    echo 'guitar https://www.youtube.com/watch?v=Gs3ocG5yW88'
     echo '▄︻̷̿┻̿═━一'
     echo '༼ つ ◕_◕ ༽つ'
 }
