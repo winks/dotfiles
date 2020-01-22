@@ -280,6 +280,10 @@ function check_last_exit_code() {
   fi
 }
 
-function grepe {
-    grep --color -E "$1|$" $2
+function colorize {
+  if [ -z "$2" ]; then
+    grep --color=always "$1\|^"
+  else
+    grep --color=always "$1\|^" $2
+  fi
 }

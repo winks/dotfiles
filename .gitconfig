@@ -1,11 +1,13 @@
 [includeIf "gitdir:~/code/"]
-    path = .config/.gitconfig-work
+    path = .config/art-core/.gitconfig-work
 [includeIf "gitdir:~/code/winks"]
-    path = .config/.gitconfig-personal
+    path = .config/art-core/.gitconfig-personal
 [includeIf "gitdir:~/code/bitbucket"]
-    path = .config/.gitconfig-personal
+    path = .config/art-core/.gitconfig-personal
 [includeIf "gitdir:~/code/dotfiles"]
-    path = .config/.gitconfig-personal
+    path = .config/art-core/.gitconfig-personal
+[includeIf "gitdir:/opt/"]
+    path = .config/art-core/.gitconfig-work
 
 [color]
     diff = auto
@@ -33,5 +35,6 @@
     quotepath = false
 [diff]
     compactionHeuristic = true
+	noprefix = true
 [commit]
     verbose = true
