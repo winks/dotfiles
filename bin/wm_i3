@@ -1,0 +1,20 @@
+#!/bin/bash
+
+FILE="$HOME/.config/plasma-workspace/env/set_window_manager.sh"
+WHAT="export KDEWM=/usr/bin/i3"
+
+mode="x"
+if [ "$1" = "off" ]; then
+  mode="off"
+  sed -i "s,^$WHAT,#$WHAT," "$FILE"
+elif [ "$1" = "on" ]; then
+  mode="on"
+  sed -i "s,^#$WHAT,$WHAT," "$FILE"
+else
+  echo "usage: $0 on|off"
+fi
+
+#cat $FILE
+if [ ! "$mode" = "x" ]; then
+echo "i3 as a WM in KDE is now $mode"
+fi

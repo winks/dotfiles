@@ -33,6 +33,7 @@
     default = current
 [core]
     quotepath = false
+	excludesfile = /home/florian/.gitignore
 [diff]
     compactionHeuristic = true
 	noprefix = true
