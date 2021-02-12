@@ -1,0 +1,15 @@
+// alternative version
+// put this in /usr/share/X11/xkb/symbols/
+// sudo dpkg-reconfigure xkb-data
+// setxkbmap -symbols '+level3(caps_switch)+usde2(directumlauts)'
+
+partial alphanumeric_keys
+xkb_symbols "directumlauts" {
+        key <LatQ>        { [ q, Q, at ] };
+        key <LatA>        { [ a, A, adiaeresis, Adiaeresis ] };
+        key <LatO>        { [ o, O, odiaeresis, Odiearesis ] };
+        key <LatU>        { [ u, U, udiaeresis, Udiearesis ] };
+        key <LatS>        { [ s, S, ssharp, section ] };
+        key <LatM>        { [ m, M, mu ] };
+        key <AE05>        { [ 5, percent, EuroSign, cent ] };
+};

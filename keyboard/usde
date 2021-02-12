@@ -1,0 +1,23 @@
+// put this in /usr/share/X11/xkb/symbols/
+// sudo dpkg-reconfigure xkb-data
+// setxkbmap -layout usde
+
+default partial alphanumeric_keys
+xkb_symbols "alt-intl" {
+   include "us(basic)"
+
+   key <AC01> { [     a,          A,        adiaeresis,  Adiaeresis ] };
+   key <AD09> { [     o,          O,        odiaeresis,  Odiaeresis ] };
+   key <AD07> { [     u,          U,        udiaeresis,  Udiaeresis ] };
+   key <AC02> { [     s,          S,        ssharp,      U1E9E      ] };
+
+   key <AD03> { [     e,          E,        EuroSign,    U220A      ] };
+   key <LatF> { [     f,          F,        U0192,       U0191      ] };
+   key <LatL> { [     l,          L,        U03BB,       U039B      ] };
+   key <LatM> { [     m,          M,        mu ] };
+   key <LatQ> { [     q,          Q,        at ] };
+
+   // key <AE05> { [     5, percent, EuroSign, cent ] };
+   // key <LatX> { [    x, X, Cyrillic_zhe, Cyrillic_Zhe ] };
+   include "level3(caps_switch)"
+};

@@ -5,17 +5,10 @@
 if (( C == 256 )); then
     autoload spectrum && spectrum
 fi
-if (( C == 8 )); then
-    autoload spectrum && spectrum
-fi
 
 autoload -Uz vcs_info
 precmd() {
     vcs_info
-}
-
-function my_vers() {
-    echo -e ".zshrc.local by fa, version ${my_version}"
 }
 
 # battery level information
@@ -61,7 +54,6 @@ function nx7010bat {
     _show_bat "C11F" "charge_full" "charge_now" $1
 }
 
-# battery level information
 function w500bat {
     # system-specific stuff
     _show_bat "BAT0" "energy_full" "energy_now" $1
@@ -72,13 +64,22 @@ function s710bat {
     _show_bat "CMB1" "charge_full" "charge_now" $1
 }
 
+function dellbat {
+    # system-specific stuff
+    _show_bat "BAT0" "charge_full" "charge_now" $1
+}
+
 function batbat {
     if [ -d $(readlink -f "/sys/class/power_supply/CMB1") ]; then
         s710bat
     elif [ -d $(readlink -f "/sys/class/power_supply/C11F") ]; then
         nx7010bat
     else
-        w500bat
+        if [ -f "/sys/class/power_supply/BAT0/charge_full" ]; then
+            dellbat
+        else
+            w500bat
+        fi
     fi
 }
 

@@ -4,8 +4,8 @@
 ##    by fa[at]art-core.org
 ## ported from .bashrc 0.91, 2011-08-09
 ########################################
-## 2016-04-19
-my_version='1.4'
+## 2021-02-03
+my_version='1.5'
 ########################################
 #set -x
 
@@ -30,11 +30,7 @@ source $Z/functions.zsh
 source $Z/completion.zsh
 
 ## prompt
-if (( C == 256 )); then
-    source $Z/prompt_256.zsh
-else
-    source $Z/prompt_256.zsh
-fi
+source $Z/prompt_256.zsh
 
 ## host-specific stuff, purely optional
 if [ -f ~/.config/art-core/.profile.post ]; then

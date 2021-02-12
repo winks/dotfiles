@@ -16,11 +16,9 @@ alias today='cal | sed "s/.*/ & /;s/ $(date +%e) / [] /"'
 alias ..="cd .."
 alias ...="cd ../.."
 alias hexfind='grep --color="auto" -P -n "[\x80-\xFF]"'
-which ack >/dev/null 2>&1 && alias ack='ack-grep'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
 alias weather="curl -4 wttr.in/muc"
-alias find.="find ."
 alias psthread='ps -e -T -eo pcpu,pid,tid,args,comm'
 
 [ -f "$HOME/code/dotfiles/multitail.conf" ] && {
