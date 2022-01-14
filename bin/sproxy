@@ -1,0 +1,16 @@
+#!/bin/sh
+NAME="proxyfoo"
+CMD="ssh -D 9999 nihil"
+PNAME="proxy"
+
+tmux list-sessions | grep "^${NAME}" || {
+	echo "No session named '${NAME}', starting tmux"
+	tmux new-session   -s ${NAME} -d
+	tmux rename-window -t ${NAME} ${PNAME}
+}
+
+ps aux | grep "${CMD}" | grep -v grep || {
+	echo "Command '${CMD}' not running, starting"
+    tmux send-keys -t ${PNAME} "${CMD}" 'C-m'
+}
+

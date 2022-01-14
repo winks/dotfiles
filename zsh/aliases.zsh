@@ -20,6 +20,7 @@ which vim >/dev/null 2>&1 && alias vi='vim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
 alias weather="curl -4 wttr.in/muc"
 alias psthread='ps -e -T -eo pcpu,pid,tid,args,comm'
+alias mvnupdates='alias mvnupdates; mvn versions:display-dependency-updates versions:display-plugin-updates'
 
 [ -f "$HOME/code/dotfiles/multitail.conf" ] && {
   alias multitail="multitail --config $HOME/code/dotfiles/multitail.conf"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+DT="$1"
+
+if [ "$DT" = "" ]; then
+	DT=$(date +%Y-%m-%d)
+fi
+
+exec journalctl --since "${DT}" | egrep "(Lid open|suspend entry)"
