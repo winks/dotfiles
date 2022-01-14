@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo
+echo '# rename session: tmux rename-session [ -t curr ] NEW_NAME'
+echo 'ctrl b + $'
+echo
+echo '# rename window : tmux rename-window -t num NEW_NAME'
+echo 'ctrl b + ,'

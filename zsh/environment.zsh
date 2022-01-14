@@ -2,9 +2,6 @@
 ## shell settings
 ########################################
 
-# /home/florian/.nix-profile/bin:/home/florian/.nix-profile/sbin:/home/florian/bin:/home/florian/code/dotfiles/bin:/home/florian/bin:/home/florian/.local/bin:
-#/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin
-
 # use: __ac_modpath PATH [append] to append/prepend to $PATH without dupes
 function __ac_modpath() {
     local item=$1
@@ -62,7 +59,7 @@ export GREP_COLOR='1;32'
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && {
   export LANG='en_US.utf8'
-  export LC_TIME='en_US.utf8'
+  #export LC_TIME='en_US.utf8'
 }
 
 export TERM="xterm-256color"
@@ -77,14 +74,15 @@ __ac_modpath "${HOME}/bin"
 if [ -d /usr/local/go ]; then
   export GOROOT="/usr/local/go"
 fi
+
 if [ -d "${HOME}/code/go" ]; then
   export GOPATH="${HOME}/code/go"
 __ac_modpath "${GOPATH}/bin" append
 fi
 
-export RUST_SRC_PATH="/opt/src/rust/src"
+export RUST_SRC_PATH=${RUST_SRC_PATH:-"/opt/src/rust/src"}
 
-if [ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
+if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
   . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 fi
 

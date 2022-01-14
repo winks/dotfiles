@@ -1,41 +1,58 @@
-#!/bin/bash
-CMDS=("b" "fx" "fxd" "k" "keys" "tr")
-##########
-TOOL="$1";
+#!/usr/bin/env bash
 
-DF=$(dirname "$(readlink -f "$(which "$0")")");
+# b    = everything?
+# fx   = xrandr
+# fxd  = xrandr double
+# fxd  = xrandr triple
+# k    = keyboard layout
+# ko   = keyboard layout old, via xmodmap
+# keys = ssh keys
+# tr   = trayerx
+
+CMDS=("b" "fx" "fxd" "fxt" "k" "ko" "keys" "tr")
+########################################
+DF=$(dirname "$(readlink -f "$(which "$0")")")
+TOOL="$1"
 
 if [ "${TOOL}" = "" ]; then
     for item in "${CMDS[@]}"; do
         echo $item;
     done
+    find $DF -maxdepth 1 -type f -name "__*" | while read f; do
+        echo $(basename $f)
+    done
     exit
 fi
 ###################
 if [ "${TOOL}" = "b" ]; then
-   "${DF}/ac" fxt
-   "${DF}/ac" xm
-   "${DF}/ac" tr
-   "${DF}/ac" keys
+   "${DF}/acr" fxt
+   "${DF}/acr" xm
+   "${DF}/acr" tr
+   "${DF}/acr" keys
 fi
 ###################
 if [ "${TOOL}" = "fx" ]; then
     shift
-    "${DF}/my-fx" "$@"
+    "${DF}/__my-fx" "$@"
     exit
 fi
 ###################
 if [ "${TOOL}" = "fxd" ]; then
-    "${DF}/my-fx" --single && "${DF}/my-fx" --double
+    "${DF}/__my-fx" --single && "${DF}/my-fx" --double
     exit
 fi
 ###################
 if [ "${TOOL}" = "fxt" ]; then
-    "${DF}/my-fx" --single && "${DF}/my-fx" --triple
+    "${DF}/__my-fx" --single && "${DF}/my-fx" --triple
     exit
 fi
 ###################
 if [ "${TOOL}" = "k" ]; then
+    setxkbmap -layout usde
+    exit
+fi
+###################
+if [ "${TOOL}" = "ko" ]; then
     xmodmap "${DF}/../.us-intl-german.xmodmap"
     exit
 fi
@@ -70,7 +87,14 @@ if [ "${TOOL}" = "tr" ]; then
     exit
 fi
 
-# without a match, just try dotfiles/bin/$TOOL
+# without a match, try
+# dotfiles/bin/run/$TOOL and then
+# dotfiles/bin/$TOOL
+if [ -f "${DF}/run/${TOOL}" ]; then
+    shift
+    "${DF}/run/${TOOL}" "$@"
+    exit
+fi
 if [ -f "${DF}/${TOOL}" ]; then
     shift
     "${DF}/${TOOL}" "$@"

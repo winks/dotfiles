@@ -1,0 +1,7 @@
+#!/bin/sh
+
+file=$(mktemp "$HOME/tmp/shot_XXX.png")
+
+maim -f png -u -q $@ > "${file}"
+echo $file
+echo $(basename $file)
