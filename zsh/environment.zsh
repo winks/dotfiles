@@ -71,28 +71,9 @@ fi
 __ac_modpath "${HOME}/code/dotfiles/bin"
 __ac_modpath "${HOME}/bin"
 
-if [ -d /usr/local/go ]; then
-  export GOROOT="/usr/local/go"
-fi
-
-if [ -d "${HOME}/code/go" ]; then
-  export GOPATH="${HOME}/code/go"
-__ac_modpath "${GOPATH}/bin" append
-fi
-
-export RUST_SRC_PATH=${RUST_SRC_PATH:-"/opt/src/rust/src"}
-
-if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
-  . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-fi
-
 if [ -d "${HOME}/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
   export NPM_PACKAGES="/nix/_node_modules"
   __ac_modpath "${NPM_PACKAGES}/bin" append
-fi
-
-if [ -d "${HOME}/.cargo/bin" ]; then
-  __ac_modpath "${HOME}/.cargo/bin" append
 fi
 
 if [ -d "${HOME}/.local/share/man" ]; then
@@ -107,8 +88,27 @@ elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
     source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
+export RUST_SRC_PATH=${RUST_SRC_PATH:-"/opt/src/rust/src"}
+
+if [ -d "${HOME}/.cargo/bin" ]; then
+  __ac_modpath "${HOME}/.cargo/bin" append
+fi
+
+if [ -d /usr/local/go ]; then
+  export GOROOT="/usr/local/go"
+fi
+
+if [ -d "${HOME}/code/go" ]; then
+  export GOPATH="${HOME}/code/go"
+  __ac_modpath "${GOPATH}/bin" append
+fi
+
 if [ -f "${HOME}/.nix-profile/share/chruby/chruby.sh" ]; then
     alias my-chruby="source ${HOME}/.nix-profile/share/chruby/chruby.sh; chruby ruby-2.3.0"
 elif [ -f "/usr/local/share/chruby/chruby.sh" ]; then
     alias my-chruby="source /usr/local/share/chruby/chruby.sh; chruby ruby-2.3.0"
+fi
+
+if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 fi

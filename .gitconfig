@@ -1,41 +1,45 @@
-[includeIf "gitdir:~/code/"]
-    path = ~/.config/art-core/.gitconfig-work
+[include]
+	path = ~/.config/art-core/.gitconfig-default
 [includeIf "gitdir:~/code/winks"]
-    path = ~/.config/art-core/.gitconfig-personal
+	path = ~/.config/art-core/.gitconfig-personal
 [includeIf "gitdir:~/code/bitbucket"]
-    path = ~/.config/art-core/.gitconfig-personal
+	path = ~/.config/art-core/.gitconfig-personal
 [includeIf "gitdir:~/code/dotfiles"]
-    path = ~/.config/art-core/.gitconfig-personal
+	path = ~/.config/art-core/.gitconfig-personal
 [includeIf "gitdir:/opt/"]
-    path = ~/.config/art-core/.gitconfig-work
+	path = ~/.config/art-core/.gitconfig-default
 
 [color]
-    diff = auto
-    ui = true
+	diff = auto
+	ui = true
 
 [merge]
-    log = true
-    ff = false
+	log = true
+	ff = false
 
 [alias]
-    st = status
-    ci = commit
-    br = branch
-    co = checkout
-    df = diff --color
-    dfw = diff --color --color-words
-    lg = log -p --color
-    since = !git log $(git merge-base --fork-point master)..HEAD
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	df = diff --color
+	dfw = diff --color --color-words
+	lg = log -p --color
+	lgf = log --format=fuller
+	since = !git log $(git merge-base --fork-point master)..HEAD
 	up = pull --rebase --autostash
 	what = log --format='%an %s'
 
 [push]
-    default = current
+	default = current
+
 [core]
-    quotepath = false
-	excludesfile = /home/florian/.gitignore
+	quotepath = false
+	excludesfile = ~/.gitignore
+
 [diff]
-    compactionHeuristic = true
+	compactionHeuristic = true
 	noprefix = true
+
 [commit]
-    verbose = true
+	verbose = true
