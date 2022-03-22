@@ -1,0 +1,6 @@
+#!/bin/sh
+
+DIR=$(dirname $0)
+echo $DIR
+#exec bash --login --norc --noprofile --rcfile "${DIR}/.bashrc-plain"
+exec bash --noprofile --rcfile "${DIR}/.bashrc-plain"

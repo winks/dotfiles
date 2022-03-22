@@ -112,3 +112,9 @@ fi
 if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
   . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 fi
+
+test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
+
+if [ -e "${HOME}/.local/share/node/node_modules/.bin/esbuild" ]; then
+	export MIX_ESBUILD_PATH="$HOME/.local/share/node/node_modules/.bin/esbuild"
+fi

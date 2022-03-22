@@ -18,7 +18,8 @@ if [ "${TOOL}" = "" ]; then
     for item in "${CMDS[@]}"; do
         echo $item;
     done
-    find $DF -maxdepth 1 -type f -name "__*" | while read f; do
+	echo
+    find "$DF/run" -maxdepth 1 -type f | while read f; do
         echo $(basename $f)
     done
     exit
