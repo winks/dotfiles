@@ -30,7 +30,11 @@ else
     fi
 fi
 
-HOSTNAME=$HOST
+if [ -n "$ZSH_HOSTNAME" ]; then
+  hostname="${ZSH_HOSTNAME}"
+else
+  hostname="%m"
+fi
 shortname=${HOSTNAME%%.*}
 
 if [ -n "$HOSTCOLOR" ]; then
@@ -49,9 +53,15 @@ else
   usercolor="220"
 fi
 
+if [ -n "$ZSH_USERNAME" ]; then
+  username="${ZSH_USERNAME}"
+else
+  username="%n"
+fi
+
 local px="%{$FX[reset]$FG[243]%}"
-local name="%{$FX[reset]$FG[$usercolor]%}%n"
-local host="%{$FX[reset]$FG[$hostcolor]%}%m"
+local name="%{$FX[reset]$FG[$usercolor]%}${username}"
+local host="%{$FX[reset]$FG[$hostcolor]%}${hostname}"
 local dir="%{$FX[reset]$FG[215]%}%3~"
 local sign="%{$FX[reset]$FG[117]%}$"
 

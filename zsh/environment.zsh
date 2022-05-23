@@ -93,6 +93,9 @@ export RUST_SRC_PATH=${RUST_SRC_PATH:-"/opt/src/rust/src"}
 if [ -d "${HOME}/.cargo/bin" ]; then
   __ac_modpath "${HOME}/.cargo/bin" append
 fi
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
+fi
 
 if [ -d /usr/local/go ]; then
   export GOROOT="/usr/local/go"

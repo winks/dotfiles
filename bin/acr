@@ -3,13 +3,13 @@
 # b    = everything?
 # fx   = xrandr
 # fxd  = xrandr double
-# fxd  = xrandr triple
+# fxt  = xrandr triple
 # k    = keyboard layout
 # ko   = keyboard layout old, via xmodmap
 # keys = ssh keys
 # tr   = trayerx
 
-CMDS=("b" "fx" "fxd" "fxt" "k" "ko" "keys" "tr")
+CMDS=("b" "fx" "fxd" "fxt" "k" "ko" "keys" "tr" "h3" "o3")
 ########################################
 DF=$(dirname "$(readlink -f "$(which "$0")")")
 TOOL="$1"
@@ -26,8 +26,14 @@ if [ "${TOOL}" = "" ]; then
 fi
 ###################
 if [ "${TOOL}" = "b" ]; then
+   "${DF}/acr" h3
+   "${DF}/acr" k
+   "${DF}/acr" keys
+fi
+###################
+if [ "${TOOL}" = "b2" ]; then
    "${DF}/acr" fxt
-   "${DF}/acr" xm
+   "${DF}/acr" ko
    "${DF}/acr" tr
    "${DF}/acr" keys
 fi
@@ -45,6 +51,16 @@ fi
 ###################
 if [ "${TOOL}" = "fxt" ]; then
     "${DF}/__my-fx" --single && "${DF}/my-fx" --triple
+    exit
+fi
+###################
+if [ "${TOOL}" = "h3" ]; then
+	xrandr --output eDP-1 --mode 2560x1440 --scale 1x1 --output HDMI-1 --scale 1x1 --output DP-1-3 --scale 1x1
+    exit
+fi
+###################
+if [ "${TOOL}" = "o3" ]; then
+	xrandr --output eDP-1 --mode 1920x1080 --scale 1x1 --output HDMI-1 --scale 1x1 --output DP-1-3 --scale 1x1
     exit
 fi
 ###################

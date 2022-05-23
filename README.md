@@ -1,12 +1,16 @@
-# /winks/dotfiles
+# /home/wink/dotfiles
 
 Assorted dotfiles
 
+  * bash
   * git
   * vim
-  * xmodmap - based on http://chneukirchen.org/dotfiles/
-  * xmonad - based on https://github.com/fpletz/dotfiles/
+  * i3/regolith
+  * tmux
   * zsh
+  * not in use
+    * xmodmap - based on http://leahneukirchen.org/dotfiles/
+    * xmonad - based on https://github.com/fpletz/dotfiles/
 
 ## Stuff to install
 
@@ -16,4 +20,3 @@ Assorted dotfiles
   * bc
   * python-pygments
   * suckless-tools
-  * tmux

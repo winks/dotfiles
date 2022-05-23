@@ -38,5 +38,3 @@ if [ -f ~/.config/art-core/.profile.post ]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-if [ -e /home/florian/.nix-profile/etc/profile.d/nix.sh ]; then . /home/florian/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
