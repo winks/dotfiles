@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# fxd  = xrandr double
+# fxt  = xrandr triple
+
+CMDS=("fxd" "fxt")
+########################################
+DF=$(dirname "$(readlink -f "$(which "$0")")")
+TOOL="$1"
+
+if [ "${TOOL}" = "" ]; then
+    for item in "${CMDS[@]}"; do
+        echo $item;
+    done
+	echo
+    find "$DF/run" -maxdepth 1 -type f | while read f; do
+        echo $(basename $f)
+    done
+    exit
+fi
+###################
+if [ "${TOOL}" = "fxd" ]; then
+    "${DF}/run/my-fx" --single && "${DF}/my-fx" --double
+    exit
+fi
+###################
+if [ "${TOOL}" = "fxt" ]; then
+    "${DF}/run/my-fx" --single && "${DF}/my-fx" --triple
+    exit
+fi
+
+# without a match, try
+# dotfiles/bin/run/$TOOL and then
+# dotfiles/bin/$TOOL
+BN=$(basename "$0")
+if [ -f "${DF}/run/${TOOL}" ]; then
+    shift
+    if [ "$BN" == ",g" ]; then
+        rofi-sensible-terminal -e "${DF}/run/${TOOL} $@ | ${DF}/run/rovim -"
+    else
+        "${DF}/run/${TOOL}" "$@"
+    fi
+    exit
+fi
+if [ -f "${DF}/${TOOL}" ]; then
+    shift
+    if [ "$BN" == ",g" ]; then
+        rofi-sensible-terminal -e "${DF}/${TOOL} $@ | ${DF}/run/rovim -"
+    else
+        "${DF}/${TOOL}" "$@"
+    fi
+    exit
+fi

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+DF=$(dirname "$(readlink -f "$(which "$0")")")
+exec xmodmap "${DF}/../../keyboard/us-intl-german.xmodmap"

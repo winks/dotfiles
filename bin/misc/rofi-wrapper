@@ -1,0 +1,6 @@
+#!/bin/sh
+
+DF=$(readlink -f $(dirname "$0"))
+export PATH="$PATH:$DF/../run:$DF/.."
+echo $PATH
+exec rofi "$@"

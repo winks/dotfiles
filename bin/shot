@@ -1,7 +1,9 @@
 #!/bin/sh
 
-file=$(mktemp "$HOME/tmp/shot_XXX.png")
+file1=$(mktemp "$HOME/tmp/shot_XXXX.png")
+file2=$(echo "${file1}" | tr 'A-Z' 'a-z')
+mv "${file1}" "${file2}"
 
-maim -f png -u -q $@ > "${file}"
-echo $file
-echo $(basename $file)
+maim -f png -u -q $@ > "${file2}"
+echo $file2
+echo $(basename $file2)

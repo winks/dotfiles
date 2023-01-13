@@ -1,0 +1,4 @@
+#!/bin/sh
+
+DF=$(dirname "$(readlink -f "$(which "$0")")")
+exec vim -u $DF/../../vim/nofile.vim "$@"

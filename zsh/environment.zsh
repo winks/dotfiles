@@ -121,3 +121,6 @@ test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
 if [ -e "${HOME}/.local/share/node/node_modules/.bin/esbuild" ]; then
 	export MIX_ESBUILD_PATH="$HOME/.local/share/node/node_modules/.bin/esbuild"
 fi
+
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

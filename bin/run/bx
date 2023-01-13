@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DF=$(dirname "$(readlink -f "$(which "$0")")")
+$DF/h3
+$DF/k

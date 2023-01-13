@@ -1,0 +1,22 @@
+#!/bin/sh
+
+keylist="${HOME}/.config/art-core/ssh-keylist"
+if [ -f "$keylist" ]; then
+    rsa_keys=$(cat $keylist | grep '^rsa:' | sed 's/^rsa://' )
+    ed_keys=$(cat $keylist | grep '^ed:' | sed 's/^ed://' )
+    for k in $rsa_keys; do
+        fk="${HOME}/.ssh/${k}"
+        echo $fk
+        /usr/bin/ssh-add -l | grep "$fk" || /usr/bin/ssh-add "$fk"
+    done
+    for k in $ed_keys; do
+        fk="${HOME}/.ssh/${k}"
+        _comm=$(cat $fk | cut -d' ' -f 3-)
+        echo $fk
+        /usr/bin/ssh-add -l | grep "${_comm} (ED25519)$" || /usr/bin/ssh-add "$fk"
+    done
+else
+    fk="${HOME}/.ssh/id_rsa"
+    echo $fk
+    /usr/bin/ssh-add -l | grep "$fk" || /usr/bin/ssh-add "$fk"
+fi
