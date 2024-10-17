@@ -55,7 +55,7 @@ export RSYNC_RSH=ssh
 
 export PAGER=less
 export LESS="-rX" # --quit-at-eof --raw-control-chars --no-init
-export GREP_COLOR='1;32'
+export GREP_COLORS='mt=01;32'
 
 locale -a | grep 'en_US.utf8' >/dev/null 2>&1 && {
   export LANG='en_US.utf8'
