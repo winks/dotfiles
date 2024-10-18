@@ -29,6 +29,7 @@
 	since = !git log $(git merge-base --fork-point master)..HEAD
 	up = pull --rebase --autostash
 	what = log --format='%an %s'
+	l = "!. ~/code/dotfiles/git/githelpers && pretty_git_log"
 
 [push]
 	default = current
