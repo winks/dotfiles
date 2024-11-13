@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" = "" ]; then
+	echo "Usage: $0 'Sun Aug 27 12:13:14 2023 +0200'";
+	exit
+fi
+
+ARGS="${@:1}"
+
+echo "_${ARGS}_";
+
+GIT_COMMITTER_DATE="$ARGS" git commit --amend --reset-author --date="$ARGS" --no-edit

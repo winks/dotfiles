@@ -36,5 +36,3 @@ source $Z/prompt_256.zsh
 if [ -f ~/.config/art-core/.profile.post ]; then
     source ~/.config/art-core/.profile.post
 fi
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
