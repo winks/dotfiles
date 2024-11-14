@@ -1,10 +1,10 @@
 [include]
 	path = ~/.config/art-core/.gitconfig-default
-[includeIf "gitdir:~/code/winks"]
+[includeIf "gitdir:~/code/winks/"]
 	path = ~/.config/art-core/.gitconfig-personal
-[includeIf "gitdir:~/code/bitbucket"]
+[includeIf "gitdir:~/code/bitbucket/"]
 	path = ~/.config/art-core/.gitconfig-personal
-[includeIf "gitdir:~/code/dotfiles"]
+[includeIf "gitdir:~/code/dotfiles/.git"]
 	path = ~/.config/art-core/.gitconfig-personal
 [includeIf "gitdir:/opt/"]
 	path = ~/.config/art-core/.gitconfig-default

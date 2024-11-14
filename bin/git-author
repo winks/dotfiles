@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ "$1" = "" ]; then
+  echo "usage: $0 \"John Doe\" j@example.org"
+fi
+
+XA="$1"
+XM="$2"
+
+echo $XA
+echo $XM
+
+export GIT_AUTHOR_NAME="$XA"
+export GIT_AUTHOR_EMAIL="$XM"
+export GIT_COMMITTER_NAME="$XA"
+export GIT_COMMITTER_EMAIL="$XM"
+
+
+git commit --amend --no-edit --reset-author
