@@ -6,6 +6,7 @@ local lib = require('lib')
 
 local mod1 = {"cmd"}
 local mod2 = {"cmd", "shift"}
+local mod3 = {"cmd", "ctrl"}
 
 local windowFocusKeysMod1 = {
   {"F1", "Terminal"},
@@ -16,8 +17,8 @@ local windowFocusKeysMod1 = {
   {"F6", "Safari"},
   --{"F7", ""},
   {"F8", "Cog"},
-  {"F9",  "Google Chrome"},
-  {"F10", "WezTerm"},   
+  {"F9",  "LibreWolf"},
+  {"F10", "Ghostty"},
   --{"F11", ""},
 }
 
@@ -42,7 +43,7 @@ end)
 
 miscBinds["Callable"] = {
   ShowNotes = function()
-    lib.RunWithArgs("/Applications/Textadept.app/Contents/MacOS/textadept", {"../Documents/notes.md"})
+    lib.runWithArgs("/Applications/Textadept.app/Contents/MacOS/textadept", {"../Documents/notes.md"})
   end
 }
 
@@ -65,3 +66,17 @@ end
 hs.loadSpoon('MoveWindows')
   :start()
   :bindHotKeys({toggle = miscBinds["SpecialBinds"]["MoveWindows"]})
+
+-- and the mod3 bindings
+
+hs.hotkey.bind(mod3, "a", function()
+  f5nauto()
+end)
+
+hs.hotkey.bind(mod3, "i", function()
+  showIp2()
+end)
+
+hs.hotkey.bind(mod3, "6", function()
+  showIp2("6")
+end)
