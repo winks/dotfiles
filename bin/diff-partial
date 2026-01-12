@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+# Partial diffing of files.
+# Usage: $0 FILE_A FILE_B N-M X-Y
+#
+# This will compare
+#    line N to M (incl) of FILE_A
+# with
+#    line X to Y (incl) of FILE_B
+#
+# Override the `colordiff` used with the env var DIFF.
+# This needs bash because of the <() syntax
+
+import os
+import sys
+
+if len(sys.argv) < 5:
+    script = os.path.basename(sys.argv[0])
+    print(f"  Usage: {script} A B 10-20 30-40")
+    print()
+    sys.exit()
+
+diff_bin = os.getenv('DIFF')
+if diff_bin and len(diff_bin.strip()) > 0:
+    diff_bin = os.getenv('DIFF')
+else:
+    diff_bin = 'colordiff'
+
+left = sys.argv[1]
+right = sys.argv[2]
+lr = sys.argv[3].split('-')
+rr = sys.argv[4].split('-')
+
+print(f"--- {left}")
+print(f"+++ {right}")
+cmd = f"bash -c '{diff_bin} -u <(cat {left} | head -n {lr[1]} | tail -n +{lr[0]}) <(cat {right} | head -n {rr[1]} | tail -n +{rr[0]})'"
+print(f"Running: {cmd}")
+print()
+
+os.system(cmd)
+

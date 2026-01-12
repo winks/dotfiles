@@ -23,6 +23,25 @@ module.pyUrlEncode = function(s)
   return module.runPy(cmd)
 end
 
+-- urlencode a string
+-- ref: https://github.com/stuartpb/tvtropes-lua/blob/master/urlencode.lua
+module.urlencode = function(str)
+  --Ensure all newlines are in CRLF form
+  str = string.gsub (str, "\r?\n", "\r\n")
+
+  --Percent-encode all non-unreserved characters
+  --as per RFC 3986, Section 2.3
+  --(except for space, which gets plus-encoded)
+  str = string.gsub (str, "([^%w%-%.%_%~ ])",
+    function (c) return string.format ("%%%02X", string.byte(c)) end)
+
+  --Convert spaces to plus signs
+  str = string.gsub (str, " ", "+")
+
+  return str
+end
+
+
 module.getFromWeb = function(url, ipMode)
   local cmd = "/usr/bin/curl -" .. (ipMode or "4") .. " -s " .. url
   local output, ok, _, rc = hs.execute(cmd)
@@ -49,7 +68,7 @@ module.sendToClipboard = function(s, verbose)
   end
 end
 
-module.showIp2 = function(ipMode)
+module.showIp = function(ipMode)
   local output = module.getFromWeb("https://ip.f5n.de/")
   -- Trim whitespace/newlines
   local ip = module.trim(output or "")
@@ -60,12 +79,12 @@ end
 
 module.f5nauto = function()
  local _, prompt = hs.dialog.textPrompt("autotool", "ip.f5n.de/?auto=")
- local output = module.getFromWeb("https://ip.f5n.de/?auto=" .. lib.trim(lib.pyUrlEncode(prompt)))
+ local output = module.getFromWeb("https://ip.f5n.de/?auto=" .. module.trim(module.urlencode(prompt)))
  -- local log = hs.logger.new('mymodule','debug')
  -- log.i(d)
  local rv = output or ""
  if rv ~= "" then
-   module.sendToClipboard(lib.trim(rv), true)
+   module.sendToClipboard(module.trim(rv), true)
  end
 end
 

@@ -16,7 +16,7 @@ local windowFocusKeysMod1 = {
   {"F5", "Microsoft Outlook"},
   {"F6", "Safari"},
   --{"F7", ""},
-  {"F8", "Cog"},
+  {"F8", "/Applications/Cantata.app"},
   {"F9",  "LibreWolf"},
   {"F10", "Ghostty"},
   --{"F11", ""},
@@ -70,13 +70,13 @@ hs.loadSpoon('MoveWindows')
 -- and the mod3 bindings
 
 hs.hotkey.bind(mod3, "a", function()
-  f5nauto()
+  lib.f5nauto()
 end)
 
 hs.hotkey.bind(mod3, "i", function()
-  showIp2()
+  lib.showIp()
 end)
 
 hs.hotkey.bind(mod3, "6", function()
-  showIp2("6")
+  lib.showIp("6")
 end)
