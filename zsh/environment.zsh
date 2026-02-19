@@ -68,7 +68,7 @@ if [ -d /opt/src/android/sdk ]; then
    export ANDROID_HOME=/opt/src/android/sdk
 fi
 
-__ac_modpath "${HOME}/code/dotfiles/bin"
+__ac_modpath "${HOME}/.dotfiles/bin"
 __ac_modpath "${HOME}/bin"
 
 if [ -d "${HOME}/.nix-profile" ] && [ -d "/nix/_node_modules" ]; then
@@ -89,6 +89,10 @@ elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
 fi
 
 export RUST_SRC_PATH=${RUST_SRC_PATH:-"/opt/src/rust/src"}
+
+if [ -d "/usr/local/go/bin" ]; then
+  __ac_modpath "/usr/local/go/bin" append
+fi
 
 if [ -d "${HOME}/.cargo/bin" ]; then
   __ac_modpath "${HOME}/.cargo/bin" append

@@ -2,7 +2,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-# This defines which key super maps to on your keyboard.  
+# This defines which key super maps to on your keyboard.
 # Alt key is Mod1, and Windows key is Mod4
 set $mod Mod4
 
@@ -174,7 +174,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # lock the screen
 bindsym $mod+Escape exec gnome-screensaver-command --lock
 bindsym $mod+F12 exec gnome-screensaver-command --lock
-#bindsym $mod+F12 exec /home/florian/code/dotfiles/bin/lockit
+#bindsym $mod+F12 exec /home/florian/.dotfiles/bin/lockit
 
 # put the system to sleep
 bindsym $mod+Shift+s exec systemctl suspend
@@ -239,7 +239,7 @@ set_from_resource $focused_inactive.color.border i3-wm.client.focused_inactive.c
 set_from_resource $focused_inactive.color.background i3-wm.client.focused_inactive.color.background "#073642"
 set_from_resource $focused_inactive.color.text i3-wm.client.focused_inactive.color.text "#839496"
 set_from_resource $focused_inactive.color.indicator i3-wm.client.focused_inactive.color.indicator "#073642"
-set_from_resource $focused_inactive.color.child_border i3-wm.client.focused_inactive.color.child_border 
+set_from_resource $focused_inactive.color.child_border i3-wm.client.focused_inactive.color.child_border
 
 set_from_resource $unfocused.color.border i3-wm.client.unfocused.color.border "#002b36"
 set_from_resource $unfocused.color.background i3-wm.client.unfocused.color.background "#073642"
@@ -350,7 +350,7 @@ assign [class="brave" ] 9
 assign [class="Clementine|Spotify|spotify|Vlc|Rhythmbox" ] 9
 
 # run stuff
-exec --no-startup-id /home/florian/code/dotfiles/bin/autoexec.bat
+exec --no-startup-id /home/florian/.dotfiles/bin/autoexec.bat
 
 #------------------------------------
 bindsym Print exec --no-startup-id spectacle

@@ -228,7 +228,7 @@ bindsym Mod4+0 $x_switch 10
 
 ######################################################################
 # own stuff
-bindsym Mod4+F12 exec /home/florian/code/dotfiles/bin/lockit
+bindsym Mod4+F12 exec /home/florian/.dotfiles/bin/lockit
 
 # dmenu
 bindsym Mod4+p exec dmenu_run
@@ -262,11 +262,11 @@ assign [class="Clementine|Spotify|spotify|Vlc|Rhythmbox" ] 9
 
 # run stuff
 #exec /usr/bin/xscreensaver -no-splash &
-#exec_always --no-startup-id /home/florian/code/dotfiles/bin/run_once_silent /usr/bin/parcellite
-#exec --no-startup-id /home/florian/code/dotfiles/bin/ac k
+#exec_always --no-startup-id /home/florian/.dotfiles/bin/run_once_silent /usr/bin/parcellite
+#exec --no-startup-id /home/florian/.dotfiles/bin/ac k
 #exec --no-startup-id setxkbmap -option compose:ralt
-#exec --no-startup-id /home/florian/code/dotfiles/bin/my-fx --triple
+#exec --no-startup-id /home/florian/.dotfiles/bin/my-fx --triple
 #exec --no-startup-id /home/florian/.fehbg
-#exec --no-startup-id /usr/bin/xautolock -time 5 -secure -locker "/home/florian/code/dotfiles/bin/lockit"
+#exec --no-startup-id /usr/bin/xautolock -time 5 -secure -locker "/home/florian/.dotfiles/bin/lockit"
 #exec --no-startup-id /home/florian/bin/start_daemontools
-exec --no-startup-id /home/florian/code/dotfiles/autoexec.bat
+exec --no-startup-id /home/florian/.dotfiles/autoexec.bat

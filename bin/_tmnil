@@ -1,0 +1,18 @@
+#!/bin/sh
+
+NAME="tmnil"
+SNAME="-s $NAME"
+TNAME="-t $NAME"
+WINDOWS="um ma mi da mpd misc"
+
+tmux list-sessions | grep -P "^${NAME}:" || {
+	cd $HOME
+	tmux new-session   $SNAME -d
+	tmux rename-window $TNAME "root"
+
+	for WIN in $WINDOWS; do
+		tmux new-window    $TNAME
+		tmux rename-window $TNAME $WIN
+	done
+}
+exec tmux -2 a $TNAME

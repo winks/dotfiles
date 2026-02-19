@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-name=$(zenity --entry --name Filename:)
-scrot -s /tmp/$name.png
-scp /tmp/$name.png bianca:~/www/stuff.art-core.org/public/test/
-zenity --info --text=https://stuff.art-core.org/test/$name.png
+year=$(date +%Y)
+name=$(zenity --entry --text Filename:)
+[ "$name" = "" ] && name=$(mktemp -u | sed 's,^/tmp/,,')
+scrot -s $HOME/tmp/$name.png
+scp $HOME/tmp/$name.png bianca:~/www/stuff.art-core.org/public/test/
+zenity --info --text=https://stuff.art-core.org/$year/$name.png
