@@ -1,5 +1,14 @@
 " vimrc by fa[at]art-core.org
 "
+" this is light on deps, but still assumes:
+"
+" autoload/pathogen.vim
+" colors/tokyonight.vim
+" pack/plugins/start/ctrlp
+" pack/vendor/start/nerdtree
+"
+" mostly tested on Vim Classic 8.3 now
+"
 " shamelessly inspired by:
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 " http://blog.danielfischer.com/2010/11/19/a-starting-guide-to-vim-from-textmate/
@@ -12,24 +21,13 @@ set nocompatible
 " :20 : up to 20 lines of command-line history will be remembered
 " % : saves and restores the buffer list
 " n... : where to save the viminfo files
-if has('win32')
-    set viminfo+='10,:20,%,n$HOME/vimfiles/_viminfo
-    set directory=$HOME/vimfiles/tmp
-    set backupdir=$HOME/vimfiles/tmp
-    set undodir=$HOME/vimfiles/tmp
-    let g:fuf_dataDir = expand("$HOME/vimfiles/vim-fuf-data")
-    let MRU_File = expand("$HOME/vimfiles/_vim_mru_files")
-else
-    if isdirectory($HOME . '/.vim/tmp') == 0
-        :silent !mkdir -p ~/.vim/tmp >/dev/null 2>&1
-    endif
-    set viminfo+='10,:20,%,n~/.vim/.viminfo
-    set directory=~/.vim/tmp//
-    set backupdir=~/.vim/tmp//
-    set undodir=~/.vim/tmp//
-    let g:fuf_dataDir = expand("$HOME/.vim/.vim-fuf-data")
-    let MRU_File = expand("$HOME/.vim/.vim_mru_files")
+if isdirectory($HOME . '/.vim/tmp') == 0
+    :silent !mkdir -p ~/.vim/tmp >/dev/null 2>&1
 endif
+set viminfo+='10,:20,%,n~/.vim/.viminfo
+set directory=~/.vim/tmp//
+set backupdir=~/.vim/tmp//
+set undodir=~/.vim/tmp//
 
 filetype off
 execute pathogen#infect()
@@ -62,24 +60,12 @@ let &titleold=getcwd()
 set equalalways
 set splitbelow splitright
 
-
 if has("statusline")
     set laststatus=2
-    " now set it up to change the status line based on mode
-    if version >= 700
-"        hi StatusLine term=reverse ctermfg=darkblue ctermbg=white
-"        au InsertEnter * hi StatusLine term=reverse ctermfg=darkblue ctermbg=30 guibg=#003853
-"        au InsertLeave * hi StatusLine term=reverse ctermfg=darkblue ctermbg=white guibg=#003853
-    endif
     set statusline=%F%m%r%h%w\ [%{&ff}]\ %y\ [%L\ /\ %p%%]\ [%02l,%02v]
 endif
 
-if version >= 730
-    "set relativenumber
-    "set undofile
-    set colorcolumn=80
-endif
-
+set colorcolumn=80
 
 let mapleader =","
 
@@ -162,47 +148,21 @@ nnoremap <leader>r :so ~/.vimrc
 
 " nerd tree shortcut
 map <leader>n :NERDTreeToggle<CR>
-" FuzzyFinder
-nmap ,f :FufFileWithCurrentBufferDir<CR>
-nmap ,b :FufBuffer<CR>
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 nnoremap <leader>p :CtrlP<CR>
 
-if exists(":Tabularize")
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    nmap <Leader>a: :Tabularize /:<CR>
-    vmap <Leader>a: :Tabularize /:<CR>
-    nmap <Leader>a:: :Tabularize /:\zs<CR>
-    vmap <Leader>a:: :Tabularize /:\zs<CR>
-    nmap <Leader>a, :Tabularize /,<CR>
-    vmap <Leader>a, :Tabularize /,<CR>
-    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-endif
+set t_Co=256
 
-if has("gui_running")
-    au GUIEnter * set lines=52 columns=90
-    set guifont=Noto\ Mono\ 10
-    set colorcolumn=80
+set background=dark
+set termguicolors
 
-    set background=light
-    "colorscheme darkspectrum
-    colorscheme ironman
-    "set cursorline
-    let g:Powerline_symbols = 'fancy'
-else
-    set t_Co=256
-
-    set background=dark
-    colorscheme solarized
-    "colorscheme elflord
-    "set cursorline
-    let g:Powerline_symbols = 'fancy'
-endif
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 1
+colorscheme tokyonight
+let g:Powerline_symbols = 'fancy'
 
 "command W w
 "command Q q
@@ -249,7 +209,6 @@ if has("autocmd")
     autocmd BufWritePost .vimrc source $MYVIMRC
 
     augroup filetypedetect
-        au BufNewFile,BufRead *.pp      set ft=puppet
     " Treat .rss files as XML
         au BufNewFile,BufRead *.rss     set ft=xml
     " Treat .json files as javascript
@@ -259,8 +218,6 @@ if has("autocmd")
 
     augroup Programming
         autocmd!
-        autocmd BufWritePost *.pp !puppet parser validate <afile>
-        autocmd BufWritePost *.pp !puppet-lint <afile>
         autocmd BufWritePost *.php !php -l <afile>
     augroup END
 endif
