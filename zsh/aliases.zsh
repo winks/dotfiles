@@ -17,7 +17,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias hexfind='grep --color="auto" -P -n "[\x80-\xFF]"'
 which vim >/dev/null 2>&1 && alias vi='vim'
-which nvim >/dev/null 2>&1 && alias vi='nvim'
+#which nvim >/dev/null 2>&1 && alias vi='nvim'
 alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
 alias weather="curl -4 wttr.in/muc"
 alias psthread='ps -e -T -eo pcpu,pid,tid,args,comm'

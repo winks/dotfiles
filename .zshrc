@@ -9,7 +9,7 @@ my_version='1.5'
 ########################################
 #set -x
 
-Z=~/code/dotfiles/zsh
+Z=~/.dotfiles/zsh
 
 ## host-specific stuff, purely optional
 if [ -f ~/.config/art-core/.profile.pre ]; then
